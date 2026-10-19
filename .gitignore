@@ -1,0 +1,17 @@
+# Godot 4+ : tout .godot/ est ignoré SAUF extension_list.cfg (le livrer évite les 10 erreurs rouges
+# 'FmodServer' au tout premier import ; même règle que dans Godot_Blocks).
+**/.godot/*
+!**/.godot/extension_list.cfg
+/android/
+export_presets.cfg
+
+# Résidus à ne jamais distribuer
+*.tmp
+~*.dll
+.DS_Store
+.claude/
+__pycache__/
+docs/logs/*.bak
+
+# Copies faites par le plugin Scene Package Exporter avant de remplacer un fichier
+scene_exporter_backups/

@@ -1,0 +1,148 @@
+WorkerThreadPool: 12 threads, 3 max low-priority.
+Initialize godot-rust (API v4.5.stable.official, runtime v4.7.2.stable.official, safeguards balanced)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Init OK!
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+[LOG] system_create                            : Header version = 2.03.06. Current version = 2.03.06.
+FMOD Sound System: Successfully set DSP buffer size
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.cbSize                   = 104
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.defaultDecodeBufferSize  = 400
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.distanceFilterCenterFreq = 1500.000000
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.DSPBufferPoolSize        = 8
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.resamplerMethod          = 2
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.randomSeed               = 1792330013
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::setAdvancedSettings(): mAdvancedSettings.maxConvolutionThreads    = 3
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_runtime_manager.cpp in Manager::init(): maxchannels = 1024 studioflags = 00000001 flags 00000004 extradriverdata 0x0.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::init(): Initialize version=20306 (149358), maxchannels=1024, flags=0x00030004
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_driver.cpp in SystemI::setOutputInternal(): Setting output to 'FMOD Core Audio Output'
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/platforms/mac/src/fmod_output_coreaudio.mm in OutputCoreAudio::init(): Output running 2 channels at 44100Hz sample rate.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/platforms/mac/src/fmod_output_coreaudio.mm in OutputCoreAudio::init(): Maximum hardware read size: 512 samples, Software buffer size: 512 samples, Number of software buffers: 4.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi.cpp in SystemI::init(): Output requires a sample rate of 44100Hz, resampling will occur.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_thread.cpp in Thread::initThread(): Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_dsp.cpp in SystemI::DSPCodecPoolRegister(): register codec pool for pool type 0
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_thread.cpp in Thread::initThread(): Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_asyncmanager.cpp in AsyncManager::init(): manager 0xbd886aa08 isAsync 1 updatePeriod 0.02
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_thread.cpp in Thread::initThread(): Init FMOD Studio update thread. Affinity: 0x4000000000000002, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_asyncmanager.cpp in AsyncManager::init(): done
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_playback_system.cpp in PlaybackSystem::init(): 
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_thread.cpp in Thread::initThread(): Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_playback_system.cpp in PlaybackSystem::init(): done
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_liveupdate.cpp in LiveUpdate::init(): 
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_thread.cpp in Thread::initThread(): Init FMOD Studio bank load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_runtime_manager.cpp in Manager::init(): done.
+
+FMOD Sound System: Successfully initialized
+FMOD Sound System: Live update enabled!
+Custom File System enabled.
+FMOD Sound System: Successfully set global 3D settings
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_profile.cpp in Profile::update(): Profiler listening on port: 9264
+
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://addons/fmod/FmodManager.gd remapped: res://addons/fmod/FmodManager.gd
+Completed load for: 'res://addons/fmod/FmodManager.gd' remapped 'res://addons/fmod/FmodManager.gd' at thread -1
+Loading resource: res://Scripts/arduino_manager.gd remapped: res://Scripts/arduino_manager.gd
+Completed load for: 'res://Scripts/arduino_manager.gd' remapped 'res://Scripts/arduino_manager.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://Scenes/Game.tscn remapped: res://Scenes/Game.tscn
+Loading resource: res://Scripts/game.gd remapped: res://Scripts/game.gd
+Completed load for: 'res://Scripts/game.gd' remapped 'res://Scripts/game.gd' at thread -1
+Loading resource: res://Images and ressources/circuit_image.png remapped: res://Images and ressources/circuit_image.png
+Loading resource: res://.godot/imported/circuit_image.png-49d743a329f04f03f69493da2745afb0.ctex remapped: res://.godot/imported/circuit_image.png-49d743a329f04f03f69493da2745afb0.ctex
+Completed load for: 'res://Images and ressources/circuit_image.png' remapped 'res://Images and ressources/circuit_image.png' at thread -1
+Loading resource: res://Images and ressources/halfelin.svg remapped: res://Images and ressources/halfelin.svg
+Loading resource: res://.godot/imported/halfelin.svg-2b7ee22c34e10a8e6d2509d7d2c3727e.ctex remapped: res://.godot/imported/halfelin.svg-2b7ee22c34e10a8e6d2509d7d2c3727e.ctex
+Completed load for: 'res://Images and ressources/halfelin.svg' remapped 'res://Images and ressources/halfelin.svg' at thread -1
+Loading resource: res://Scenes/sprite_2d.gd remapped: res://Scenes/sprite_2d.gd
+Completed load for: 'res://Scenes/sprite_2d.gd' remapped 'res://Scenes/sprite_2d.gd' at thread -1
+Completed load for: 'res://Scenes/Game.tscn' remapped 'res://Scenes/Game.tscn' at thread -1
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_bank_loader.cpp in BankLoader::serializeBank(): fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_playback_system.cpp in PlaybackSystem::acquireMasterBus(): Setting master channel group format to 6
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+FMOD Sound System: LOADING BANK res://FMOD Banks/Desktop/Master.bank
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD][TRACE] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_studio_impl.cpp in trace(): FMOD_RESULT = 74 -- The requested event, parameter, bus or vca could not be found.
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/studio_api/src/fmod_bank_loader.cpp in BankLoader::serializeBank(): fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+
+FMOD Sound System: LOADING BANK res://FMOD Banks/Desktop/Master.strings.bank
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): Create name='', mode=0x02000202
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->cbsize             = 224
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->length             = 21184
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->fileoffset         = 4192
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->numsubsounds       = 1
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->inclusionlist      = 0x1708967d4
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->inclusionlistnum   = 1
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->suggestedsoundtype = 5
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->useropen           = 0x1158ed30c
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->userclose          = 0x1158ed3e0
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->userread           = 0x1158ed41c
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->userseek           = 0x1158ed4ec
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->fileuserdata       = 0xbdaa5f988
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): exinfo->initialseekpostype = 1
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_dsp.cpp in SystemI::DSPCodecPoolRegister(): register codec pool for pool type 4
+
+[FMOD INFO] /opt/teamcity-agent/work/c1c3f17eb167c494/core_api/src/fmod_systemi_sound.cpp in SystemI::createSoundInternal(): Sample 0/1: name='ouu', format=5, channels=2, frequency=48000, lengthbytes=21056, lengthpcm=100310, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.022583.
+
+[Pairing]   → CONNECTÉ sur tcp://127.0.0.1:5555
+XR: Clearing primary interface
+FMOD Sound System: System released
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"

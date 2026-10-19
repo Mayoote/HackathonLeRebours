@@ -1,0 +1,24 @@
+Initialize godot-rust (API v4.5.stable.official, runtime v4.7.2.stable.official, safeguards balanced)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[LOG] system_create                            : Header version = 2.03.06. Current version = 2.03.06.
+FMOD Sound System: Successfully initialized
+FMOD Sound System: Live update enabled!
+[TEST] démarrage ; ARDUINO_PORT='tcp://127.0.0.1:5555'
+[Pairing]   → CONNECTÉ sur tcp://127.0.0.1:5555
+[TEST] pairing_success sur tcp://127.0.0.1:5555 après 0.61 s
+[TEST] sensor_changed 925
+[TEST] button_changed true
+[TEST] message pong:1449
+[Arduino] Latence mesurée : 7 ms
+[TEST] message ack:led:1
+[Arduino] Ack : led:1
+[TEST] message ack:blink:2
+[Arduino] Ack : blink:2
+[TEST] sensor_changed 1022
+[TEST] button_changed false
+[TEST] sensor_changed 954
+[TEST] sensor_changed 738
+[TEST] button_changed true
+[TEST] BILAN apparie=true port=tcp://127.0.0.1:5555 sensor=78 button=3 enc=0 autres=3 derniere_valeur_sensor=492 position_enc=0
+FMOD Sound System: System released

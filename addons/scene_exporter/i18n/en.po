@@ -1,0 +1,225 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "Export Scene Package..."
+msgstr "Export Scene Package..."
+
+msgid "Import Scene Package..."
+msgstr "Import Scene Package..."
+
+msgid "Save Scene Package"
+msgstr "Save Scene Package"
+
+msgid "Choose a Scene Package"
+msgstr "Choose a Scene Package"
+
+msgid "Scene Packages (*.zip)"
+msgstr "Scene Packages (*.zip)"
+
+msgid "Export complete"
+msgstr "Export complete"
+
+msgid "Export failed"
+msgstr "Export failed"
+
+msgid "{count} files packaged"
+msgstr "{count} files packaged"
+
+msgid "{count} warning(s)"
+msgstr "{count} warning(s)"
+
+msgid "Import Scene Package"
+msgstr "Import Scene Package"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Godot version"
+msgstr "Godot version"
+
+msgid "Required plugins"
+msgstr "Required plugins"
+
+msgid "Autoloads"
+msgstr "Autoloads"
+
+msgid "Project settings"
+msgstr "Project settings"
+
+msgid "Files"
+msgstr "Files"
+
+msgid "Warnings from exporter"
+msgstr "Warnings from exporter"
+
+msgid "Import complete"
+msgstr "Import complete"
+
+msgid "{count} files written"
+msgstr "{count} files written"
+
+msgid "{count} autoloads registered (restart editor to activate)"
+msgstr "{count} autoloads registered (restart editor to activate)"
+
+msgid "{count} project settings updated"
+msgstr "{count} project settings updated"
+
+msgid "Next steps"
+msgstr "Next steps"
+
+msgid "Restart the editor to ensure plugins reload"
+msgstr "Restart the editor to ensure plugins reload"
+
+msgid "Status: OK"
+msgstr "Status: OK"
+
+msgid "Will add"
+msgstr "Will add"
+
+msgid "Will overwrite"
+msgstr "Will overwrite"
+
+msgid "Missing"
+msgstr "Missing"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Conflict"
+msgstr "Conflict"
+
+msgid "Skipped (target value kept)"
+msgstr "Skipped (target value kept)"
+
+msgid "Cannot proceed — resolve errors first"
+msgstr "Cannot proceed — resolve errors first"
+
+msgid "No changes — package already matches target"
+msgstr "No changes — package already matches target"
+
+msgid "Review changes below before importing"
+msgstr "Review changes below before importing"
+
+# --- Phase 7 additions ---
+
+msgid "Export Scene Package"
+msgstr "Export Scene Package"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Included"
+msgstr "Included"
+
+msgid "Excluded"
+msgstr "Excluded"
+
+msgid "Files ({count})"
+msgstr "Files ({count})"
+
+msgid "Heads up"
+msgstr "Heads up"
+
+msgid "Dynamic load() at {file}:{line} — {arg} cannot be followed automatically."
+msgstr "Dynamic load() at {file}:{line} — {arg} cannot be followed automatically."
+
+msgid "{scene}: {files} files, {autoloads} autoloads, {plugins} plugins, {settings} settings. Uncheck items below to exclude them."
+msgstr "{scene}: {files} files, {autoloads} autoloads, {plugins} plugins, {settings} settings. Uncheck items below to exclude them."
+
+msgid "Packaging scene..."
+msgstr "Packaging scene..."
+
+msgid "Importing package..."
+msgstr "Importing package..."
+
+msgid "Import failed"
+msgstr "Import failed"
+
+msgid "Something went wrong:"
+msgstr "Something went wrong:"
+
+msgid "{count} files packaged."
+msgstr "{count} files packaged."
+
+msgid "{count} warning(s):"
+msgstr "{count} warning(s):"
+
+msgid "{count} files written."
+msgstr "{count} files written."
+
+msgid "{count} autoloads registered (restart the editor to activate them)."
+msgstr "{count} autoloads registered (restart the editor to activate them)."
+
+msgid "{count} project settings updated."
+msgstr "{count} project settings updated."
+
+msgid "Notes:"
+msgstr "Notes:"
+
+msgid "The package contains a file with an unsafe path, it was skipped: {path}"
+msgstr "The package contains a file with an unsafe path, it was skipped: {path}"
+
+msgid "Could not open the package at {path}. Is the file actually a Scene Package?"
+msgstr "Could not open the package at {path}. Is the file actually a Scene Package?"
+
+msgid "The package has no package.json — it doesn't look like a Scene Package."
+msgstr "The package has no package.json — it doesn't look like a Scene Package."
+
+msgid "The package's manifest is corrupted (not valid JSON)."
+msgstr "The package's manifest is corrupted (not valid JSON)."
+
+msgid "Ignored unexpected entry in the package: {entry}"
+msgstr "Ignored unexpected entry in the package: {entry}"
+
+msgid "Could not write {path} to the project. Is the folder writable?"
+msgstr "Could not write {path} to the project. Is the folder writable?"
+
+msgid "Could not read the target's project.godot — is {path} really a Godot project?"
+msgstr "Could not read the target's project.godot — is {path} really a Godot project?"
+
+msgid "Could not save changes to the target's project.godot — is the file read-only?"
+msgstr "Could not save changes to the target's project.godot — is the file read-only?"
+
+msgid "The project setting {key} was replaced by the value from the package."
+msgstr "The project setting {key} was replaced by the value from the package."
+
+msgid "Could not find the scene at {path}."
+msgstr "Could not find the scene at {path}."
+
+msgid "Expected dependency {path} is not on disk — it'll be skipped."
+msgstr "Expected dependency {path} is not on disk — it'll be skipped."
+
+msgid "{gltf} references {file} but that file is missing on disk — skipping."
+msgstr "{gltf} references {file} but that file is missing on disk — skipping."
+
+msgid "Could not create the package at {path}. Check the folder is writable."
+msgstr "Could not create the package at {path}. Check the folder is writable."
+
+msgid "Could not read {path} — skipped."
+msgstr "Could not read {path} — skipped."
+
+msgid "Dynamic load() at {file}:{line} — {argument} cannot be followed automatically. Double-check it works in the target project."
+msgstr "Dynamic load() at {file}:{line} — {argument} cannot be followed automatically. Double-check it works in the target project."
+
+msgid "{gltf} references a remote URI ({uri}); remote assets are not packaged."
+msgstr "{gltf} references a remote URI ({uri}); remote assets are not packaged."
+
+msgid "Could not save a backup of {path}, so it was not replaced."
+msgstr "Could not save a backup of {path}, so it was not replaced."
+
+msgid "{count} of your files were replaced. Your previous version of each one was saved in {path}:"
+msgstr "{count} of your files were replaced. Your previous version of each one was saved in {path}:"
+
+msgid "⚠ {count} file(s) of your project are different from the package and will be REPLACED. A copy of your current version will be saved in res://scene_exporter_backups/ first:"
+msgstr "⚠ {count} file(s) of your project are different from the package and will be REPLACED. A copy of your current version will be saved in res://scene_exporter_backups/ first:"
+
+msgid "conflict: your project already has an autoload with this name ({value}). Change or remove it in Project → Project Settings → Globals, then import again."
+msgstr "conflict: your project already has an autoload with this name ({value}). Change or remove it in Project → Project Settings → Globals, then import again."
+
+msgid "current: {current} → new: {new}"
+msgstr "current: {current} → new: {new}"

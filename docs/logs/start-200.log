@@ -1,0 +1,13 @@
+Initialize godot-rust (API v4.5.stable.official, runtime v4.7.2.stable.official, safeguards balanced)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[LOG] system_create                            : Header version = 2.03.06. Current version = 2.03.06.
+FMOD Sound System: Successfully initialized
+FMOD Sound System: Live update enabled!
+ERROR: Failed to open port /dev/cu.inexistant: No such file or directory
+   at: gdserial::GdSerial::open (src/lib.rs:778)
+   GDScript backtrace (most recent call first):
+       [0] _scan_ports (res://Scripts/arduino_manager.gd:100)
+       [1] start_pairing (res://Scripts/arduino_manager.gd:92)
+       [2] _ready (res://Scripts/arduino_manager.gd:54)
+FMOD Sound System: System released

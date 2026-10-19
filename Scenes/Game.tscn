@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://d2s4spgyxrfo5"]
+
+[ext_resource type="Script" uid="uid://d4nrt4vfygycd" path="res://Scripts/game.gd" id="1_j5yw3"]
+[ext_resource type="Texture2D" uid="uid://c666w0rslfkwy" path="res://Images and ressources/circuit_image.png" id="2_kldst"]
+[ext_resource type="Texture2D" uid="uid://vo5yy46nc1cr" path="res://Images and ressources/halfelin.svg" id="3_kldst"]
+[ext_resource type="Script" uid="uid://dq60vbchpk1at" path="res://Scenes/sprite_2d.gd" id="4_b2bpf"]
+
+[node name="Main" type="Node2D" unique_id=1991644098]
+script = ExtResource("1_j5yw3")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1785416901]
+light_mask = 524288
+visibility_layer = 524288
+offset_left = -1835.0
+offset_top = -1335.0
+offset_right = 3381.0
+offset_bottom = 2201.0
+color = Color(0.93333334, 0.93333334, 0.93333334, 1)
+
+[node name="CircuitImage" type="Sprite2D" parent="." unique_id=709810426]
+position = Vector2(993.00006, 726.00006)
+scale = Vector2(0.4147727, 0.4147727)
+texture = ExtResource("2_kldst")
+
+[node name="Background2" type="ColorRect" parent="." unique_id=1816538816]
+light_mask = 524288
+visibility_layer = 524288
+offset_left = 1184.0
+offset_top = 280.0
+offset_right = 1586.0
+offset_bottom = 365.0
+color = Color(0.93333334, 0.93333334, 0.93333334, 1)
+
+[node name="Button" type="Button" parent="." unique_id=289109752]
+offset_left = 1044.0
+offset_top = 83.0
+offset_right = 1666.1755
+offset_bottom = 259.0
+theme_override_font_sizes/font_size = 70
+text = "Bouton de test"
+
+[node name="Label" type="Label" parent="." unique_id=1010015110]
+offset_left = 345.0
+offset_top = 87.0
+offset_right = 915.0
+offset_bottom = 253.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 70
+text = "Texte de test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1667008837]
+visible = false
+offset_top = 26.0
+offset_right = 345.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 33
+text = "   Arduino Déconnectée"
+
+[node name="FmodBankLoader" type="FmodBankLoader" parent="." unique_id=816908448]
+bank_paths = ["res://FMOD Banks/Desktop/Master.bank", "res://FMOD Banks/Desktop/Master.strings.bank"]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1690014009 node_paths=PackedStringArray("FMOD_Emitter")]
+position = Vector2(134, 937)
+scale = Vector2(0.27441406, 0.27441406)
+texture = ExtResource("3_kldst")
+script = ExtResource("4_b2bpf")
+FMOD_Emitter = NodePath("../FmodEventEmitter2D")
+
+[node name="FmodEventEmitter2D" type="FmodEventEmitter2D" parent="." unique_id=1223910047]
+event_name = "event:/CharacterMovement"
+event_guid = "{bbdf501a-e801-4d5a-a83c-20855e40ee5f}"
+fmod_parameters/CharacterMovement/id = 1668908194281150721
+fmod_parameters/CharacterMovement = "Void"
+fmod_parameters/CharacterMovement/labels = PackedStringArray("Walk", "Run", "Fly", "Void")
+fmod_parameters/CharacterMovement/variant_type = 4
+fmod_parameters/Space_Size/id = -7942784689216195866
+fmod_parameters/Space_Size = 0.0
+fmod_parameters/Space_Size/variant_type = 3
+
+[node name="FmodListener2D" type="FmodListener2D" parent="." unique_id=1737840109]
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

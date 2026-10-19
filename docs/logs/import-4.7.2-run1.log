@@ -1,0 +1,136 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[LOG] system_create                            : Header version = 2.03.06. Current version = 2.03.06.
+FMOD Sound System: Successfully initialized
+Initialize godot-rust (API v4.5.stable.official, runtime v4.7.2.stable.official, safeguards balanced)
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_performance_data' in base 'FmodServer'.
+          at: PerformancesDisplay._enter_tree (res://addons/fmod/tool/performances/PerformancesDisplay.gd:21)
+          GDScript backtrace (most recent call first):
+              [0] _enter_tree (res://addons/fmod/tool/performances/PerformancesDisplay.gd:21)
+              [1] _ready (res://addons/fmod/FmodManager.gd:9)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+              [1] _ready (res://addons/fmod/FmodManager.gd:9)
+SCRIPT ERROR: Invalid call. Nonexistent function 'notification' in base 'FmodServer'.
+          at: _notification (res://addons/fmod/FmodManager.gd:19)
+          GDScript backtrace (most recent call first):
+              [0] _notification (res://addons/fmod/FmodManager.gd:19)
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+SCRIPT ERROR: Invalid call. Nonexistent function 'load_bank' in base 'FmodServer'.
+          at: reload_all_banks (res://addons/fmod/tool/FmodBankDatabase.gd:25)
+          GDScript backtrace (most recent call first):
+              [0] reload_all_banks (res://addons/fmod/tool/FmodBankDatabase.gd:25)
+              [1] _init (res://addons/fmod/FmodPlugin.gd:18)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_banks' in base 'FmodServer'.
+          at: FmodBankExplorer.generate_tree (res://addons/fmod/tool/ui/FmodBankExplorer.gd:91)
+          GDScript backtrace (most recent call first):
+              [0] generate_tree (res://addons/fmod/tool/ui/FmodBankExplorer.gd:91)
+              [1] _ready (res://addons/fmod/tool/ui/FmodBankExplorer.gd:71)
+GdSerial plugin activated
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (24 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | FmodBankLoaderPropertyInspectorPlugin[39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | FmodEmitterPropertyInspectorPlugin[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | PerformancesDisplay[39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | FmodBankPathEditorProperty[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | FmodEventEditorProperty[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | FmodGuidAndPathPropertyEditorUi[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | FmodPathEditorProperty[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | EventParametersDisplay[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | FmodBankExplorer[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | ParameterDisplay[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | FmodBankDatabase[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | FmodAndroidExportPlugin[39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | FmodPlugin[39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | SerialTcpSimu[39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (13 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | bank_icon.svg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | bus_icon.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | c_parameter_icon.svg[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | d_parameter_icon.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | event_icon.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | fmod_emitter.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | fmod_icon.svg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | snapshot_icon.svg[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | vca_icon.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | icon.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | circuit_image.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | halfelin.svg[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (7 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | c_parameter_icon.svg[39m[0m
+[  12% ] [90m[1mreimport[22m | d_parameter_icon.svg[39m[0m
+[  25% ] [90m[1mreimport[22m | fmod_emitter.png[39m[0m
+[  37% ] [90m[1mreimport[22m | icon.png[39m[0m
+[  50% ] [90m[1mreimport[22m | circuit_image.png[39m[0m
+[  62% ] [90m[1mreimport[22m | halfelin.svg[39m[0m
+[  75% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (7 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+GdSerial plugin deactivated
+WARNING: 42 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 16 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+FMOD Sound System: System released
+ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.

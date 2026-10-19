@@ -1,0 +1,21 @@
+15:26:47 [SIM] profil=base  PORT=tcp://127.0.0.1:5555
+15:26:47 [SIM] Dans un autre terminal :  ARDUINO_PORT=tcp://127.0.0.1:5555 <godot> --headless --path <projet>
+15:26:48 [SIM] client TCP connecté ('127.0.0.1', 55941) (= ouverture du port, reset)
+15:26:49 [SIM] <- DISCOVER
+15:26:49 [SIM] -> GDSERIAL_ACK:arduino_uno
+15:26:49 [SIM] -> button:1
+15:26:49 [SIM] <- ping:1449
+15:26:49 [SIM] -> pong:1449
+15:26:49 [SIM] <- led:1
+15:26:49 [SIM] -> ack:led:1
+15:26:49 [SIM] <- blink:2
+15:26:49 [SIM] -> ack:blink:2
+15:26:51 [SIM] -> button:0
+15:26:53 [SIM] -> button:1
+15:26:53 [SIM] client TCP déconnecté (= fermeture du port)
+15:26:54 [SIM] client TCP connecté ('127.0.0.1', 55949) (= ouverture du port, reset)
+15:26:54 [SIM] <- DISCOVER
+15:26:54 [SIM] -> GDSERIAL_ACK:arduino_uno
+15:26:55 [SIM] -> button:0
+15:26:56 [SIM] client TCP déconnecté (= fermeture du port)
+15:26:56 [SIM] arrêt. trames envoyées : 117
