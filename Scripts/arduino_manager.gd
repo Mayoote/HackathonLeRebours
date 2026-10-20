@@ -1,6 +1,8 @@
 # arduino_manager.gd
 extends Node2D
 
+var desactivate = true
+
 # ── Signaux ────────────────────────────────────────────
 signal arduino_disconnected()
 signal arduino_connected()
@@ -45,6 +47,10 @@ var button_pressed: bool = false
 var _debug: bool = OS.get_environment("ARDUINO_DEBUG") == "1"  # ARDUINO_DEBUG=1 : affiche le détail du pairing
 
 func _ready() -> void:
+	
+	if desactivate :
+		return
+	
 	if _get_port_override().begins_with("tcp://"):
 		serial = SerialTcpSimu.new()  # test sans carte : voir Scripts/serial_tcp_simu.gd
 	else:
@@ -154,6 +160,9 @@ func _read_all_available() -> String:
 # ══ COMMUNICATION EN TEMPS RÉEL ════════════════════════
 
 func _process(_delta: float) -> void:
+	if desactivate:
+		return
+	
 	timerHeartBeat -= _delta
 	if _pairing_cooldown > 0.0:
 		_pairing_cooldown -= _delta

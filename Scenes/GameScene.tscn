@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bc2y4cbg7jli2"]
+
+[ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_2wl7v"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cmfm4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p5ahp"]
+
+[node name="GameScene" type="Node3D" unique_id=1330841405]
+
+[node name="Node3D" type="StaticBody3D" parent="." unique_id=1171868994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1189408, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=1070920492]
+transform = Transform3D(4.64, 0, 0, 0, 0.21, 0, 0, 0, 4.93, 0, 0.6714816, 0)
+mesh = SubResource("BoxMesh_cmfm4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D" unique_id=336561363]
+transform = Transform3D(6.19, 0, 0, 0, 0.3, 0, 0, 0, 6.91, 0, 0.63648987, 0)
+shape = SubResource("BoxShape3D_p5ahp")
+
+[node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2556496, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1139786676]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, -0.2602377, 5.641491, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1241201767]
+transform = Transform3D(1, 0, 0, 0, -0.06291028, 0.9980192, 0, -0.9980192, -0.06291028, 0.96979094, 4.7754593, -0.14268148)
+spot_range = 5.375
+spot_angle = 38.6

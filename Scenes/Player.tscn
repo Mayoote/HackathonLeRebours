@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://2d8wff4kfmc7"]
+
+[ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cmfm4"]
+size = Vector3(0.81, 1.435, 0.795)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p5ahp"]
+
+[node name="Player" type="CharacterBody3D" unique_id=226745155]
+script = ExtResource("1_rpqav")
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=202242451]
+shape = SubResource("BoxShape3D_cmfm4")
+
+[node name="Renderer" type="MeshInstance3D" parent="." unique_id=818455850]
+mesh = SubResource("CapsuleMesh_p5ahp")
