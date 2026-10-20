@@ -1,0 +1,63 @@
+[gd_scene format=4 uid="uid://ct8wq0mqkgclw"]
+
+[ext_resource type="Texture2D" uid="uid://cri2isky38fdj" path="res://Meshes/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90_tiny_treats_grass_texture.png" id="1_cnj16"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02sqc"]
+resource_name = "tiny_treats_grass"
+albedo_texture = ExtResource("1_cnj16")
+metallic = 0.4
+metadata/extras = {
+"fromFBX": {
+"isTruePBR": false,
+"shadingModel": "Phong"
+}
+}
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jjhwm"]
+_surfaces = [{
+"aabb": AABB(-0.01, -0.0050000018, -0.01, 0.02, 0.005000003, 0.02),
+"format": 34359742465,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAQAAAAQAAwACAAUAAgABAAUAAAADAAYABgAEAAAABQAGAAMABAAHAAEAAQAHAAUABAAGAAcABQAHAAYA"),
+"name": "tiny_treats_grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("CtcjvJ7q3zAK1yM8CtcjPJ7q3zAK1yM8CtcjPAfXo7sL1yM8CtcjvAfXo7sL1yM8CtcjvJ7q37AK1yO8CtcjPA7Xo7sJ1yO8CtcjvA7Xo7sJ1yO8CtcjPJ7q37AK1yO8")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_cnj16"]
+resource_name = "Root Scene_floor_grass_sliced_base"
+_surfaces = [{
+"aabb": AABB(-0.01, -0.0050000018, -0.01, 0.02, 0.005000003, 0.02),
+"attribute_data": PackedByteArray("0/ldP0zadT9HFl4/TNp1P0cWXj8S8HU/0/ldPxLwdT8AAIA/AACAPwAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAANP5XT9M2nU/0/ldPxLwdT9HFl4/TNp1P0cWXj8S8HU/RxZePxLwdT9HFl4/TNp1P0cWXj8S8HU/RxZeP0zadT/T+V0/TNp1P9P5XT8S8HU/0/ldPxLwdT/T+V0/TNp1P9P5XT8S8HU/RxZePxLwdT9HFl4/EvB1P9P5XT8S8HU/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACwAKAAkADAANAA4ADQAPAA4AEAARABIAEgATABAAFAAVABYAFgAXABQA"),
+"material": SubResource("StandardMaterial3D_02sqc"),
+"name": "tiny_treats_grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("CtcjvJ7q3zAK1yM8CtcjPJ7q3zAK1yM8CtcjPAfXo7sL1yM8CtcjvAfXo7sL1yM8CtcjPJ7q3zAK1yM8CtcjvJ7q3zAK1yM8CtcjvJ7q37AK1yO8CtcjPJ7q37AK1yO8CtcjvJ7q37AK1yO8CtcjvA7Xo7sJ1yO8CtcjPJ7q37AK1yO8CtcjPA7Xo7sJ1yO8CtcjPAfXo7sL1yM8CtcjPJ7q3zAK1yM8CtcjPA7Xo7sJ1yO8CtcjPJ7q37AK1yO8CtcjvJ7q3zAK1yM8CtcjvAfXo7sL1yM8CtcjvA7Xo7sJ1yO8CtcjvJ7q37AK1yO8CtcjvAfXo7sL1yM8CtcjPAfXo7sL1yM8CtcjPA7Xo7sJ1yO8CtcjvA7Xo7sJ1yO8/3//f////7//f/9/////v/9//3////+//3//f////7//f///////v/9///////+//3///////7//f///////v/7/AAD///8//v8AAP///z/+/wAA////P/7/AAD///8//v//f////7/+//9/////v/7//3////+//v//f////78AAP9/////vwAA/3////+/AAD/f////78AAP9/////v/9/AAD///8//38AAP///z//fwAA////P/9/AAD///8/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_jjhwm")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cmfm4"]
+size = Vector3(1.7597656, 1, 1)
+
+[node name="Floors" type="Node3D" unique_id=1300326836]
+transform = Transform3D(-10.625, 0, 1.6707685e-06, 0, 3.055, 0, -1.6043304e-06, 0, -11.065, 0, 0, 0)
+
+[node name="RootNode" type="StaticBody3D" parent="." unique_id=1297280701]
+
+[node name="floor_grass_sliced_base" type="MeshInstance3D" parent="RootNode" unique_id=796166984]
+transform = Transform3D(100, 0, 0, 0, 100, -1.6292068e-05, 0, 1.6292068e-05, 100, 0, 0, 0)
+mesh = SubResource("ArrayMesh_cnj16")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RootNode" unique_id=1193094594]
+transform = Transform3D(1.120822, 0, 1.1368684e-13, 0, 0.065, 0, 0, 0, 2.0035653, -0.015938934, 0, -5.276876e-08)
+shape = SubResource("BoxShape3D_cmfm4")
