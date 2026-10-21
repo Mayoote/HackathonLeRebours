@@ -1,28 +1,81 @@
+# Character.gd — joueur en vue à la 3e personne (caméra derrière, façon Mario)
+# Déplacements relatifs à la caméra : « avancer » = aller là où regarde la caméra.
+# Caméra : souris ou joystick droit. Échap libère la souris, un clic la reprend.
+
 extends CharacterBody3D
 
+@export_group("Déplacement")
+@export var SPEED = 7.0
+@export var JUMP_VELOCITY = 7.0
+## Vitesse à laquelle le joueur atteint sa vitesse max (plus grand = plus nerveux)
+@export var acceleration := 50.0
+## Vitesse de rotation du personnage vers sa direction de marche
+@export var turn_speed := 12.0
+## En dessous de cette hauteur, le joueur réapparaît à son point de départ
+@export var fall_limit_y := -20.0
 
-@export var SPEED = 5.0
-@export var JUMP_VELOCITY = 3
+@export_group("Caméra")
+@export var mouse_sensitivity := 0.003
+@export var stick_sensitivity := 3.0
+@export var min_pitch_deg := -70.0
+@export var max_pitch_deg := 10.0
+
+@onready var visual: Node3D = $Visual
+@onready var camera_pivot: Node3D = $CameraPivot
+@onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
+
+var _spawn_position: Vector3
+
+
+func _ready() -> void:
+	_spawn_position = global_position
+	spring_arm.add_excluded_object(get_rid())  # la caméra ne se cogne pas contre le joueur
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		_rotate_camera(-event.relative.x * mouse_sensitivity, -event.relative.y * mouse_sensitivity)
+	elif event.is_action_pressed("ui_cancel"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif event is InputEventMouseButton and event.pressed:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _rotate_camera(yaw: float, pitch: float) -> void:
+	camera_pivot.rotation.y += yaw
+	spring_arm.rotation.x = clamp(spring_arm.rotation.x + pitch,
+		deg_to_rad(min_pitch_deg), deg_to_rad(max_pitch_deg))
 
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	# Caméra au joystick droit
+	var look := Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
+	if look:
+		_rotate_camera(-look.x * stick_sensitivity * delta, -look.y * stick_sensitivity * delta)
+
+	# Gravité
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
+	# Saut
 	if Input.is_action_just_pressed("ui_jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("ui_right", "ui_left", "ui_down", "ui_up")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+	# Déplacement relatif à l'orientation de la caméra
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_pivot.rotation.y)
+	velocity.x = move_toward(velocity.x, direction.x * SPEED, acceleration * delta)
+	velocity.z = move_toward(velocity.z, direction.z * SPEED, acceleration * delta)
+
+	# Le personnage se tourne vers là où il marche
+	if direction.length() > 0.1:
+		var target_angle := atan2(-direction.x, -direction.z)
+		visual.rotation.y = lerp_angle(visual.rotation.y, target_angle, turn_speed * delta)
 
 	move_and_slide()
+
+	# Chute dans le vide : retour au point de départ
+	if global_position.y < fall_limit_y:
+		global_position = _spawn_position
+		velocity = Vector3.ZERO

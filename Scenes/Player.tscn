@@ -2,16 +2,44 @@
 
 [ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_cmfm4"]
-size = Vector3(0.81, 1.435, 0.795)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+
+[sub_resource type="StandardMaterial3D" id="Material_body"]
+albedo_color = Color(0.85, 0.3, 0.25, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_p5ahp"]
+material = SubResource("Material_body")
 
-[node name="Player" type="CharacterBody3D" unique_id=226745155]
+[sub_resource type="StandardMaterial3D" id="Material_nose"]
+albedo_color = Color(1, 0.9, 0.55, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nose"]
+material = SubResource("Material_nose")
+size = Vector3(0.5, 0.2, 0.3)
+
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_rpqav")
 
-[node name="Collider" type="CollisionShape3D" parent="." unique_id=202242451]
-shape = SubResource("BoxShape3D_cmfm4")
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_player")
 
-[node name="Renderer" type="MeshInstance3D" parent="." unique_id=818455850]
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Renderer" type="MeshInstance3D" parent="Visual"]
 mesh = SubResource("CapsuleMesh_p5ahp")
+
+[node name="Nose" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.45)
+mesh = SubResource("BoxMesh_nose")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.93969262, 0.34202015, 0, -0.34202015, 0.93969262, 0, 0, 0)
+spring_length = 7.0
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+current = true
+fov = 70.0
