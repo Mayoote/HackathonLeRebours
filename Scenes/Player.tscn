@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
 [ext_resource type="Script" uid="uid://jyl17emyyl1o" path="res://Scripts/Player/directional_sprite.gd" id="2_dirsprite"]
-[ext_resource type="Texture2D" uid="uid://xmgmx3ablgql" path="res://Images and ressources/Personnage/Idle/Idle_s.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://cv5ghukdw7vr" path="res://Images and ressources/Aventurier/Idle/Idle_s.png" id="3_idle"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 
@@ -23,6 +23,7 @@ alpha_cut = 1
 texture = ExtResource("3_idle")
 hframes = 60
 script = ExtResource("2_dirsprite")
+sprites_folder = "res://Images and ressources/Aventurier"
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
