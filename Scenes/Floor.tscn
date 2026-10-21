@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://d25mnq32posmt"]
 
-[ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="1_4xl7o"]
-[ext_resource type="Texture2D" uid="uid://cri2isky38fdj" path="res://Meshes/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90_tiny_treats_grass_texture.png" id="2_aa50f"]
+[ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="1_4xl7o"]
+[ext_resource type="Texture2D" uid="uid://cri2isky38fdj" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90_tiny_treats_grass_texture.png" id="2_aa50f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02sqc"]
 resource_name = "tiny_treats_grass"

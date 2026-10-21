@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bc2y4cbg7jli2"]
 
 [ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_2wl7v"]
-[ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="3_jwv4s"]
+[ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="3_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://c7ttwh1m1ddlf" path="res://Scenes/LevelAssets/Wall.tscn" id="5_lohlh"]
 
