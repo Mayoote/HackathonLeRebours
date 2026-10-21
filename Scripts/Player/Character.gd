@@ -1,12 +1,13 @@
-# Character.gd — un joueur en vue isométrique (caméra fixe partagée par les deux joueurs)
+# Character.gd — le joueur physique, en vue isométrique (caméra fixe du niveau)
 # Les déplacements suivent l'écran : « haut » = vers le haut de l'écran, quelle que soit
 # l'orientation de la caméra du niveau.
-# Touches : actions p1_* pour le joueur 1, p2_* pour le joueur 2 (Projet > Paramètres > Contrôles).
+# Touches : actions p1_* (Projet > Paramètres > Contrôles). Il a des vies ; les pièges
+# de l'admin appellent take_hit().
 # L'animation du personnage est gérée par directional_sprite.gd (nœud Visual/Sprite).
 
 extends CharacterBody3D
 
-## 1 = joueur 1 (ZQSD + Espace), 2 = joueur 2 (flèches + Entrée)
+## Numéro du joueur : choisit les touches p<numéro>_* (1 = ZQSD + Espace)
 @export_range(1, 2) var player_id := 1
 ## Dossier des sprites de ce joueur (vide = celui réglé sur Visual/Sprite)
 @export_dir var appearance_folder := ""
@@ -21,13 +22,27 @@ extends CharacterBody3D
 ## En dessous de cette hauteur, le joueur réapparaît à son point de départ
 @export var fall_limit_y := -20.0
 
+@export_group("Vies")
+@export var max_lives := 3
+## Durée d'invincibilité après avoir été touché (le personnage clignote)
+@export var invincible_time := 1.5
+## Force du recul quand un piège touche le joueur
+@export var knockback := 14.0
+
+signal lives_changed(lives: int)
+signal died
+
 @onready var sprite: DirectionalSprite3D = $Visual/Sprite
 
+var lives: int
+var _invincible_left := 0.0
 var _spawn_position: Vector3
 var _prefix: String
 
 
 func _ready() -> void:
+	add_to_group("player")
+	lives = max_lives
 	_spawn_position = global_position
 	_prefix = "p%d_" % player_id
 	if appearance_folder != "":
@@ -66,7 +81,34 @@ func _physics_process(delta: float) -> void:
 	else:
 		sprite.animation = "idle"
 
-	# Chute dans le vide : retour au point de départ
+	# Clignotement pendant l'invincibilité
+	if _invincible_left > 0.0:
+		_invincible_left -= delta
+		sprite.visible = _invincible_left <= 0.0 or int(_invincible_left * 12) % 2 == 0
+
+	# Chute dans le vide : perd une vie et revient au point de départ
 	if global_position.y < fall_limit_y:
 		global_position = _spawn_position
 		velocity = Vector3.ZERO
+		_lose_life()
+
+
+## Appelé par les pièges : perd une vie et recule à l'opposé du piège
+func take_hit(from: Vector3) -> void:
+	if _invincible_left > 0.0 or lives <= 0:
+		return
+	var away := global_position - from
+	away.y = 0
+	away = away.normalized() if away.length() > 0.01 else Vector3.BACK
+	velocity = away * knockback + Vector3.UP * JUMP_VELOCITY * 0.6
+	_lose_life()
+
+
+func _lose_life() -> void:
+	lives -= 1
+	lives_changed.emit(lives)
+	if lives <= 0:
+		died.emit()
+		set_physics_process(false)
+	else:
+		_invincible_left = invincible_time

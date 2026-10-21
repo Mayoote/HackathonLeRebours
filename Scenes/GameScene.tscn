@@ -5,6 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://c7ttwh1m1ddlf" path="res://Scenes/LevelAssets/Wall.tscn" id="5_lohlh"]
 [ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
+[ext_resource type="PackedScene" path="res://Scenes/Traps/SpikeTrap.tscn" id="7_trap"]
+[ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="8_goal"]
+[ext_resource type="Script" path="res://Scripts/admin.gd" id="9_admin"]
+[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="10_gm"]
 
 [sub_resource type="Environment" id="Environment_cmfm4"]
 
@@ -15,13 +19,7 @@
 [node name="GameScene" type="Node3D" unique_id=1330841405]
 
 [node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 0)
-SPEED = 12.735
-
-[node name="Player2" parent="." instance=ExtResource("1_2wl7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, 2)
-player_id = 2
-appearance_folder = "res://Images and ressources/Aventurier Rouge"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4, 0)
 SPEED = 12.735
 
 [node name="LevelCamera" type="Camera3D" parent="."]
@@ -65,3 +63,104 @@ transform = Transform3D(6.1849976, 0, 0, 0, 3.0550003, 0, -1.1920929e-06, 0, 0.9
 
 [node name="Wall4" parent="." unique_id=65034389 instance=ExtResource("5_lohlh")]
 transform = Transform3D(10.624998, 0, 5.9604645e-08, 0, 3.055, 0, -4.7683716e-07, 0, 0.9999999, 1.5652142, 0.96397454, -17.242897)
+
+[node name="Goal" parent="." instance=ExtResource("8_goal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.97, 0)
+
+[node name="Traps" type="Node3D" parent="."]
+
+[node name="SpikeTrap1" parent="Traps" instance=ExtResource("7_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, -6)
+trap_name = "Pics 1"
+
+[node name="SpikeTrap2" parent="Traps" instance=ExtResource("7_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, 6)
+trap_name = "Pics 2"
+
+[node name="SpikeTrap3" parent="Traps" instance=ExtResource("7_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.97, 0)
+trap_name = "Pics 3"
+
+[node name="SpikeTrap4" parent="Traps" instance=ExtResource("7_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.97, -7)
+trap_name = "Pics 4"
+
+[node name="SpikeTrap5" parent="Traps" instance=ExtResource("7_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.97, 7)
+trap_name = "Pics 5"
+
+[node name="Admin" type="Node" parent="."]
+script = ExtResource("9_admin")
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "admin", "goal")]
+script = ExtResource("10_gm")
+player = NodePath("../Player")
+admin = NodePath("../Admin")
+goal = NodePath("../Goal")
+
+[node name="HUD" type="CanvasLayer" parent="GameManager"]
+
+[node name="PlayerLabel" type="Label" parent="GameManager/HUD"]
+unique_name_in_owner = true
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 800.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.6, 1, 0.65, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 44
+text = "JOUEUR — Vies : 3"
+
+[node name="AdminLabel" type="Label" parent="GameManager/HUD"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1100.0
+offset_top = 20.0
+offset_right = -30.0
+offset_bottom = 80.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.75, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 44
+text = "ADMIN"
+horizontal_alignment = 2
+
+[node name="EndScreen" type="ColorRect" parent="GameManager/HUD"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="VBox" type="VBoxContainer" parent="GameManager/HUD/EndScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -150.0
+offset_right = 700.0
+offset_bottom = 150.0
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="EndTitle" type="Label" parent="GameManager/HUD/EndScreen/VBox"]
+unique_name_in_owner = true
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 120
+text = "Fin"
+horizontal_alignment = 1
+
+[node name="EndHint" type="Label" parent="GameManager/HUD/EndScreen/VBox"]
+theme_override_font_sizes/font_size = 48
+text = "Entrée / A : rejouer      Échap : menu"
+horizontal_alignment = 1

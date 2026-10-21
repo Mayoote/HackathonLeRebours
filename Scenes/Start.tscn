@@ -148,11 +148,11 @@ horizontal_alignment = 1
 [node name="CommandsList" type="Label" parent="CommandsPanel/Panel/VBox"]
 layout_mode = 2
 theme_override_constants/line_spacing = 12
-text = "Joueur 1 (vert) : ZQSD pour bouger, Espace pour sauter
-Joueur 2 (rouge) : flèches pour bouger, Entrée pour sauter
+text = "JOUEUR : ZQSD pour bouger, Espace pour sauter (ou manette n°2)
+Atteindre la sortie verte sans perdre ses 3 vies.
 
-Manettes de console : manette 1 = joueur 1, manette 2 = joueur 2
-Manettes Arduino : à venir"
+ADMIN : manette n°1, croix gauche/droite pour choisir un piège, A pour le déclencher
+(au clavier : flèches gauche/droite et Entrée)"
 
 [node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox"]
 unique_name_in_owner = true
