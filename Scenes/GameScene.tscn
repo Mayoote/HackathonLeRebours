@@ -3,14 +3,27 @@
 [ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_2wl7v"]
 [ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="3_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
-[ext_resource type="PackedScene" uid="uid://c7ttwh1m1ddlf" path="res://Scenes/LevelAssets/Wall.tscn" id="5_lohlh"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/Prairie.tscn" id="5_prairie"]
 [ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
 [ext_resource type="PackedScene" path="res://Scenes/Traps/SpikeTrap.tscn" id="7_trap"]
 [ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="8_goal"]
 [ext_resource type="Script" path="res://Scripts/admin.gd" id="9_admin"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="10_gm"]
 
+[sub_resource type="ProceduralSkyMaterial" id="Sky_prairie"]
+sky_top_color = Color(0.35, 0.6, 0.9, 1)
+sky_horizon_color = Color(0.75, 0.85, 0.95, 1)
+ground_horizon_color = Color(0.75, 0.85, 0.95, 1)
+
+[sub_resource type="Sky" id="Sky_res"]
+sky_material = SubResource("Sky_prairie")
+
 [sub_resource type="Environment" id="Environment_cmfm4"]
+background_mode = 2
+sky = SubResource("Sky_res")
+ambient_light_source = 3
+ambient_light_energy = 0.8
+tonemap_mode = 2
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_p5ahp"]
 
@@ -34,7 +47,8 @@ compositor = SubResource("Compositor_nva0t")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=154796236]
 transform = Transform3D(0.12950537, 0.98329645, -0.1278921, 0.03560987, 0.124283135, 0.9916076, 0.99093914, -0.1329727, -0.018919677, -15.480511, 46.014755, -34.318024)
-light_energy = 0.64
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.0
 shadow_enabled = true
 
 [node name="Root Scene8" parent="." unique_id=1788723075 instance=ExtResource("3_jwv4s")]
@@ -46,23 +60,7 @@ transform = Transform3D(-31.260704, 0, 2.8126042e-06, 0, 3.055, 0, -4.7202343e-0
 transform = Transform3D(31.302881, 0, 0, 0, 1, 0, 0, 0, 18.953964, -9.293269, 0.79419947, -0.12776375)
 visible = false
 
-[node name="Wall" parent="." unique_id=713549225 instance=ExtResource("5_lohlh")]
-transform = Transform3D(-6.1849985, 0, -2.9802322e-08, 0, 3.055, 0, 4.7683716e-07, 0, -1, -27.50355, 0.96397454, 17.450716)
-
-[node name="Wall5" parent="." unique_id=544380589 instance=ExtResource("5_lohlh")]
-transform = Transform3D(-0.08629799, 0, -0.9999026, 0, 3.055, 0, 6.1843967, 0, -0.013952762, 19.831608, 1.07832, -6.214739)
-
-[node name="Wall6" parent="." unique_id=1729443769 instance=ExtResource("5_lohlh")]
-transform = Transform3D(-0.04738094, 0, -1.0045463, 0, 3.055, 0, 3.3954735, 0, -0.01401756, 19.508404, 1.07832, 10.995282)
-
-[node name="Wall2" parent="." unique_id=1646718594 instance=ExtResource("5_lohlh")]
-transform = Transform3D(-10.624311, 0, -0.011357129, 0, 3.0549996, 0, 0.12066841, 0, -0.9999354, 1.3995419, 0.96397454, 17.450716)
-
-[node name="Wall3" parent="." unique_id=976473031 instance=ExtResource("5_lohlh")]
-transform = Transform3D(6.1849976, 0, 0, 0, 3.0550003, 0, -1.1920929e-06, 0, 0.99999994, -27.337875, 0.96397454, -17.242891)
-
-[node name="Wall4" parent="." unique_id=65034389 instance=ExtResource("5_lohlh")]
-transform = Transform3D(10.624998, 0, 5.9604645e-08, 0, 3.055, 0, -4.7683716e-07, 0, 0.9999999, 1.5652142, 0.96397454, -17.242897)
+[node name="Prairie" parent="." instance=ExtResource("5_prairie")]
 
 [node name="Goal" parent="." instance=ExtResource("8_goal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.97, 0)
