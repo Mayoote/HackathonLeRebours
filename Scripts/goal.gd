@@ -1,5 +1,3 @@
-# goal.gd — sortie du niveau : le joueur gagne en atteignant la plaque verte devant la porte
-
 extends Area3D
 
 signal player_reached

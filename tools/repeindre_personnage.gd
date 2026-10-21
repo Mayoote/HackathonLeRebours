@@ -1,13 +1,5 @@
-# repeindre_personnage.gd — crée des apparences en repeignant le mannequin Mixamo
-#
-# Lit les sprites de SOURCE (mannequin bleu), repeint chaque image avec les couleurs de
-# chaque apparence de APPARENCES et écrit le résultat dans « Images and ressources/<nom> »,
-# avec les mêmes noms de fichiers. Les ombres d'origine sont gardées.
-# Pour une nouvelle apparence : ajouter une entrée dans APPARENCES, puis relancer.
-#
-# Lancer depuis le dossier du projet (Godot fermé ou non, peu importe) :
-#   Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/repeindre_personnage.gd
-# Puis, dans le nœud Visual/Sprite d'un joueur, mettre « Sprites Folder » sur le nouveau dossier.
+# Repeint le mannequin Mixamo (Personnage/) avec les couleurs de APPARENCES.
+# godot --headless --path . --script res://tools/repeindre_personnage.gd
 
 extends SceneTree
 
@@ -16,8 +8,7 @@ const ANIMATIONS := ["Idle", "Walking", "Running", "Jumping Up"]
 const DIRECTIONS := ["s", "se", "e", "ne", "n", "nw", "w", "sw"]
 const FRAME_WIDTH := 256
 
-# Une entrée par apparence : nom du dossier créé → couleurs
-# (cuir = ceinture et protections, c'est-à-dire les zones rouges du mannequin)
+# nom du dossier -> couleurs (cuir = les zones rouges du mannequin)
 const APPARENCES := {
 	"Aventurier": {
 		"cheveux": Color(0.36, 0.21, 0.1),
@@ -38,12 +29,12 @@ const APPARENCES := {
 }
 const CONTOUR := Color(0.12, 0.08, 0.06)
 
-# Zones du corps, en part de la hauteur du personnage (0 = haut de la tête, 1 = pieds)
+# zones en fraction de la hauteur (0 = tête, 1 = pieds)
 const FIN_CHEVEUX := 0.06
 const FIN_TETE := 0.155
 const FIN_TUNIQUE := 0.45
 const DEBUT_BOTTES := 0.86
-# Au niveau des mains, ce qui est loin du centre du corps est une main
+# loin du centre à hauteur des mains = une main
 const ZONE_MAINS := Vector2(0.35, 0.65)
 const ECART_MAINS := 0.15
 
@@ -95,6 +86,6 @@ func _repaint_frame(img: Image, frame: Rect2i, couleurs: Dictionary) -> void:
 				target = couleurs.pantalon
 			else:
 				target = couleurs.bottes
-			# Garde l'ombrage d'origine : plus le bleu était sombre, plus la nouvelle couleur l'est
+			# on garde les ombres du bleu d'origine
 			var shade := clampf(0.45 + 0.65 * c.v, 0.0, 1.2) if target != CONTOUR else 1.0
 			img.set_pixel(x, y, Color(target.r * shade, target.g * shade, target.b * shade, c.a))
