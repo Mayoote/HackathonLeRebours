@@ -32,7 +32,7 @@ tonemap_mode = 2
 [node name="GameScene" type="Node3D" unique_id=1330841405]
 
 [node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 6, 0)
 SPEED = 12.735
 
 [node name="LevelCamera" type="Camera3D" parent="."]

@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 		State.COOLDOWN:
 			mat.albedo_color = Color(0.2, 0.19, 0.18)
 
-	marker.position.y = 8.5 + sin(time * 4.0) * 0.3
+	marker.position.y = 11.0 + sin(time * 4.0) * 0.3
 
 
 func _on_body_entered(body: Node3D) -> void:

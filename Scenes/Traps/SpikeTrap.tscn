@@ -86,7 +86,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.8, 1.6)
 mesh = SubResource("Mesh_spike")
 
 [node name="SelectionMarker" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.0, 0)
 visible = false
 cast_shadow = 0
 mesh = SubResource("Mesh_marker")

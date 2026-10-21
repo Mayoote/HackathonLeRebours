@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cv5ghukdw7vr" path="res://Images and ressources/Aventurier/Idle/Idle_s.png" id="3_idle"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-radius = 1.1
-height = 5.0
+radius = 1.65
+height = 7.5
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_rpqav")
@@ -17,8 +17,8 @@ shape = SubResource("CapsuleShape3D_player")
 [node name="Visual" type="Node3D" parent="."]
 
 [node name="Sprite" type="Sprite3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
-pixel_size = 0.035
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8, 0)
+pixel_size = 0.0525
 billboard = 2
 double_sided = false
 alpha_cut = 1

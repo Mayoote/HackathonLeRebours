@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export_dir var appearance_folder := ""
 
 @export var SPEED = 7.0
-@export var JUMP_VELOCITY = 10.0
+@export var JUMP_VELOCITY = 12.0
 @export var acceleration := 50.0
 @export var run_speed := 6.0
 @export var fall_limit_y := -20.0
