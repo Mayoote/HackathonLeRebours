@@ -148,12 +148,11 @@ horizontal_alignment = 1
 [node name="CommandsList" type="Label" parent="CommandsPanel/Panel/VBox"]
 layout_mode = 2
 theme_override_constants/line_spacing = 12
-text = "Se déplacer : flèches ou ZQSD / joystick gauche
-Sauter : Espace / bouton A
-Caméra : souris / joystick droit
-Libérer la souris : Échap
+text = "Joueur 1 (vert) : ZQSD pour bouger, Espace pour sauter
+Joueur 2 (rouge) : flèches pour bouger, Entrée pour sauter
 
-Manette Arduino : à venir"
+Manettes de console : manette 1 = joueur 1, manette 2 = joueur 2
+Manettes Arduino : à venir"
 
 [node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox"]
 unique_name_in_owner = true

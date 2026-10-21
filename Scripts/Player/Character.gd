@@ -1,13 +1,19 @@
-# Character.gd — joueur en vue à la 3e personne (caméra derrière, façon Mario)
+# Character.gd — un joueur en vue isométrique (caméra fixe partagée par les deux joueurs)
+# Les déplacements suivent l'écran : « haut » = vers le haut de l'écran, quelle que soit
+# l'orientation de la caméra du niveau.
+# Touches : actions p1_* pour le joueur 1, p2_* pour le joueur 2 (Projet > Paramètres > Contrôles).
 # L'animation du personnage est gérée par directional_sprite.gd (nœud Visual/Sprite).
-# Déplacements relatifs à la caméra : « avancer » = aller là où regarde la caméra.
-# Caméra : souris ou joystick droit. Échap libère la souris, un clic la reprend.
 
 extends CharacterBody3D
 
+## 1 = joueur 1 (ZQSD + Espace), 2 = joueur 2 (flèches + Entrée)
+@export_range(1, 2) var player_id := 1
+## Dossier des sprites de ce joueur (vide = celui réglé sur Visual/Sprite)
+@export_dir var appearance_folder := ""
+
 @export_group("Déplacement")
 @export var SPEED = 7.0
-@export var JUMP_VELOCITY = 7.0
+@export var JUMP_VELOCITY = 10.0
 ## Vitesse à laquelle le joueur atteint sa vitesse max (plus grand = plus nerveux)
 @export var acceleration := 50.0
 ## Au-dessus de cette vitesse, on joue l'animation de course au lieu de la marche
@@ -15,57 +21,33 @@ extends CharacterBody3D
 ## En dessous de cette hauteur, le joueur réapparaît à son point de départ
 @export var fall_limit_y := -20.0
 
-@export_group("Caméra")
-@export var mouse_sensitivity := 0.003
-@export var stick_sensitivity := 3.0
-@export var min_pitch_deg := -70.0
-@export var max_pitch_deg := 10.0
-
 @onready var sprite: DirectionalSprite3D = $Visual/Sprite
-@onready var camera_pivot: Node3D = $CameraPivot
-@onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
 
 var _spawn_position: Vector3
+var _prefix: String
 
 
 func _ready() -> void:
 	_spawn_position = global_position
-	spring_arm.add_excluded_object(get_rid())  # la caméra ne se cogne pas contre le joueur
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		_rotate_camera(-event.relative.x * mouse_sensitivity, -event.relative.y * mouse_sensitivity)
-	elif event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	elif event is InputEventMouseButton and event.pressed:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-
-func _rotate_camera(yaw: float, pitch: float) -> void:
-	camera_pivot.rotation.y += yaw
-	spring_arm.rotation.x = clamp(spring_arm.rotation.x + pitch,
-		deg_to_rad(min_pitch_deg), deg_to_rad(max_pitch_deg))
+	_prefix = "p%d_" % player_id
+	if appearance_folder != "":
+		sprite.sprites_folder = appearance_folder
 
 
 func _physics_process(delta: float) -> void:
-	# Caméra au joystick droit
-	var look := Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
-	if look:
-		_rotate_camera(-look.x * stick_sensitivity * delta, -look.y * stick_sensitivity * delta)
-
 	# Gravité
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
 	# Saut
-	if Input.is_action_just_pressed("ui_jump") and is_on_floor():
+	if Input.is_action_just_pressed(_prefix + "jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	# Déplacement relatif à l'orientation de la caméra
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_pivot.rotation.y)
+	# Déplacement relatif à l'écran (on tourne l'entrée selon l'orientation de la caméra)
+	var input_dir := Input.get_vector(_prefix + "left", _prefix + "right", _prefix + "up", _prefix + "down")
+	var camera := get_viewport().get_camera_3d()
+	var camera_yaw := camera.global_rotation.y if camera else 0.0
+	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_yaw)
 	velocity.x = move_toward(velocity.x, direction.x * SPEED, acceleration * delta)
 	velocity.z = move_toward(velocity.z, direction.z * SPEED, acceleration * delta)
 

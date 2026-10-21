@@ -15,7 +15,11 @@ class_name DirectionalSprite3D
 extends Sprite3D
 
 ## Dossier qui contient un sous-dossier par animation
-@export_dir var sprites_folder := "res://Images and ressources/Personnage"
+@export_dir var sprites_folder := "res://Images and ressources/Personnage":
+	set(value):
+		sprites_folder = value
+		if is_node_ready():
+			_load_textures()
 ## Nom du sous-dossier de chaque animation
 @export var animation_folders := {
 	"idle": "Idle",
@@ -34,7 +38,7 @@ extends Sprite3D
 
 const DIRECTIONS := ["s", "se", "e", "ne", "n", "nw", "w", "sw"]
 
-var facing := Vector3.BACK
+var facing := Vector3.ZERO  # ZERO = face à la caméra (avant le premier déplacement)
 var animation := "idle":
 	set(value):
 		if value != animation:
@@ -46,6 +50,11 @@ var _time := 0.0
 
 
 func _ready() -> void:
+	_load_textures()
+
+
+func _load_textures() -> void:
+	_textures.clear()
 	for anim in animation_folders:
 		var folder: String = animation_folders[anim]
 		var list: Array[Texture2D] = []
@@ -60,7 +69,7 @@ func _process(delta: float) -> void:
 	# Direction du personnage vue depuis la caméra : 0 = de face (s), 4 = de dos (n)
 	var dir_index := 0
 	var camera := get_viewport().get_camera_3d()
-	if camera:
+	if camera and facing != Vector3.ZERO:
 		var local := facing.rotated(Vector3.UP, -camera.global_rotation.y)
 		dir_index = wrapi(roundi(atan2(local.x, local.z) / (PI / 4)), 0, 8)
 

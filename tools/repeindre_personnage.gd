@@ -1,28 +1,41 @@
-# repeindre_personnage.gd — crée une nouvelle apparence en repeignant le mannequin Mixamo
+# repeindre_personnage.gd — crée des apparences en repeignant le mannequin Mixamo
 #
-# Lit les sprites de SOURCE (mannequin bleu), repeint chaque image et écrit le résultat
-# dans DESTINATION, avec les mêmes noms de fichiers. Les ombres d'origine sont gardées.
-# Pour une autre apparence : changer les couleurs et DESTINATION, puis relancer.
+# Lit les sprites de SOURCE (mannequin bleu), repeint chaque image avec les couleurs de
+# chaque apparence de APPARENCES et écrit le résultat dans « Images and ressources/<nom> »,
+# avec les mêmes noms de fichiers. Les ombres d'origine sont gardées.
+# Pour une nouvelle apparence : ajouter une entrée dans APPARENCES, puis relancer.
 #
 # Lancer depuis le dossier du projet (Godot fermé ou non, peu importe) :
 #   Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tools/repeindre_personnage.gd
-# Puis, dans le nœud Visual/Sprite du joueur, mettre « Sprites Folder » sur DESTINATION.
+# Puis, dans le nœud Visual/Sprite d'un joueur, mettre « Sprites Folder » sur le nouveau dossier.
 
 extends SceneTree
 
 const SOURCE := "res://Images and ressources/Personnage"
-const DESTINATION := "res://Images and ressources/Aventurier"
 const ANIMATIONS := ["Idle", "Walking", "Running", "Jumping Up"]
 const DIRECTIONS := ["s", "se", "e", "ne", "n", "nw", "w", "sw"]
 const FRAME_WIDTH := 256
 
-# Couleurs de l'aventurier
-const CHEVEUX := Color(0.36, 0.21, 0.1)
-const PEAU := Color(0.93, 0.72, 0.56)
-const TUNIQUE := Color(0.22, 0.46, 0.26)
-const CUIR := Color(0.52, 0.32, 0.16)      # ceinture et protections (les zones rouges du mannequin)
-const PANTALON := Color(0.6, 0.48, 0.32)
-const BOTTES := Color(0.3, 0.18, 0.1)
+# Une entrée par apparence : nom du dossier créé → couleurs
+# (cuir = ceinture et protections, c'est-à-dire les zones rouges du mannequin)
+const APPARENCES := {
+	"Aventurier": {
+		"cheveux": Color(0.36, 0.21, 0.1),
+		"peau": Color(0.93, 0.72, 0.56),
+		"tunique": Color(0.22, 0.46, 0.26),
+		"cuir": Color(0.52, 0.32, 0.16),
+		"pantalon": Color(0.6, 0.48, 0.32),
+		"bottes": Color(0.3, 0.18, 0.1),
+	},
+	"Aventurier Rouge": {
+		"cheveux": Color(0.85, 0.66, 0.32),
+		"peau": Color(0.82, 0.6, 0.45),
+		"tunique": Color(0.66, 0.17, 0.15),
+		"cuir": Color(0.4, 0.26, 0.14),
+		"pantalon": Color(0.33, 0.35, 0.44),
+		"bottes": Color(0.22, 0.15, 0.1),
+	},
+}
 const CONTOUR := Color(0.12, 0.08, 0.06)
 
 # Zones du corps, en part de la hauteur du personnage (0 = haut de la tête, 1 = pieds)
@@ -36,20 +49,22 @@ const ECART_MAINS := 0.15
 
 
 func _init() -> void:
-	for anim in ANIMATIONS:
-		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("%s/%s" % [DESTINATION, anim]))
-		for d in DIRECTIONS:
-			var file := "%s/%s_%s.png" % [anim, anim, d]
-			var img := Image.load_from_file(ProjectSettings.globalize_path("%s/%s" % [SOURCE, file]))
-			img.convert(Image.FORMAT_RGBA8)
-			for i in img.get_width() / FRAME_WIDTH:
-				_repaint_frame(img, Rect2i(i * FRAME_WIDTH, 0, FRAME_WIDTH, img.get_height()))
-			img.save_png(ProjectSettings.globalize_path("%s/%s" % [DESTINATION, file]))
-			print("repeint : ", file)
+	for nom in APPARENCES:
+		var destination: String = "res://Images and ressources/" + nom
+		for anim in ANIMATIONS:
+			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("%s/%s" % [destination, anim]))
+			for d in DIRECTIONS:
+				var file := "%s/%s_%s.png" % [anim, anim, d]
+				var img := Image.load_from_file(ProjectSettings.globalize_path("%s/%s" % [SOURCE, file]))
+				img.convert(Image.FORMAT_RGBA8)
+				for i in img.get_width() / FRAME_WIDTH:
+					_repaint_frame(img, Rect2i(i * FRAME_WIDTH, 0, FRAME_WIDTH, img.get_height()), APPARENCES[nom])
+				img.save_png(ProjectSettings.globalize_path("%s/%s" % [destination, file]))
+		print("apparence créée : ", nom)
 	quit()
 
 
-func _repaint_frame(img: Image, frame: Rect2i) -> void:
+func _repaint_frame(img: Image, frame: Rect2i, couleurs: Dictionary) -> void:
 	var used := img.get_region(frame).get_used_rect()
 	if used.size.y == 0:
 		return
@@ -67,19 +82,19 @@ func _repaint_frame(img: Image, frame: Rect2i) -> void:
 			if c.v < 0.25:
 				target = CONTOUR
 			elif c.s > 0.35 and (c.h > 0.8 or c.h < 0.08):
-				target = CUIR  # zones rouges : ceinture, coudes, genoux
+				target = couleurs.cuir  # zones rouges : ceinture, coudes, genoux
 			elif t < FIN_CHEVEUX:
-				target = CHEVEUX
+				target = couleurs.cheveux
 			elif t < FIN_TETE:
-				target = PEAU
+				target = couleurs.peau
 			elif t > ZONE_MAINS.x and t < ZONE_MAINS.y and abs(x - center_x) > ECART_MAINS * height:
-				target = PEAU
+				target = couleurs.peau
 			elif t < FIN_TUNIQUE:
-				target = TUNIQUE
+				target = couleurs.tunique
 			elif t < DEBUT_BOTTES:
-				target = PANTALON
+				target = couleurs.pantalon
 			else:
-				target = BOTTES
+				target = couleurs.bottes
 			# Garde l'ombrage d'origine : plus le bleu était sombre, plus la nouvelle couleur l'est
 			var shade := clampf(0.45 + 0.65 * c.v, 0.0, 1.2) if target != CONTOUR else 1.0
 			img.set_pixel(x, y, Color(target.r * shade, target.g * shade, target.b * shade, c.a))

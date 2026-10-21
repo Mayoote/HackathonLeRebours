@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="3_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
 [ext_resource type="PackedScene" uid="uid://c7ttwh1m1ddlf" path="res://Scenes/LevelAssets/Wall.tscn" id="5_lohlh"]
+[ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
 
 [sub_resource type="Environment" id="Environment_cmfm4"]
 
@@ -14,9 +15,19 @@
 [node name="GameScene" type="Node3D" unique_id=1330841405]
 
 [node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2556496, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 0)
 SPEED = 12.735
-JUMP_VELOCITY = 7
+
+[node name="Player2" parent="." instance=ExtResource("1_2wl7v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, 2)
+player_id = 2
+appearance_folder = "res://Images and ressources/Aventurier Rouge"
+SPEED = 12.735
+
+[node name="LevelCamera" type="Camera3D" parent="."]
+script = ExtResource("6_levelcam")
+target = Vector3(-9.72, 1, 0.57)
+view_size = 44.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1808765154]
 environment = SubResource("Environment_cmfm4")
