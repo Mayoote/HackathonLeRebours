@@ -8,6 +8,25 @@
 radius = 1.65
 height = 7.5
 
+[sub_resource type="Gradient" id="Gradient_shadow"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0.8, 0, 0, 0, 0.65, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="Tex_shadow"]
+gradient = SubResource("Gradient_shadow")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("Tex_shadow")
+
+[sub_resource type="PlaneMesh" id="Mesh_shadow"]
+material = SubResource("Mat_shadow")
+size = Vector2(4.6, 4.6)
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_rpqav")
 
@@ -22,7 +41,16 @@ pixel_size = 0.0525
 billboard = 2
 double_sided = false
 alpha_cut = 1
+cast_shadow = 0
 texture = ExtResource("3_idle")
 hframes = 60
 script = ExtResource("2_dirsprite")
 sprites_folder = "res://Images and ressources/Aventurier"
+
+[node name="GroundRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, -40, 0)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+top_level = true
+cast_shadow = 0
+mesh = SubResource("Mesh_shadow")
