@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://2d8wff4kfmc7"]
 
 [ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
-[ext_resource type="Texture2D" uid="uid://vo5yy46nc1cr" path="res://Images and ressources/halfelin.svg" id="2_halfelin"]
+[ext_resource type="Script" uid="uid://jyl17emyyl1o" path="res://Scripts/Player/directional_sprite.gd" id="2_dirsprite"]
+[ext_resource type="Texture2D" uid="uid://xmgmx3ablgql" path="res://Images and ressources/Personnage/Idle/Idle_s.png" id="3_idle"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 
@@ -14,13 +15,14 @@ shape = SubResource("CapsuleShape3D_player")
 [node name="Visual" type="Node3D" parent="."]
 
 [node name="Sprite" type="Sprite3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
-pixel_size = 0.00245
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86, 0)
+pixel_size = 0.013
 billboard = 2
 double_sided = false
 alpha_cut = 1
-texture_filter = 0
-texture = ExtResource("2_halfelin")
+texture = ExtResource("3_idle")
+hframes = 60
+script = ExtResource("2_dirsprite")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
