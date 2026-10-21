@@ -1,21 +1,9 @@
 [gd_scene format=3 uid="uid://2d8wff4kfmc7"]
 
 [ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
+[ext_resource type="Texture2D" uid="uid://vo5yy46nc1cr" path="res://Images and ressources/halfelin.svg" id="2_halfelin"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-
-[sub_resource type="StandardMaterial3D" id="Material_body"]
-albedo_color = Color(0.85, 0.3, 0.25, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_p5ahp"]
-material = SubResource("Material_body")
-
-[sub_resource type="StandardMaterial3D" id="Material_nose"]
-albedo_color = Color(1, 0.9, 0.55, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_nose"]
-material = SubResource("Material_nose")
-size = Vector3(0.5, 0.2, 0.3)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_rpqav")
@@ -25,19 +13,21 @@ shape = SubResource("CapsuleShape3D_player")
 
 [node name="Visual" type="Node3D" parent="."]
 
-[node name="Renderer" type="MeshInstance3D" parent="Visual"]
-mesh = SubResource("CapsuleMesh_p5ahp")
-
-[node name="Nose" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.45)
-mesh = SubResource("BoxMesh_nose")
+[node name="Sprite" type="Sprite3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+pixel_size = 0.00245
+billboard = 2
+double_sided = false
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("2_halfelin")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.93969262, 0.34202015, 0, -0.34202015, 0.93969262, 0, 0, 0)
-spring_length = 7.0
+spring_length = 5.0
 margin = 0.2
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]

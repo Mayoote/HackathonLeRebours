@@ -1,4 +1,4 @@
-# Character.gd — joueur en vue à la 3e personne (caméra derrière, façon Mario)
+# Character.gd — joueur (le halfelin) en vue à la 3e personne (caméra derrière, façon Mario)
 # Déplacements relatifs à la caméra : « avancer » = aller là où regarde la caméra.
 # Caméra : souris ou joystick droit. Échap libère la souris, un clic la reprend.
 
@@ -9,8 +9,6 @@ extends CharacterBody3D
 @export var JUMP_VELOCITY = 7.0
 ## Vitesse à laquelle le joueur atteint sa vitesse max (plus grand = plus nerveux)
 @export var acceleration := 50.0
-## Vitesse de rotation du personnage vers sa direction de marche
-@export var turn_speed := 12.0
 ## En dessous de cette hauteur, le joueur réapparaît à son point de départ
 @export var fall_limit_y := -20.0
 
@@ -20,7 +18,7 @@ extends CharacterBody3D
 @export var min_pitch_deg := -70.0
 @export var max_pitch_deg := 10.0
 
-@onready var visual: Node3D = $Visual
+@onready var sprite: Sprite3D = $Visual/Sprite
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
 
@@ -68,10 +66,11 @@ func _physics_process(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, direction.x * SPEED, acceleration * delta)
 	velocity.z = move_toward(velocity.z, direction.z * SPEED, acceleration * delta)
 
-	# Le personnage se tourne vers là où il marche
-	if direction.length() > 0.1:
-		var target_angle := atan2(-direction.x, -direction.z)
-		visual.rotation.y = lerp_angle(visual.rotation.y, target_angle, turn_speed * delta)
+	# L'image du halfelin regarde vers la gauche : on la retourne quand il marche vers la droite
+	if input_dir.x > 0.1:
+		sprite.flip_h = true
+	elif input_dir.x < -0.1:
+		sprite.flip_h = false
 
 	move_and_slide()
 
