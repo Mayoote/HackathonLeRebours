@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/Traps/rolling_boulder.gd" id="9_boulder"]
 [ext_resource type="Script" path="res://Scripts/Traps/portcullis.gd" id="10_gate"]
 [ext_resource type="Script" path="res://Scripts/trapper.gd" id="11_trapper"]
+[ext_resource type="Script" path="res://Scripts/Traps/nearest_trap.gd" id="12_nearest"]
 
 [sub_resource type="Environment" id="Env_sortie"]
 background_mode = 1
@@ -58,64 +59,62 @@ script = ExtResource("6_stal")
 spots = PackedVector2Array(28, 0, 55, -2, 84, 2, 100, 0, 114, -2, 130, 1, 152, 0, 180, -2, 192, 2, 205, 0)
 ceiling_y = 13.0
 
-[node name="Trapdoor1" type="Node3D" parent="Traps"]
+[node name="Trappes" type="Node3D" parent="Traps"]
+script = ExtResource("12_nearest")
+
+[node name="Trapdoor1" type="Node3D" parent="Traps/Trappes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.97, 0)
 script = ExtResource("7_trapdoor")
 size = Vector2(5, 10)
 
-[node name="Trapdoor2" type="Node3D" parent="Traps"]
+[node name="Trapdoor2" type="Node3D" parent="Traps/Trappes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92, 0.97, 0)
 script = ExtResource("7_trapdoor")
 size = Vector2(5, 10)
 
-[node name="Trapdoor3" type="Node3D" parent="Traps"]
+[node name="Trapdoor3" type="Node3D" parent="Traps/Trappes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158, 0.97, 0)
 script = ExtResource("7_trapdoor")
 size = Vector2(5, 10)
 
-[node name="Pics1" type="Node3D" parent="Traps"]
+[node name="Pics" type="Node3D" parent="Traps"]
+script = ExtResource("12_nearest")
+
+[node name="Pics1" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0.97, 0)
 script = ExtResource("8_spikes")
+automatic = false
 size = Vector2(4, 10)
 
-[node name="Pics2" type="Node3D" parent="Traps"]
+[node name="Pics2" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0.97, 0)
 script = ExtResource("8_spikes")
+automatic = false
 size = Vector2(4, 10)
-phase = 0.5
 
-[node name="Pics3a" type="Node3D" parent="Traps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0.97, -2.5)
+[node name="Pics3" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0.97, 0)
 script = ExtResource("8_spikes")
-size = Vector2(4, 5)
+automatic = false
+size = Vector2(4, 10)
 
-[node name="Pics3b" type="Node3D" parent="Traps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0.97, 2.5)
-script = ExtResource("8_spikes")
-size = Vector2(4, 5)
-phase = 0.5
-
-[node name="Pics4" type="Node3D" parent="Traps"]
+[node name="Pics4" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 0.97, 0)
 script = ExtResource("8_spikes")
+automatic = false
 size = Vector2(4, 10)
-phase = 0.3
 
-[node name="Pics5" type="Node3D" parent="Traps"]
+[node name="Pics5" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 186, 0.97, 0)
 script = ExtResource("8_spikes")
+automatic = false
 size = Vector2(4, 10)
 
-[node name="Pics6a" type="Node3D" parent="Traps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198, 0.97, -2.5)
+[node name="Pics6" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198, 0.97, 0)
 script = ExtResource("8_spikes")
-size = Vector2(4, 5)
-phase = 0.5
-
-[node name="Pics6b" type="Node3D" parent="Traps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198, 0.97, 2.5)
-script = ExtResource("8_spikes")
-size = Vector2(4, 5)
+automatic = false
+size = Vector2(4, 10)
 
 [node name="Boule" type="Node3D" parent="Traps"]
 script = ExtResource("9_boulder")
@@ -128,7 +127,8 @@ script = ExtResource("10_gate")
 script = ExtResource("11_trapper")
 button_trap = NodePath("../Traps/Stalactites")
 button_trap_name = "Stalactites"
-numbered_traps = [NodePath("../Traps/Trapdoor1"), NodePath("../Traps/Trapdoor2"), NodePath("../Traps/Trapdoor3")]
+numbered_traps = [NodePath("../Traps/Trappes"), NodePath("../Traps/Pics")]
+numbered_names = Array[String](["Trappes", "Pics"])
 crank = NodePath("../Traps/Grille")
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper", "gate") instance=ExtResource("5_rules")]

@@ -40,7 +40,7 @@ func _init() -> void:
 	player.global_position = Vector3(92, 5, 0)
 	await create_timer(0.5).timeout
 	before = deaths
-	traps.get_node("Trapdoor2").trigger()
+	traps.get_node("Trappes/Trapdoor2").trigger()
 	t = 0.0
 	while deaths == before and t < 5.0:
 		await physics_frame
