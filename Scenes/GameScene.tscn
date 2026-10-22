@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://bc2y4cbg7jli2"]
+
+[ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_2wl7v"]
+[ext_resource type="PackedScene" uid="uid://ch721r7jjxcmm" path="res://Meshes/Prairie/Floor Grass Sliced B by Isa Lousberg - UMKvhGhK90.glb" id="3_jwv4s"]
+[ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/Prairie.tscn" id="5_prairie"]
+[ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
+[ext_resource type="PackedScene" path="res://Scenes/KeyPiece.tscn" id="7_key"]
+[ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="8_goal"]
+[ext_resource type="PackedScene" path="res://Scenes/LevelRules.tscn" id="10_rules"]
+[ext_resource type="Script" path="res://Scripts/Traps/wind.gd" id="11_wind"]
+[ext_resource type="Script" path="res://Scripts/Traps/pigeons.gd" id="12_pigeons"]
+[ext_resource type="PackedScene" path="res://Scenes/Traps/HayBale.tscn" id="13_hay"]
+[ext_resource type="Script" path="res://Scripts/trapper.gd" id="14_trapper"]
+[ext_resource type="AudioStream" uid="uid://3yymn7l1cpc7" path="res://Musique/Musique_Plaine.mp3" id="90_musique"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_prairie"]
+sky_top_color = Color(0.35, 0.6, 0.9, 1)
+sky_horizon_color = Color(0.75, 0.85, 0.95, 1)
+ground_horizon_color = Color(0.75, 0.85, 0.95, 1)
+
+[sub_resource type="Sky" id="Sky_res"]
+sky_material = SubResource("Sky_prairie")
+
+[sub_resource type="Environment" id="Environment_cmfm4"]
+background_mode = 2
+sky = SubResource("Sky_res")
+ambient_light_source = 3
+ambient_light_energy = 0.8
+tonemap_mode = 2
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_p5ahp"]
+
+[sub_resource type="Compositor" id="Compositor_nva0t"]
+
+[node name="GameScene" type="Node3D" unique_id=1330841405]
+
+[node name="Musique" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("90_musique")
+volume_db = -6.0
+autoplay = true
+bus = &"Musique"
+
+[node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6, -1)
+SPEED = 12.735
+
+[node name="LevelCamera" type="Camera3D" parent="."]
+script = ExtResource("6_levelcam")
+target = Vector3(-11, 1, -3)
+view_size = 47.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1808765154]
+environment = SubResource("Environment_cmfm4")
+camera_attributes = SubResource("CameraAttributesPractical_p5ahp")
+compositor = SubResource("Compositor_nva0t")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=154796236]
+transform = Transform3D(0.12950537, 0.98329645, -0.1278921, 0.03560987, 0.124283135, 0.9916076, 0.99093914, -0.1329727, -0.018919677, -15.480511, 46.014755, -34.318024)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.0
+shadow_enabled = true
+
+[node name="Root Scene8" parent="." unique_id=1788723075 instance=ExtResource("3_jwv4s")]
+
+[node name="Floors" parent="." unique_id=1300326836 instance=ExtResource("4_jwv4s")]
+transform = Transform3D(-31.260704, 0, 2.8126042e-06, 0, 3.055, 0, -4.7202343e-06, 0, -18.627035, -9.722809, 0.87130356, 0.5656643)
+
+[node name="Root Scene7" parent="." unique_id=514856655 instance=ExtResource("3_jwv4s")]
+transform = Transform3D(31.302881, 0, 0, 0, 1, 0, 0, 0, 18.953964, -9.293269, 0.79419947, -0.12776375)
+visible = false
+
+[node name="Prairie" parent="." instance=ExtResource("5_prairie")]
+
+[node name="Goal" parent="." instance=ExtResource("8_goal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.97, 13)
+
+[node name="Keys" type="Node3D" parent="."]
+
+[node name="KeyPiece1" parent="Keys" instance=ExtResource("7_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.97, 16)
+
+[node name="KeyPiece2" parent="Keys" instance=ExtResource("7_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.97, -14)
+
+[node name="Traps" type="Node3D" parent="."]
+
+[node name="Wind" type="Node3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, 0.6)
+script = ExtResource("11_wind")
+
+[node name="Pigeons" type="Node3D" parent="Traps"]
+script = ExtResource("12_pigeons")
+
+[node name="HayBale" parent="Traps" instance=ExtResource("13_hay")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, -6)
+
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("wind", "button_trap", "mover")]
+script = ExtResource("14_trapper")
+wind = NodePath("../Traps/Wind")
+button_trap = NodePath("../Traps/Pigeons")
+mover = NodePath("../Traps/HayBale")
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("10_rules")]
+player = NodePath("../Player")
+goal = NodePath("../Goal")
+trapper = NodePath("../Trapper")

@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Traps/hay_bale.gd" id="1_hay"]
+
+[sub_resource type="CylinderShape3D" id="Shape_bale"]
+height = 4.0
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_straw"]
+albedo_color = Color(0.88, 0.72, 0.36, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="Mesh_bale"]
+material = SubResource("Mat_straw")
+top_radius = 2.0
+bottom_radius = 2.0
+height = 3.2
+radial_segments = 20
+
+[sub_resource type="StandardMaterial3D" id="Mat_twine"]
+albedo_color = Color(0.45, 0.3, 0.15, 1)
+
+[sub_resource type="CylinderMesh" id="Mesh_twine"]
+material = SubResource("Mat_twine")
+top_radius = 2.05
+bottom_radius = 2.05
+height = 0.2
+radial_segments = 20
+
+[sub_resource type="StandardMaterial3D" id="Mat_end"]
+albedo_color = Color(0.95, 0.82, 0.48, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="Mesh_end"]
+material = SubResource("Mat_end")
+top_radius = 1.6
+bottom_radius = 1.6
+height = 0.05
+radial_segments = 20
+
+[node name="HayBale" type="CharacterBody3D"]
+script = ExtResource("1_hay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_bale")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Bale" type="MeshInstance3D" parent="Visual"]
+rotation = Vector3(0, 0, 1.5707964)
+mesh = SubResource("Mesh_bale")
+
+[node name="Twine1" type="MeshInstance3D" parent="Visual/Bale"]
+position = Vector3(0, 0.8, 0)
+mesh = SubResource("Mesh_twine")
+
+[node name="Twine2" type="MeshInstance3D" parent="Visual/Bale"]
+position = Vector3(0, -0.8, 0)
+mesh = SubResource("Mesh_twine")
+
+[node name="End1" type="MeshInstance3D" parent="Visual/Bale"]
+position = Vector3(0, 1.61, 0)
+mesh = SubResource("Mesh_end")
+
+[node name="End2" type="MeshInstance3D" parent="Visual/Bale"]
+position = Vector3(0, -1.61, 0)
+mesh = SubResource("Mesh_end")
