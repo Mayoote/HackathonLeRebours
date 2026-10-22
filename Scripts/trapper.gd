@@ -3,6 +3,7 @@
 #  - button_trap : piège sur le bouton principal (Entrée, A, bouton Arduino)
 #  - mover : objet déplacé au joystick (flèches, stick gauche)
 #  - numbered_traps : pièges sur les boutons 1, 2, 3 (touches 1/2/3, B/X/Y)
+#  - crank : grille de sortie qu'on ferme en moulinant (encodeur, ou K/L maintenu)
 
 extends Node
 
@@ -13,6 +14,7 @@ extends Node
 @export var mover_name := ""
 @export var numbered_traps: Array[Node] = []
 @export var numbered_names: Array[String] = []  # vide : "Trappe 1", "Trappe 2"...
+@export var crank: Node3D
 @export var wind_key_speed := 1.2  # par seconde, touche maintenue
 @export var wind_encoder_step := 0.1
 
@@ -37,6 +39,10 @@ func _process(delta: float) -> void:
 			wind.add(w * wind_key_speed * delta)
 	if mover:
 		mover.input = Input.get_vector("hay_left", "hay_right", "hay_up", "hay_down")
+	if crank:
+		var c := absf(Input.get_axis("wind_left", "wind_right"))
+		if c > 0.0:
+			crank.crank_keys(c * delta)
 	update_label()
 
 
@@ -53,6 +59,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_encoder_changed(_pos: int, delta: int) -> void:
 	if enabled and wind:
 		wind.add(delta * wind_encoder_step)
+	if enabled and crank:
+		crank.add_ticks(absi(delta))  # on peut mouliner dans les deux sens
 
 
 func _on_arduino_button(pressed: bool) -> void:
@@ -78,4 +86,7 @@ func update_label() -> void:
 	for i in numbered_traps.size():
 		var trap_name := "%s (%d)" % [numbered_names[i], i + 1] if i < numbered_names.size() else "Trappe %d" % (i + 1)
 		lines.append("%s : %s" % [trap_name, status(numbered_traps[i])])
+	if crank:
+		var n := roundi(crank.progress * 10)
+		lines.append("Grille : %s %d %%" % ["█".repeat(n) + "░".repeat(10 - n), roundi(crank.progress * 100)])
 	label.text = "\n".join(lines)

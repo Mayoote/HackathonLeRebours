@@ -9,6 +9,7 @@ const LEVELS := [
 	"res://Scenes/GameScene.tscn",
 	"res://Scenes/Levels/GrotteScene.tscn",
 	"res://Scenes/Levels/TempleScene.tscn",
+	"res://Scenes/Levels/SortieScene.tscn",
 ]
 const MENU := "res://Scenes/Start.tscn"
 
