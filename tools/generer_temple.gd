@@ -3,7 +3,7 @@
 #
 # Trois étages en gradins (le plus haut au fond : vue isométrique), reliés par un ascenseur à l'est :
 #  RDC     (y 0,97)  : galerie des lance-flammes, pics au sol en rythme, clé 1 au pied de l'ascenseur
-#  Étage 1 (y 8,97)  : couloir sud (trappe à pics), passage à l'ouest, couloir nord jusqu'à la clé 2.
+#  Étage 1 (y 8,97)  : couloir sud (pics en rythme), passage à l'ouest, couloir nord jusqu'à la clé 2.
 #                      La salle à l'est est un cul-de-sac : le bip y est fort mais la balustrade bloque.
 #  Étage 2 (y 16,97) : salle du trésor, clé 3 au sommet du tas d'or, sortie à l'est
 # Les pièges sont dans TempleScene.tscn ; ici seulement le décor et les collisions.
@@ -30,7 +30,7 @@ const MASSIFS := [
 ]
 # tas d'or de la clé 3 : [rect, hauteur au-dessus de E2]
 const TAS_OR := [[Rect2(-37, -17, 10, 8), 2.0], [Rect2(-34, -15, 4, 4), 4.0]]
-# socles de part et d'autre de la trappe à pics (étage 1) : on ne la contourne pas
+# socles de part et d'autre des pics du couloir sud (étage 1) : on ne les contourne pas
 const SOCLES := [Rect2(-14.5, 3.0, 5, 1.05), Rect2(-14.5, 9.05, 5, 0.95)]
 # balustrades : visuel bas, collision haute (on ne saute pas par-dessus) : [a, b, sol]
 const BALUSTRADES := [
@@ -39,7 +39,6 @@ const BALUSTRADES := [
 	[Vector2(13.3, -5), Vector2(13.3, 3), E2],  # bord ouest du palier de l'ascenseur
 ]
 const HAUT_COLLISION := 6.0
-const COULOIRS := [14.6, 17.25, 19.9]  # colonnes des flèches dans la cage
 
 const PIERRE := """
 shader_type spatial;
@@ -365,15 +364,10 @@ func facades() -> void:
 
 func cage_ascenseur() -> void:
 	var g := groupe("CageAscenseur")
-	# encadrement et meurtrières sur la face sud du palier
+	# encadrement sur la face sud du palier
 	boite(g, Vector3(0.5, E2 - RDC, 0.4), Vector3(13.25, (RDC + E2) / 2, 3.2), mat_ornement)
 	boite(g, Vector3(0.5, E2 - RDC, 0.4), Vector3(21.25, (RDC + E2) / 2, 3.2), mat_ornement)
 	boite(g, Vector3(8.5, 0.6, 0.6), Vector3(17.25, E2 - 0.4, 3.3), mat_ornement)
-	for x in COULOIRS:
-		var y := RDC + 2.0
-		while y < E2 - 1.0:
-			boite(g, Vector3(0.3, 1.0, 0.1), Vector3(x, y, 3.04), mat_noir)
-			y += 2.2
 	# poulie au-dessus de la cage, sur deux poteaux à l'avant
 	var top := E2 + 11.0
 	for x in [13.1, 21.4]:

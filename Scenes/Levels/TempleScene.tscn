@@ -9,8 +9,6 @@
 [ext_resource type="Script" path="res://Scripts/Traps/stalactites.gd" id="7_stal"]
 [ext_resource type="Script" path="res://Scripts/Traps/flamethrower.gd" id="8_flames"]
 [ext_resource type="Script" path="res://Scripts/Traps/spike_floor.gd" id="9_spikes"]
-[ext_resource type="PackedScene" path="res://Scenes/Traps/SpikeTrap.tscn" id="10_spiketrap"]
-[ext_resource type="Script" path="res://Scripts/Traps/arrows.gd" id="11_arrows"]
 [ext_resource type="Script" path="res://Scripts/elevator.gd" id="12_elevator"]
 [ext_resource type="Script" path="res://Scripts/treasure_room.gd" id="13_treasure"]
 [ext_resource type="Script" path="res://Scripts/trapper.gd" id="14_trapper"]
@@ -104,11 +102,11 @@ script = ExtResource("9_spikes")
 size = Vector2(4, 13)
 period = 2.6
 
-[node name="TrappeAPics" parent="Traps" instance=ExtResource("10_spiketrap")]
+[node name="PicsEtage1Sud" type="Node3D" parent="Traps"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 8.97, 6.55)
-
-[node name="Fleches" type="Node3D" parent="Traps"]
-script = ExtResource("11_arrows")
+script = ExtResource("9_spikes")
+size = Vector2(5, 5)
+phase = 0.25
 
 [node name="Ascenseur" type="AnimatableBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 0.97, 6.5)
@@ -118,8 +116,8 @@ script = ExtResource("12_elevator")
 script = ExtResource("14_trapper")
 button_trap = NodePath("../Traps/Stalactites")
 button_trap_name = "Stalactites"
-numbered_traps = [NodePath("../Traps/LanceFlammes"), NodePath("../Traps/Fleches"), NodePath("../Traps/TrappeAPics")]
-numbered_names = Array[String](["Lance-flammes", "Flèches", "Trappe à pics"])
+numbered_traps = [NodePath("../Traps/LanceFlammes")]
+numbered_names = Array[String](["Lance-flammes"])
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("6_rules")]
 player = NodePath("../Player")

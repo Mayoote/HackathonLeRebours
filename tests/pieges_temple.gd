@@ -23,20 +23,9 @@ func _init() -> void:
 	await test("lance-flammes RDC", Vector3(-18, 5, 13), func(): traps.get_node("LanceFlammes").trigger(), 2.5, "flammes")
 	await test("lance-flammes étage 2", Vector3(-2, 21, -14), func(): traps.get_node("LanceFlammes").trigger(), 2.5)
 	await test("stalactite", Vector3(-15, 5, 13), func(): traps.get_node("Stalactites").trigger(), 2.0)
-	await test("trappe à pics", Vector3(-12, 13, 6.5), func(): traps.get_node("TrappeAPics").trigger(), 2.0)
 	var pics: Node = traps.get_node("PicsRDC1")
 	await test("pics en rythme", Vector3(-24, 5, 14.5), func(): pics.set_physics_process(true), 3.5)
 	pics.set_physics_process(false)
-	# flèches pendant la montée
-	var lift: Node3D = current_scene.get_node("Ascenseur")
-	await test("flèches dans l'ascenseur", Vector3(17.25, 5, 6.5), func():
-		await create_timer(1.5).timeout
-		print("   hauteur ascenseur au tir : %.1f" % lift.position.y)
-		traps.get_node("Fleches").trigger(), 4.0, "fleches")
-	# après la mort l'ascenseur redescend chercher le joueur
-	for i in 60 * 8:
-		await physics_frame
-	print("ascenseur revenu au RDC : %s (y=%.2f)" % [is_equal_approx(lift.position.y, 0.97), lift.position.y])
 	quit()
 
 
