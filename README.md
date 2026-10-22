@@ -4,7 +4,7 @@ Projet de l'équipe 9 pour le hackathon Le Rebours (19 au 23 octobre 2026, rendu
 
 Jeu d'évasion asymétrique à 2 joueurs sur le même écran, joué avec des manettes imprimées en 3D et pilotées par Arduino.
 * **Joueur A (l'évadé)** : joystick 8 directions et bouton de saut. Il traverse les niveaux.
-* **Joueur B (le saboteur)** : pas d'avatar, il voit toute la map et déclenche les pièges avec piezo, joystick et encodeur. Un piège n'est activable que quand A est à proximité.
+* **Joueur B (le saboteur)** : pas d'avatar, il voit toute la map et déclenche les pièges avec piezo, joystick et encodeur.
 * **Niveaux** : prairie (prise en main) et grotte (principal), salle des trésors et niveau final.
 
 Le gyroscope est abandonné. L'état du projet et les règles du jeu sont tenus à jour dans les notes de l'équipe, pas ici.
@@ -81,12 +81,15 @@ Ne pas recompresser le `.zip` à la main. Les banques FMOD ne voyagent pas dans 
 ## Manette à encodeur rotatif
 Le script série lit les trames `enc:<position>` et émet `encoder_changed`. Explications : `docs/MANETTE-ENCODEUR.md`.
 
-## Reste à faire (état du 22/10)
+## Mode développeur
+Le menu des niveaux (Tab, pour aller directement à un niveau avec un chrono neuf) est réservé aux tests. **F2** active ou désactive le mode développeur, avec un message en haut de l'écran. Sans ce mode, Tab ne fait rien. Code : `Scripts/level_menu.gd` (`TOUCHE_DEV`).
+
+## Options et fin de partie
+* **Volume** : bouton Options sur l'écran de démarrage, curseurs Musique et Effets (Effets règle aussi le bip des clés). 100 % garde le mixage du `default_bus_layout.tres`. Les réglages sont enregistrés dans `user://reglages.cfg` en quittant les options et rechargés par `Sfx` au lancement.
+* **Écran de fin** : sous le titre, un résumé de la partie (pièges déclenchés par le piégeur, chutes du joueur, niveau atteint). Les compteurs sont dans `game_manager.gd` et survivent au changement de niveau. Le piégeur passe par `fire()` dans `trapper.gd`, qui émet `trap_fired` seulement si le piège part vraiment. Le vent, la grille et le rocher déplacé au joystick ne sont pas comptés.
+
+## Reste à faire (état du 23/10)
 * Récupérer le sketch Arduino de la manette et le schéma de câblage, les ajouter dans `Arduino Code/`.
-* Rendre le port de `Manette` configurable (variable d'environnement ou recherche automatique) au lieu de `COM5`.
-* Mode développeur pour les phases de test : le menu des niveaux (Tab) doit être masqué derrière un code, comme les codes de triche d'un jeu, pour ne pas sauter de niveau en partie normale.
-* Écran de fin : résumer aussi ce que le piégeur a réussi, pas seulement la victoire du joueur.
-* Réglage du volume sonore (options ou menu pause).
 * Salle des trésors : trouver un usage de l'encodeur (aujourd'hui sans effet à ce niveau).
 * Rendre le lint bloquant dans la CI et renommer les 5 noms signalés.
 
