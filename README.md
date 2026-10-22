@@ -49,16 +49,18 @@ Autoload `ArduinoManager` (`Scripts/arduino_manager.gd`). Signaux : `arduino_con
 * `Scripts/serial_tcp_simu.gd` est requis par le script série même sans simulateur : ne pas le supprimer.
 
 Le gameplay ne parle pas directement à `ArduinoManager` : il passera par une couche d'entrée unique (`ControllerInput`, en cours de création) qui traduit les capteurs en intentions de jeu et fournit un clavier de remplacement.
-
-## Tester sans carte
-```
-python3 tests/simulateur_arduino.py --tcp 5555 --profil base
-```
-puis, depuis le dossier du projet :
-```
-ARDUINO_PORT=tcp://127.0.0.1:5555 godot --headless --path . res://tests/test_arduino_headless.tscn
-```
-Attendu : `CONNECTE`, des `sensor_changed`, `button_changed`, puis `[TEST] BILAN apparie=true`. Windows : `py tests\simulateur_arduino.py --tcp 5555` puis `set ARDUINO_PORT=tcp://127.0.0.1:5555` (seul le mode TCP existe sous Windows).
+###
+##### Tester sans carte
+###```
+###python3 tests/simulateur_arduino.py --tcp 5555 --profil base
+###```
+###puis, depuis le dossier du projet :
+###```
+###ARDUINO_PORT=tcp://127.0.0.1:5555 godot --headless --path . res://tests/test_arduino_headless.tscn
+###```
+###Attendu : `CONNECTE`, des `sensor_changed`, `button_changed`, puis `[TEST] BILAN apparie=true`. Windows : `py tests\simulateur_arduino.py --tcp 5555` puis `set ARDUINO_PORT=tcp://127.0.0.1:5555` (seul le mode TCP existe sous Windows).
+###
+###
 
 ## Échanger une scène sans Git (plugin Scene Package Exporter)
 1. **Exporter** : dans le dock Système de fichiers, clic droit sur la scène `.tscn` puis "Exporter un paquet de scène...". On obtient un `.zip` à envoyer à un coéquipier.
