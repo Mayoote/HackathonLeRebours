@@ -118,12 +118,14 @@ size = Vector2(5, 5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 0.97, 6.5)
 script = ExtResource("12_elevator")
 
-[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps")]
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps", "encoder_button_trap", "joy2_button_traps")]
 script = ExtResource("14_trapper")
 button_trap = NodePath("../Traps/Stalactites")
 button_trap_name = "Stalactites"
 numbered_traps = [NodePath("../Traps/LanceFlammes"), NodePath("../Traps/Pics")]
 numbered_names = Array[String](["Lance-flammes", "Pics"])
+encoder_button_trap = NodePath("../Traps/LanceFlammes")
+joy2_button_traps = [NodePath("../Traps/Pics")]
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("6_rules")]
 player = NodePath("../Player")

@@ -2,23 +2,26 @@ extends Node
 
 signal piezo_hit(force: float)
 signal joy_btn_pressed
+signal joy2_btn_pressed
 signal enc_btn_pressed
 signal enc_tourne(delta: int)
 
-const PORT_SERIE := "COM4"        # <-- ton port, trouvé à l'étape 2
+const PORT_SERIE := "COM5"        # <-- ton port, trouvé à l'étape 2
 const BAUDS := 115200
 const JOY_CENTRE := 512.0
 const ZONE_MORTE := 0.15
 const PIEZO_SEUIL := 150
 const PIEZO_COOLDOWN := 0.15
-const CLES := ["JoyX", "JoyY", "JoyBtn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
+const CLES := ["JoyX", "JoyY", "JoyBtn", "Joy2X", "Joy2Y", "Joy2Btn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
 
 var serial: GdSerial
-var joy := Vector2.ZERO
+var joy := Vector2.ZERO    # joystick 1 : le joueur
+var joy2 := Vector2.ZERO   # joystick 2 : le piégeur (meule, rocher)
 var enc_pos := 0
 var enc_rpm := 0.0
 var _enc_pos_prec := 0
 var _joy_btn_prec := false
+var _joy2_btn_prec := false
 var _enc_btn_prec := false
 var _piezo_pret_a := 0.0
 
@@ -53,15 +56,15 @@ func _traiter(ligne: String) -> void:
 		if not v.has(c):
 			return
 
-	joy = Vector2(
-		(v["JoyX"] - JOY_CENTRE) / JOY_CENTRE,
-		(v["JoyY"] - JOY_CENTRE) / JOY_CENTRE)
-	for axe in [0, 1]:
-		joy[axe] = 0.0 if absf(joy[axe]) < ZONE_MORTE else clampf(joy[axe], -1.0, 1.0)
+	joy = _joystick(v["JoyX"], v["JoyY"])
+	joy2 = _joystick(v["Joy2X"], v["Joy2Y"])
 
 	var jb: bool = v["JoyBtn"] == 1.0
 	if jb and not _joy_btn_prec: joy_btn_pressed.emit()
 	_joy_btn_prec = jb
+	var jb2: bool = v["Joy2Btn"] == 1.0
+	if jb2 and not _joy2_btn_prec: joy2_btn_pressed.emit()
+	_joy2_btn_prec = jb2
 	var eb: bool = v["EncBtn"] == 1.0
 	if eb and not _enc_btn_prec: enc_btn_pressed.emit()
 	_enc_btn_prec = eb
@@ -76,3 +79,11 @@ func _traiter(ligne: String) -> void:
 	if v["PiezoA"] > PIEZO_SEUIL and maintenant >= _piezo_pret_a:
 		piezo_hit.emit(v["PiezoA"] / 1023.0)
 		_piezo_pret_a = maintenant + PIEZO_COOLDOWN
+
+
+# valeurs 0..1023 de l'Arduino -> -1..1, avec une zone morte au centre
+func _joystick(x: float, y: float) -> Vector2:
+	var j := Vector2((x - JOY_CENTRE) / JOY_CENTRE, (y - JOY_CENTRE) / JOY_CENTRE)
+	for axe in [0, 1]:
+		j[axe] = 0.0 if absf(j[axe]) < ZONE_MORTE else clampf(j[axe], -1.0, 1.0)
+	return j

@@ -123,13 +123,14 @@ script = ExtResource("9_boulder")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 212, 0.97, 0)
 script = ExtResource("10_gate")
 
-[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps", "crank")]
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps", "crank", "joy2_button_traps")]
 script = ExtResource("11_trapper")
 button_trap = NodePath("../Traps/Stalactites")
 button_trap_name = "Stalactites"
 numbered_traps = [NodePath("../Traps/Trappes"), NodePath("../Traps/Pics")]
 numbered_names = Array[String](["Trappes", "Pics"])
 crank = NodePath("../Traps/Grille")
+joy2_button_traps = [NodePath("../Traps/Trappes")]
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper", "gate") instance=ExtResource("5_rules")]
 player = NodePath("../Player")
