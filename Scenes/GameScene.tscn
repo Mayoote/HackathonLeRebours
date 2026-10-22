@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
 [ext_resource type="PackedScene" path="res://Scenes/KeyPiece.tscn" id="7_key"]
 [ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="8_goal"]
-[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="10_gm"]
+[ext_resource type="PackedScene" path="res://Scenes/LevelRules.tscn" id="10_rules"]
 [ext_resource type="Script" path="res://Scripts/Traps/wind.gd" id="11_wind"]
 [ext_resource type="Script" path="res://Scripts/Traps/pigeons.gd" id="12_pigeons"]
 [ext_resource type="PackedScene" path="res://Scenes/Traps/HayBale.tscn" id="13_hay"]
@@ -88,112 +88,13 @@ script = ExtResource("12_pigeons")
 [node name="HayBale" parent="Traps" instance=ExtResource("13_hay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, -6)
 
-[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("wind", "pigeons", "hay")]
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("wind", "button_trap", "mover")]
 script = ExtResource("14_trapper")
 wind = NodePath("../Traps/Wind")
-pigeons = NodePath("../Traps/Pigeons")
-hay = NodePath("../Traps/HayBale")
+button_trap = NodePath("../Traps/Pigeons")
+mover = NodePath("../Traps/HayBale")
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "goal", "trapper")]
-script = ExtResource("10_gm")
+[node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("10_rules")]
 player = NodePath("../Player")
 goal = NodePath("../Goal")
 trapper = NodePath("../Trapper")
-
-[node name="HUD" type="CanvasLayer" parent="GameManager"]
-
-[node name="TimerLabel" type="Label" parent="GameManager/HUD"]
-unique_name_in_owner = true
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_top = 14.0
-offset_right = 200.0
-offset_bottom = 104.0
-grow_horizontal = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 14
-theme_override_font_sizes/font_size = 72
-text = "5:00"
-horizontal_alignment = 1
-
-[node name="KeysLabel" type="Label" parent="GameManager/HUD"]
-unique_name_in_owner = true
-offset_left = 30.0
-offset_top = 20.0
-offset_right = 600.0
-offset_bottom = 80.0
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 48
-text = "Clés : 0/2"
-
-[node name="TrapperLabel" type="Label" parent="GameManager/HUD"]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -700.0
-offset_top = 20.0
-offset_right = -30.0
-offset_bottom = 200.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 0.75, 0.45, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 40
-text = "PIÉGEUR"
-horizontal_alignment = 2
-
-[node name="Message" type="Label" parent="GameManager/HUD"]
-unique_name_in_owner = true
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -700.0
-offset_top = 130.0
-offset_right = 700.0
-offset_bottom = 210.0
-grow_horizontal = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 52
-horizontal_alignment = 1
-
-[node name="EndScreen" type="ColorRect" parent="GameManager/HUD"]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
-
-[node name="VBox" type="VBoxContainer" parent="GameManager/HUD/EndScreen"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -800.0
-offset_top = -150.0
-offset_right = 800.0
-offset_bottom = 150.0
-alignment = 1
-theme_override_constants/separation = 40
-
-[node name="EndTitle" type="Label" parent="GameManager/HUD/EndScreen/VBox"]
-unique_name_in_owner = true
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 16
-theme_override_font_sizes/font_size = 100
-text = "Fin"
-horizontal_alignment = 1
-
-[node name="EndHint" type="Label" parent="GameManager/HUD/EndScreen/VBox"]
-theme_override_font_sizes/font_size = 48
-text = "Entrée / A : rejouer      Échap : menu"
-horizontal_alignment = 1

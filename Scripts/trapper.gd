@@ -1,15 +1,21 @@
-# Le piégeur : vent (encodeur), fientes (bouton), meule (joystick)
-# Clavier pour tester : K/L = vent, Entrée = fientes, flèches = meule
+# Le piégeur. Chaque niveau branche les pièges qu'il veut :
+#  - wind : vent réglé à l'encodeur (K/L, LB/RB)
+#  - button_trap : piège sur le bouton principal (Entrée, A, bouton Arduino)
+#  - mover : objet déplacé au joystick (flèches, stick gauche)
+#  - numbered_traps : pièges sur les boutons 1, 2, 3 (touches 1/2/3, B/X/Y)
 
 extends Node
 
 @export var wind: Node3D
-@export var pigeons: Node3D
-@export var hay: CharacterBody3D
+@export var button_trap: Node
+@export var button_trap_name := "Pigeons"
+@export var mover: Node3D
+@export var mover_name := ""
+@export var numbered_traps: Array[Node] = []
 @export var wind_key_speed := 1.2  # par seconde, touche maintenue
 @export var wind_encoder_step := 0.1
 
-@onready var label: Label = %TrapperLabel
+@onready var label: Label = get_tree().get_first_node_in_group("trapper_label")
 
 var enabled := true
 
@@ -21,21 +27,26 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if not enabled:
-		if hay:
-			hay.input = Vector2.ZERO
+		if mover:
+			mover.input = Vector2.ZERO
 		return
 	if wind:
 		var w := Input.get_axis("wind_left", "wind_right")
 		if w != 0.0:
 			wind.add(w * wind_key_speed * delta)
-	if hay:
-		hay.input = Input.get_vector("hay_left", "hay_right", "hay_up", "hay_down")
+	if mover:
+		mover.input = Input.get_vector("hay_left", "hay_right", "hay_up", "hay_down")
 	update_label()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if enabled and pigeons and event.is_action_pressed("admin_trigger"):
-		pigeons.trigger()
+	if not enabled:
+		return
+	if button_trap and event.is_action_pressed("admin_trigger"):
+		button_trap.trigger()
+	for i in numbered_traps.size():
+		if event.is_action_pressed("trap_%d" % (i + 1)):
+			numbered_traps[i].trigger()
 
 
 func _on_encoder_changed(_pos: int, delta: int) -> void:
@@ -44,8 +55,13 @@ func _on_encoder_changed(_pos: int, delta: int) -> void:
 
 
 func _on_arduino_button(pressed: bool) -> void:
-	if enabled and pressed and pigeons:
-		pigeons.trigger()
+	if enabled and pressed and button_trap:
+		button_trap.trigger()
+
+
+func status(trap: Node) -> String:
+	var cd: float = trap.cooldown_left
+	return "PRÊT" if cd <= 0.0 else "%.1f s" % cd
 
 
 func update_label() -> void:
@@ -54,7 +70,10 @@ func update_label() -> void:
 		var n := roundi(absf(wind.strength) * 5)
 		var arrows := ("◄".repeat(n) if wind.strength < 0 else "►".repeat(n)) if n > 0 else "—"
 		lines.append("Vent : %s" % arrows)
-	if pigeons:
-		var cd: float = pigeons.cooldown_left
-		lines.append("Pigeons : %s" % ("PRÊT" if cd <= 0.0 else "%.1f s" % cd))
+	if button_trap:
+		lines.append("%s : %s" % [button_trap_name, status(button_trap)])
+	if mover and mover_name != "" and "cooldown_left" in mover:
+		lines.append("%s : %s" % [mover_name, status(mover)])
+	for i in numbered_traps.size():
+		lines.append("Trappe %d : %s" % [i + 1, status(numbered_traps[i])])
 	label.text = "\n".join(lines)
