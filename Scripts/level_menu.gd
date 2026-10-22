@@ -1,12 +1,16 @@
 # Autoload "MenuNiveaux" : Tab ouvre un menu pour aller directement à un niveau
 # (pratique pour tester ou faire une démo). Le jeu est en pause tant qu'il est ouvert.
+# Réservé au mode développeur : TOUCHE_DEV (F2) l'active ou le désactive.
 
 extends CanvasLayer
 
 const NOMS := ["1 · La Plaine", "2 · La Grotte", "3 · Le Temple", "4 · La Sortie"]
+const TOUCHE_DEV := KEY_F2
 
 var panel: Control
 var buttons: Array[Button] = []
+var dev_mode := false
+var notice: Label
 
 
 func _ready() -> void:
@@ -51,11 +55,38 @@ func _ready() -> void:
 	hint.add_theme_font_size_override("font_size", 32)
 	box.add_child(hint)
 
+	# hors du panel : visible même menu fermé
+	notice = Label.new()
+	notice.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	notice.offset_top = 24.0
+	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notice.add_theme_font_size_override("font_size", 40)
+	notice.add_theme_color_override("font_color", Color(0.45, 1, 0.55))
+	notice.add_theme_color_override("font_outline_color", Color.BLACK)
+	notice.add_theme_constant_override("outline_size", 10)
+	notice.modulate.a = 0.0
+	add_child(notice)
+
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("menu_niveaux"):
+	var key := event as InputEventKey
+	if key and key.pressed and not key.echo and key.keycode == TOUCHE_DEV:
+		toggle_dev_mode()
+		get_viewport().set_input_as_handled()
+	elif dev_mode and event.is_action_pressed("menu_niveaux"):
 		toggle()
 		get_viewport().set_input_as_handled()
+
+
+func toggle_dev_mode() -> void:
+	dev_mode = not dev_mode
+	if not dev_mode and panel.visible:
+		toggle()
+	notice.text = "Mode développeur activé" if dev_mode else "Mode développeur désactivé"
+	notice.modulate.a = 1.0
+	var tween := create_tween()
+	tween.tween_interval(1.5)
+	tween.tween_property(notice, "modulate:a", 0.0, 0.5)
 
 
 func toggle() -> void:
