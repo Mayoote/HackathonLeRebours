@@ -30,8 +30,13 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      # Historique complet : les notes de release sont tirées de git log.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Installer Godot et les modèles d'export
         run: |
@@ -59,3 +64,36 @@ jobs:
         with:
           name: EscapeTheTemple-windows
           path: build/
+
+      # Notes : commits depuis la release précédente, groupés par auteur du commit
+      # (et non par auteur de PR, comme le ferait --generate-notes).
+      - name: Publier la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="build-${{ github.run_number }}"
+          prev=$(gh release list --limit 1 --json tagName -q '.[0].tagName')
+          if [ -n "$prev" ] && git rev-parse -q --verify "refs/tags/$prev" >/dev/null; then
+            range="$prev..${{ github.sha }}"
+          else
+            range="${{ github.sha }}"
+          fi
+          {
+            echo "## Contributions"
+            echo
+            git log $range --no-merges --format='%aN' | sort | uniq -c | sort -rn | sed 's/^ *[0-9]* //' \
+            | while IFS= read -r author; do
+              echo "### $author"
+              git log $range --no-merges --author="^$author <" --format='* %s (%h)'
+              echo
+            done
+            if [ -n "$prev" ]; then
+              echo "**Historique complet** : https://github.com/${{ github.repository }}/compare/$prev...$tag"
+            else
+              echo "**Historique complet** : https://github.com/${{ github.repository }}/commits/$tag"
+            fi
+          } > notes.md
+          gh release create "$tag" build/EscapeTheTemple.exe \
+            --target "${{ github.sha }}" \
+            --title "Build ${{ github.run_number }}" \
+            --notes-file notes.md
