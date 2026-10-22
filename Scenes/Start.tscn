@@ -105,7 +105,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
 theme_override_font_sizes/font_size = 110
-text = "TITRE DU JEU"
+text = "ESCAPE TEMPLE"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="MainMenu" unique_id=145711526]
