@@ -30,6 +30,8 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -59,3 +61,12 @@ jobs:
         with:
           name: EscapeTheTemple-windows
           path: build/
+
+      - name: Publier la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-${{ github.run_number }}" build/EscapeTheTemple.exe \
+            --target "${{ github.sha }}" \
+            --title "Build ${{ github.run_number }}" \
+            --generate-notes
