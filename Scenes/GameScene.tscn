@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Scripts/Traps/pigeons.gd" id="12_pigeons"]
 [ext_resource type="PackedScene" path="res://Scenes/Traps/HayBale.tscn" id="13_hay"]
 [ext_resource type="Script" path="res://Scripts/trapper.gd" id="14_trapper"]
+[ext_resource type="AudioStream" uid="uid://3yymn7l1cpc7" path="res://Musique/Musique_Plaine.mp3" id="90_musique"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_prairie"]
 sky_top_color = Color(0.35, 0.6, 0.9, 1)
@@ -33,6 +34,11 @@ tonemap_mode = 2
 [sub_resource type="Compositor" id="Compositor_nva0t"]
 
 [node name="GameScene" type="Node3D" unique_id=1330841405]
+
+[node name="Musique" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("90_musique")
+volume_db = -6.0
+autoplay = true
 
 [node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6, -1)

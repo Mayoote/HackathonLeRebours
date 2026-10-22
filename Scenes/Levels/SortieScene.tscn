@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Scripts/Traps/portcullis.gd" id="10_gate"]
 [ext_resource type="Script" path="res://Scripts/trapper.gd" id="11_trapper"]
 [ext_resource type="Script" path="res://Scripts/Traps/nearest_trap.gd" id="12_nearest"]
+[ext_resource type="AudioStream" uid="uid://c72d0yulmtq2l" path="res://Musique/Couloir_Fin.mp3" id="90_musique"]
 
 [sub_resource type="Environment" id="Env_sortie"]
 background_mode = 1
@@ -25,6 +26,11 @@ glow_intensity = 0.6
 glow_bloom = 0.1
 
 [node name="SortieScene" type="Node3D"]
+
+[node name="Musique" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("90_musique")
+volume_db = -6.0
+autoplay = true
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 6, 0)

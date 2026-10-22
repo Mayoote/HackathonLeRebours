@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/Traps/trapdoor.gd" id="8_trapdoor"]
 [ext_resource type="PackedScene" path="res://Scenes/Traps/Boulder.tscn" id="9_boulder"]
 [ext_resource type="Script" path="res://Scripts/trapper.gd" id="10_trapper"]
+[ext_resource type="AudioStream" uid="uid://c4ow8tnn25wkr" path="res://Musique/Musique_Grotte.mp3" id="90_musique"]
 
 [sub_resource type="Environment" id="Env_grotte"]
 background_mode = 1
@@ -23,6 +24,11 @@ glow_intensity = 0.6
 glow_bloom = 0.1
 
 [node name="GrotteScene" type="Node3D"]
+
+[node name="Musique" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("90_musique")
+volume_db = -6.0
+autoplay = true
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 6, -12.5)
