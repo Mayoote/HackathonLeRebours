@@ -1,0 +1,61 @@
+name: Build Windows
+
+# CI uniquement sur master : un merge vers master est un push sur master.
+on:
+  push:
+    branches: [master]
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "gdtoolkit==4.*"
+      # Scripts fournis par l'encadrement (série Arduino) : on ne les modifie pas, donc on ne les lint pas.
+      # Le lint est une alerte, pas un blocage : les problèmes s'affichent en avertissements
+      # sur le run et sur les fichiers, mais le build du .exe part quand même.
+      - name: gdlint (alerte)
+        run: |
+          find Scripts -name '*.gd' ! -name serial_tcp_simu.gd ! -name arduino_manager.gd -print0 \
+            | xargs -0 gdlint > lint.txt || true
+          cat lint.txt
+          sed -nE 's/^(.*):([0-9]+): (.*)$/::warning file=\1,line=\2::\3/p' lint.txt
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer Godot et les modèles d'export
+        run: |
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          curl -fsSL -o godot.zip "$base/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -fsSL -o templates.tpz "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          mkdir -p ~/.local/share/godot/export_templates
+          unzip -q templates.tpz -d ~/.local/share/godot/export_templates
+          mv ~/.local/share/godot/export_templates/templates "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+
+      # Le premier import affiche des erreurs FMOD sans gravité (voir README) : on le fait donc deux fois.
+      - name: Importer le projet
+        run: |
+          godot --headless --import || true
+          godot --headless --import
+
+      - name: Exporter pour Windows
+        run: |
+          mkdir -p build
+          godot --headless --export-release "Windows Desktop" build/EscapeTheTemple.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EscapeTheTemple-windows
+          path: build/
