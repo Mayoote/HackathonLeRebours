@@ -12,6 +12,7 @@ extends Node
 @export var mover: Node3D
 @export var mover_name := ""
 @export var numbered_traps: Array[Node] = []
+@export var numbered_names: Array[String] = []  # vide : "Trappe 1", "Trappe 2"...
 @export var wind_key_speed := 1.2  # par seconde, touche maintenue
 @export var wind_encoder_step := 0.1
 
@@ -75,5 +76,6 @@ func update_label() -> void:
 	if mover and mover_name != "" and "cooldown_left" in mover:
 		lines.append("%s : %s" % [mover_name, status(mover)])
 	for i in numbered_traps.size():
-		lines.append("Trappe %d : %s" % [i + 1, status(numbered_traps[i])])
+		var trap_name := "%s (%d)" % [numbered_names[i], i + 1] if i < numbered_names.size() else "Trappe %d" % (i + 1)
+		lines.append("%s : %s" % [trap_name, status(numbered_traps[i])])
 	label.text = "\n".join(lines)

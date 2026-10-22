@@ -5,6 +5,7 @@ extends Node3D
 
 @export var spots := PackedVector2Array()
 @export var ceiling_y := 11.0
+@export var ceilings := PackedFloat32Array()  # plafond de chaque stalactite (niveaux à étages), sinon ceiling_y
 @export var reach := 12.0          # distance max au joueur pour pouvoir tomber
 @export var warning_time := 0.8
 @export var hit_radius := 2.3
@@ -14,6 +15,7 @@ extends Node3D
 var cooldown_left := 0.0
 var stalactites: Array[Node3D] = []
 var ready_flags: Array[bool] = []
+var grounds: Array[float] = []
 var rock: StandardMaterial3D
 var ring_mat: StandardMaterial3D
 
@@ -34,16 +36,17 @@ func _ready() -> void:
 	ring_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	ring_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	ring_mat.albedo_texture = tex
-	for s in spots:
+	for i in spots.size():
 		var st := make_stalactite()
-		st.position = Vector3(s.x, ceiling_y, s.y)
+		st.position = Vector3(spots[i].x, ceilings[i] if i < ceilings.size() else ceiling_y, spots[i].y)
 		add_child(st)
 		stalactites.append(st)
 		ready_flags.append(true)
 	# une flaque sous chaque stalactite montre la zone dangereuse
 	await get_tree().physics_frame
 	for st in stalactites:
-		puddle(Vector3(st.global_position.x, ground_below(st.global_position), st.global_position.z))
+		grounds.append(ground_below(st.global_position))
+		puddle(Vector3(st.global_position.x, grounds[-1], st.global_position.z))
 
 
 func puddle(pos: Vector3) -> void:
@@ -98,7 +101,9 @@ func trigger() -> void:
 	var best_d := reach
 	for i in stalactites.size():
 		var d := Vector2(stalactites[i].global_position.x - player.global_position.x, stalactites[i].global_position.z - player.global_position.z).length()
-		if ready_flags[i] and d < best_d:
+		# seulement celles au-dessus de l'étage du joueur
+		var same_floor := grounds.size() < stalactites.size() or absf(grounds[i] - (player.global_position.y - 3.75)) < 4.5
+		if ready_flags[i] and same_floor and d < best_d:
 			best = i
 			best_d = d
 	if best < 0:

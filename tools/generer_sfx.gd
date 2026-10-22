@@ -60,6 +60,13 @@ func _init() -> void:
 
 	# eau
 	save("plouf", mix([sweep(500, 140, 0.25, 0.5, "sine"), noise_burst(0.45, 0.6, 2500, 300)]))
+
+	# temple (suite) : ajoutés à la fin pour ne pas changer les sons déjà générés
+	save("lianes", froissement(0.7))
+	save("flamme_allumage", mix([noise_burst(0.45, 0.8, 1800, 120), sweep(60, 160, 0.4, 0.5, "triangle")]))
+	save("mecanisme", concat([noise_burst(0.02, 0.6, 6000, 2000), silence(0.06), noise_burst(0.02, 0.5, 5000, 2000), silence(0.05), tone(900, 0.03, 0.3, "square")]))
+	save("pics_rentrent", mix([square_sweep(700, 380, 0.12, 0.15), noise_burst(0.1, 0.3, 3000, 800)]))
+	save("tresor", concat([arpeggio([1568, 2093, 2637, 3136], 0.07, 0.25, "sine"), arpeggio([2637, 3136, 4186], 0.09, 0.18, "sine")]))
 	quit()
 
 
@@ -175,6 +182,19 @@ func flutter(dur: float) -> PackedFloat32Array:
 		var d := rng.randf_range(0.03, 0.05)
 		parts.append(noise_burst(d, rng.randf_range(0.4, 0.7), 2500, 400))
 		var gap := rng.randf_range(0.02, 0.05)
+		parts.append(silence(gap))
+		t += d + gap
+	return concat(parts)
+
+
+# frottement de feuillage : petits craquements serrés
+func froissement(dur: float) -> PackedFloat32Array:
+	var parts := []
+	var t := 0.0
+	while t < dur:
+		var d := rng.randf_range(0.02, 0.06)
+		parts.append(noise_burst(d, rng.randf_range(0.2, 0.5), 6000, 1500))
+		var gap := rng.randf_range(0.0, 0.03)
 		parts.append(silence(gap))
 		t += d + gap
 	return concat(parts)

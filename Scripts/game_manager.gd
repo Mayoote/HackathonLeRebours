@@ -25,6 +25,9 @@ func _ready() -> void:
 	message.modulate.a = 0.0
 	if not Partie.running and Partie.time_left > 0.0:
 		Partie.running = true  # lancé directement depuis l'éditeur (F6)
+	var index := Partie.LEVELS.find(owner.scene_file_path if owner else "")
+	if index >= 0:
+		Partie.level = index  # F6 sur un niveau : la suite est bien le niveau d'après
 	Partie.time_up.connect(_on_time_up)
 	goal.player_reached.connect(_on_goal_reached)
 	for key in get_tree().get_nodes_in_group("keys"):

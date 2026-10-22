@@ -17,10 +17,24 @@ extends Camera3D
 	set(value):
 		view_size = value
 		update_camera()
+@export var follow_height := false  # niveau à étages : la caméra monte avec le joueur
+@export var follow_ground := 0.97
+
+var base_y := 0.0
 
 
 func _ready() -> void:
+	base_y = target.y
 	update_camera()
+
+
+func _process(delta: float) -> void:
+	if not follow_height or Engine.is_editor_hint():
+		return
+	var player := get_tree().get_first_node_in_group("player") as CharacterBody3D
+	if player and player.is_on_floor():
+		var goal := base_y + maxf(player.global_position.y - 3.75 - follow_ground, 0.0)
+		target.y = lerpf(target.y, goal, 1.0 - exp(-3.0 * delta))
 
 
 func update_camera() -> void:

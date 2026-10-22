@@ -8,6 +8,7 @@ const TOTAL_TIME := 300.0
 const LEVELS := [
 	"res://Scenes/GameScene.tscn",
 	"res://Scenes/Levels/GrotteScene.tscn",
+	"res://Scenes/Levels/TempleScene.tscn",
 ]
 const MENU := "res://Scenes/Start.tscn"
 
