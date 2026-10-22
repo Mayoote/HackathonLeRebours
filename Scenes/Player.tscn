@@ -1,17 +1,56 @@
 [gd_scene format=3 uid="uid://2d8wff4kfmc7"]
 
 [ext_resource type="Script" uid="uid://dof2ykl0y681p" path="res://Scripts/Player/Character.gd" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://jyl17emyyl1o" path="res://Scripts/Player/directional_sprite.gd" id="2_dirsprite"]
+[ext_resource type="Texture2D" uid="uid://cv5ghukdw7vr" path="res://Images and ressources/Aventurier/Idle/Idle_s.png" id="3_idle"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_cmfm4"]
-size = Vector3(0.81, 1.435, 0.795)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 1.65
+height = 7.5
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_p5ahp"]
+[sub_resource type="Gradient" id="Gradient_shadow"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0.8, 0, 0, 0, 0.65, 0, 0, 0, 0)
 
-[node name="Player" type="CharacterBody3D" unique_id=226745155]
+[sub_resource type="GradientTexture2D" id="Tex_shadow"]
+gradient = SubResource("Gradient_shadow")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("Tex_shadow")
+
+[sub_resource type="PlaneMesh" id="Mesh_shadow"]
+material = SubResource("Mat_shadow")
+size = Vector2(4.6, 4.6)
+
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_rpqav")
 
-[node name="Collider" type="CollisionShape3D" parent="." unique_id=202242451]
-shape = SubResource("BoxShape3D_cmfm4")
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_player")
 
-[node name="Renderer" type="MeshInstance3D" parent="." unique_id=818455850]
-mesh = SubResource("CapsuleMesh_p5ahp")
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Sprite" type="Sprite3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8, 0)
+pixel_size = 0.0525
+billboard = 2
+double_sided = false
+alpha_cut = 1
+cast_shadow = 0
+texture = ExtResource("3_idle")
+hframes = 60
+script = ExtResource("2_dirsprite")
+sprites_folder = "res://Images and ressources/Aventurier"
+
+[node name="GroundRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, -40, 0)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+top_level = true
+cast_shadow = 0
+mesh = SubResource("Mesh_shadow")

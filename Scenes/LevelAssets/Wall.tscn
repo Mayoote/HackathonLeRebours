@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://c7ttwh1m1ddlf"]
 
-[ext_resource type="Texture2D" uid="uid://fywxhjcadjn6" path="res://Meshes/Metal Fence by Quaternius - qWKhREFj7H_Fence.png" id="1_k1f6h"]
+[ext_resource type="Texture2D" uid="uid://fywxhjcadjn6" path="res://Meshes/Prairie/Metal Fence by Quaternius - qWKhREFj7H_Fence.png" id="1_k1f6h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6xmud"]
 resource_name = "Grey"

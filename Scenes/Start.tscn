@@ -1,73 +1,195 @@
 [gd_scene format=3 uid="uid://br46gtwnnou4l"]
 
 [ext_resource type="Script" uid="uid://dd3m42c4741s4" path="res://Scripts/start_screen.gd" id="1_og4jd"]
+[ext_resource type="AudioStream" uid="uid://c1dp680qbm2xo" path="res://Musique/Intro_menue.mp3" id="2_music"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_og4jd"]
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+[sub_resource type="StyleBoxFlat" id="StyleBox_normal"]
+content_margin_left = 40.0
+content_margin_top = 16.0
+content_margin_right = 40.0
+content_margin_bottom = 16.0
+bg_color = Color(0.16, 0.26, 0.18, 0.9)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.85, 0.75, 0.45, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
-[node name="StartScreen" type="Node2D" unique_id=1676421136]
-script = ExtResource("1_og4jd")
+[sub_resource type="StyleBoxFlat" id="StyleBox_hover"]
+content_margin_left = 40.0
+content_margin_top = 16.0
+content_margin_right = 40.0
+content_margin_bottom = 16.0
+bg_color = Color(0.25, 0.4, 0.27, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(1, 0.9, 0.55, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
-[node name="Control" type="CanvasLayer" parent="." unique_id=714779241]
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+content_margin_left = 60.0
+content_margin_top = 40.0
+content_margin_right = 60.0
+content_margin_bottom = 40.0
+bg_color = Color(0.08, 0.12, 0.09, 0.95)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.85, 0.75, 0.45, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
-[node name="Background" type="ColorRect" parent="Control" unique_id=1639288048]
-offset_right = 1917.0
-offset_bottom = 1079.0
+[sub_resource type="Theme" id="Theme_menu"]
+default_font_size = 40
+Button/colors/font_color = Color(0.95, 0.92, 0.82, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 0.9, 0.55, 1)
+Button/font_sizes/font_size = 64
+Button/styles/focus = SubResource("StyleBox_hover")
+Button/styles/hover = SubResource("StyleBox_hover")
+Button/styles/normal = SubResource("StyleBox_normal")
+Button/styles/pressed = SubResource("StyleBox_hover")
+Label/colors/font_color = Color(0.95, 0.92, 0.82, 1)
+PanelContainer/styles/panel = SubResource("StyleBox_panel")
 
-[node name="FadeOverlay" type="ColorRect" parent="Control" unique_id=1284048180]
-unique_name_in_owner = true
+[node name="StartScreen" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0, 0, 0, 0)
+theme = SubResource("Theme_menu")
+script = ExtResource("1_og4jd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1401249523]
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.17, 0.12, 1)
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -385.5
-offset_top = -301.11
-offset_right = 385.5
-offset_bottom = 182.89008
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 112
+alignment = 1
+theme_override_constants/separation = 40
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer" unique_id=219058421]
+[node name="Title" type="Label" parent="MainMenu"]
 layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 1.46
-theme_override_constants/separation = 20
-
-[node name="StatusLabel" type="Label" parent="Control/VBoxContainer/HBoxContainer" unique_id=22544246]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 79
-text = "Arduino State : "
+theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
+theme_override_font_sizes/font_size = 110
+text = "TITRE DU JEU"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="StatusDot" type="Panel" parent="Control/VBoxContainer/HBoxContainer" unique_id=750463700]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+[node name="Spacer" type="Control" parent="MainMenu"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_og4jd")
 
-[node name="StartButton" type="Button" parent="Control/VBoxContainer" unique_id=1252999707]
+[node name="PlayButton" type="Button" parent="MainMenu"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 128
-text = " Start Game "
+text = "Jouer"
 
-[connection signal="pressed" from="Control/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[node name="CommandsButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Commandes"
+
+[node name="CommandsPanel" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CommandsPanel"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CommandsPanel/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Title" type="Label" parent="CommandsPanel/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
+theme_override_font_sizes/font_size = 80
+text = "Commandes"
+horizontal_alignment = 1
+
+[node name="CommandsList" type="Label" parent="CommandsPanel/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/line_spacing = 12
+text = "JOUEUR : ZQSD pour bouger, Espace pour sauter (ou manette n°2)
+Trouve les morceaux de clé grâce au bip, puis rejoins la porte.
+
+PIÉGEUR : vent = K / L (encodeur, LB / RB)
+fientes de pigeons = Entrée (bouton, A)
+meule de foin = flèches (joystick)"
+
+[node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Retour"
+
+[node name="StatusLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -70.0
+offset_right = 600.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "● Manette non connectée"
+
+[node name="FadeOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_music")
+autoplay = true
+
+[connection signal="pressed" from="MainMenu/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenu/CommandsButton" to="." method="_on_commands_button_pressed"]
+[connection signal="pressed" from="CommandsPanel/Panel/VBox/BackButton" to="." method="_on_back_button_pressed"]
