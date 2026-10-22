@@ -3,22 +3,6 @@
 [ext_resource type="Script" uid="uid://dd3m42c4741s4" path="res://Scripts/start_screen.gd" id="1_og4jd"]
 [ext_resource type="AudioStream" uid="uid://c1dp680qbm2xo" path="res://Musique/Intro_menue.mp3" id="2_music"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_normal"]
-content_margin_left = 40.0
-content_margin_top = 16.0
-content_margin_right = 40.0
-content_margin_bottom = 16.0
-bg_color = Color(0.16, 0.26, 0.18, 0.9)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.85, 0.75, 0.45, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
-
 [sub_resource type="StyleBoxFlat" id="StyleBox_hover"]
 content_margin_left = 40.0
 content_margin_top = 16.0
@@ -30,6 +14,22 @@ border_width_top = 6
 border_width_right = 6
 border_width_bottom = 6
 border_color = Color(1, 0.9, 0.55, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_normal"]
+content_margin_left = 40.0
+content_margin_top = 16.0
+content_margin_right = 40.0
+content_margin_bottom = 16.0
+bg_color = Color(0.16, 0.26, 0.18, 0.9)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.85, 0.75, 0.45, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
 corner_radius_bottom_right = 24
@@ -54,8 +54,8 @@ corner_radius_bottom_left = 24
 [sub_resource type="Theme" id="Theme_menu"]
 default_font_size = 40
 Button/colors/font_color = Color(0.95, 0.92, 0.82, 1)
-Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/colors/font_pressed_color = Color(1, 0.9, 0.55, 1)
 Button/font_sizes/font_size = 64
 Button/styles/focus = SubResource("StyleBox_hover")
@@ -65,7 +65,7 @@ Button/styles/pressed = SubResource("StyleBox_hover")
 Label/colors/font_color = Color(0.95, 0.92, 0.82, 1)
 PanelContainer/styles/panel = SubResource("StyleBox_panel")
 
-[node name="StartScreen" type="Control"]
+[node name="StartScreen" type="Control" unique_id=666176134]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,7 +75,7 @@ grow_vertical = 2
 theme = SubResource("Theme_menu")
 script = ExtResource("1_og4jd")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=49835995]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,7 +84,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.17, 0.12, 1)
 
-[node name="MainMenu" type="VBoxContainer" parent="."]
+[node name="MainMenu" type="VBoxContainer" parent="." unique_id=280550184]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -98,30 +98,30 @@ offset_right = 400.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 theme_override_constants/separation = 40
+alignment = 1
 
-[node name="Title" type="Label" parent="MainMenu"]
+[node name="Title" type="Label" parent="MainMenu" unique_id=777294830]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
 theme_override_font_sizes/font_size = 110
 text = "TITRE DU JEU"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="MainMenu"]
+[node name="Spacer" type="Control" parent="MainMenu" unique_id=145711526]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="PlayButton" type="Button" parent="MainMenu"]
+[node name="PlayButton" type="Button" parent="MainMenu" unique_id=1181187860]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Jouer"
 
-[node name="CommandsButton" type="Button" parent="MainMenu"]
+[node name="CommandsButton" type="Button" parent="MainMenu" unique_id=1692848455]
 layout_mode = 2
 text = "Commandes"
 
-[node name="CommandsPanel" type="CenterContainer" parent="."]
+[node name="CommandsPanel" type="CenterContainer" parent="." unique_id=2028254838]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -131,21 +131,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="CommandsPanel"]
+[node name="Panel" type="PanelContainer" parent="CommandsPanel" unique_id=1764647062]
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="CommandsPanel/Panel"]
+[node name="VBox" type="VBoxContainer" parent="CommandsPanel/Panel" unique_id=1915278256]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Title" type="Label" parent="CommandsPanel/Panel/VBox"]
+[node name="Title" type="Label" parent="CommandsPanel/Panel/VBox" unique_id=222269839]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
 theme_override_font_sizes/font_size = 80
 text = "Commandes"
 horizontal_alignment = 1
 
-[node name="CommandsList" type="Label" parent="CommandsPanel/Panel/VBox"]
+[node name="CommandsList" type="Label" parent="CommandsPanel/Panel/VBox" unique_id=1902757735]
 layout_mode = 2
 theme_override_constants/line_spacing = 12
 text = "JOUEUR : ZQSD pour bouger, Espace pour sauter (ou manette n°2)
@@ -155,12 +155,12 @@ PIÉGEUR : vent = K / L (encodeur, LB / RB)
 fientes de pigeons = Entrée (bouton, A)
 meule de foin = flèches (joystick)"
 
-[node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox"]
+[node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox" unique_id=293023378]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Retour"
 
-[node name="StatusLabel" type="Label" parent="."]
+[node name="StatusLabel" type="Label" parent="." unique_id=1865899142]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -174,7 +174,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "● Manette non connectée"
 
-[node name="FadeOverlay" type="ColorRect" parent="."]
+[node name="FadeOverlay" type="ColorRect" parent="." unique_id=910861834]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -185,7 +185,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="MenuMusic" type="AudioStreamPlayer" parent="."]
+[node name="MenuMusic" type="AudioStreamPlayer" parent="." unique_id=1902152861]
 unique_name_in_owner = true
 stream = ExtResource("2_music")
 autoplay = true

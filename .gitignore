@@ -3,7 +3,6 @@
 **/.godot/*
 !**/.godot/extension_list.cfg
 /android/
-export_presets.cfg
 
 # Résidus à ne jamais distribuer
 *.tmp

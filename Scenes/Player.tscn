@@ -27,30 +27,30 @@ albedo_texture = SubResource("Tex_shadow")
 material = SubResource("Mat_shadow")
 size = Vector2(4.6, 4.6)
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1806954872]
 script = ExtResource("1_rpqav")
 
-[node name="Collider" type="CollisionShape3D" parent="."]
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=1486790444]
 shape = SubResource("CapsuleShape3D_player")
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=990462073]
 
-[node name="Sprite" type="Sprite3D" parent="Visual"]
+[node name="Sprite" type="Sprite3D" parent="Visual" unique_id=891929368]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8, 0)
+cast_shadow = 0
 pixel_size = 0.0525
 billboard = 2
 double_sided = false
 alpha_cut = 1
-cast_shadow = 0
 texture = ExtResource("3_idle")
 hframes = 60
 script = ExtResource("2_dirsprite")
 sprites_folder = "res://Images and ressources/Aventurier"
 
-[node name="GroundRay" type="RayCast3D" parent="."]
+[node name="GroundRay" type="RayCast3D" parent="." unique_id=1529134148]
 target_position = Vector3(0, -40, 0)
 
-[node name="Shadow" type="MeshInstance3D" parent="."]
+[node name="Shadow" type="MeshInstance3D" parent="." unique_id=945217260]
 top_level = true
 cast_shadow = 0
 mesh = SubResource("Mesh_shadow")

@@ -25,6 +25,7 @@ FmodManager="*uid://cds10pm7hwn3p"
 ArduinoManager="*uid://d0vdfj6uvp4dg"
 Partie="*res://Scripts/partie.gd"
 Sfx="*res://Scripts/sfx.gd"
+Manette="*uid://bhr3b6hk0tjtr"
 
 [display]
 
