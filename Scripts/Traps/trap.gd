@@ -35,12 +35,14 @@ func _ready() -> void:
 
 func trigger() -> void:
 	if state != State.READY:
+		Sfx.play("refus", -6.0)
 		return
 	# la plaque clignote d'abord pour laisser le joueur esquiver
 	state = State.WARNING
 	await get_tree().create_timer(warning_time).timeout
 
 	state = State.ACTIVE
+	Sfx.play("pics_sortent")
 	create_tween().tween_property(spikes, "position:y", 0.0, 0.08)
 	for body in get_overlapping_bodies():
 		hit(body)
@@ -77,5 +79,5 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func hit(body: Node3D) -> void:
-	if body.has_method("take_hit"):
-		body.take_hit(global_position)
+	if body.has_method("kill"):
+		body.kill()

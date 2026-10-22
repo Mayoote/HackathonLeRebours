@@ -1,6 +1,5 @@
 extends Node
 
-@export_file("*.tscn") var game_scene: String = "res://Scenes/GameScene.tscn"
 @export var fade_duration: float = 1.0
 
 @onready var fade_overlay: ColorRect = %FadeOverlay
@@ -35,7 +34,7 @@ func _on_play_button_pressed() -> void:
 	tween.tween_property(fade_overlay, "color:a", 1.0, fade_duration)
 	tween.tween_property(music, "volume_db", -40.0, fade_duration)
 	await tween.finished
-	get_tree().change_scene_to_file(game_scene)
+	Partie.new_game()
 
 
 func _on_commands_button_pressed() -> void:

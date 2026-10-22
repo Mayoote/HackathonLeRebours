@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cpiy1rt0crybb"]
 
-[ext_resource type="Script" path="res://Scripts/goal.gd" id="1_goal"]
+[ext_resource type="Script" uid="uid://pcufpya5xa6x" path="res://Scripts/goal.gd" id="1_goal"]
 [ext_resource type="PackedScene" uid="uid://cyhngy6di7ovj" path="res://Meshes/Prairie/Door Round by Quaternius - 4lNptAwxpV.glb" id="2_door"]
 
 [sub_resource type="CylinderShape3D" id="Shape_goal"]
@@ -8,8 +8,8 @@ height = 4.0
 radius = 2.5
 
 [sub_resource type="StandardMaterial3D" id="Mat_goal"]
-albedo_color = Color(0.3, 1, 0.5, 0.6)
 transparency = 1
+albedo_color = Color(0.3, 1, 0.5, 0.6)
 emission_enabled = true
 emission = Color(0.2, 1, 0.4, 1)
 emission_energy_multiplier = 1.2
@@ -25,24 +25,22 @@ rings = 1
 [sub_resource type="BoxShape3D" id="Shape_door"]
 size = Vector3(5, 7.2, 1.6)
 
-[node name="Goal" type="Area3D"]
+[node name="Goal" type="Area3D" unique_id=833119952]
 script = ExtResource("1_goal")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1188677204]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("Shape_goal")
 
-[node name="Pad" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+[node name="Pad" type="MeshInstance3D" parent="." unique_id=1387815072]
 mesh = SubResource("Mesh_pad")
 
-[node name="Door" type="StaticBody3D" parent="."]
-position = Vector3(-2.9, 0, -2.9)
-rotation = Vector3(0, 0.7853982, 0)
+[node name="Door" type="StaticBody3D" parent="." unique_id=1554761468]
+transform = Transform3D(0.02099052, 0, -0.9997797, 0, 1, 0, 0.9997797, 0, 0.02099052, 3.5727954, 0, -0.044655323)
 
-[node name="Model" parent="Door" instance=ExtResource("2_door")]
-scale = Vector3(10, 10, 10)
+[node name="Model" parent="Door" unique_id=479445347 instance=ExtResource("2_door")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Door"]
-position = Vector3(0, 3.6, -0.6)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door" unique_id=1569579732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, -0.6)
 shape = SubResource("Shape_door")

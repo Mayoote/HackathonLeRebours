@@ -5,10 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://ct8wq0mqkgclw" path="res://Scenes/LevelAssets/floors.tscn" id="4_jwv4s"]
 [ext_resource type="PackedScene" path="res://Scenes/Levels/Prairie.tscn" id="5_prairie"]
 [ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="6_levelcam"]
-[ext_resource type="PackedScene" path="res://Scenes/Traps/SpikeTrap.tscn" id="7_trap"]
+[ext_resource type="PackedScene" path="res://Scenes/KeyPiece.tscn" id="7_key"]
 [ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="8_goal"]
-[ext_resource type="Script" path="res://Scripts/admin.gd" id="9_admin"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="10_gm"]
+[ext_resource type="Script" path="res://Scripts/Traps/wind.gd" id="11_wind"]
+[ext_resource type="Script" path="res://Scripts/Traps/pigeons.gd" id="12_pigeons"]
+[ext_resource type="PackedScene" path="res://Scenes/Traps/HayBale.tscn" id="13_hay"]
+[ext_resource type="Script" path="res://Scripts/trapper.gd" id="14_trapper"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_prairie"]
 sky_top_color = Color(0.35, 0.6, 0.9, 1)
@@ -32,13 +35,13 @@ tonemap_mode = 2
 [node name="GameScene" type="Node3D" unique_id=1330841405]
 
 [node name="Player" parent="." unique_id=746545725 instance=ExtResource("1_2wl7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6, -1)
 SPEED = 12.735
 
 [node name="LevelCamera" type="Camera3D" parent="."]
 script = ExtResource("6_levelcam")
-target = Vector3(-9.72, 1, 0.57)
-view_size = 44.0
+target = Vector3(-11, 1, -3)
+view_size = 47.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1808765154]
 environment = SubResource("Environment_cmfm4")
@@ -63,69 +66,101 @@ visible = false
 [node name="Prairie" parent="." instance=ExtResource("5_prairie")]
 
 [node name="Goal" parent="." instance=ExtResource("8_goal")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.97, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.97, 13)
+
+[node name="Keys" type="Node3D" parent="."]
+
+[node name="KeyPiece1" parent="Keys" instance=ExtResource("7_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.97, 16)
+
+[node name="KeyPiece2" parent="Keys" instance=ExtResource("7_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.97, -14)
 
 [node name="Traps" type="Node3D" parent="."]
 
-[node name="SpikeTrap1" parent="Traps" instance=ExtResource("7_trap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, -6)
-trap_name = "Pics 1"
+[node name="Wind" type="Node3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, 0.6)
+script = ExtResource("11_wind")
 
-[node name="SpikeTrap2" parent="Traps" instance=ExtResource("7_trap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, 6)
-trap_name = "Pics 2"
+[node name="Pigeons" type="Node3D" parent="Traps"]
+script = ExtResource("12_pigeons")
 
-[node name="SpikeTrap3" parent="Traps" instance=ExtResource("7_trap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.97, 0)
-trap_name = "Pics 3"
+[node name="HayBale" parent="Traps" instance=ExtResource("13_hay")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, -6)
 
-[node name="SpikeTrap4" parent="Traps" instance=ExtResource("7_trap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.97, -7)
-trap_name = "Pics 4"
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("wind", "pigeons", "hay")]
+script = ExtResource("14_trapper")
+wind = NodePath("../Traps/Wind")
+pigeons = NodePath("../Traps/Pigeons")
+hay = NodePath("../Traps/HayBale")
 
-[node name="SpikeTrap5" parent="Traps" instance=ExtResource("7_trap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.97, 7)
-trap_name = "Pics 5"
-
-[node name="Admin" type="Node" parent="."]
-script = ExtResource("9_admin")
-
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "admin", "goal")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "goal", "trapper")]
 script = ExtResource("10_gm")
 player = NodePath("../Player")
-admin = NodePath("../Admin")
 goal = NodePath("../Goal")
+trapper = NodePath("../Trapper")
 
 [node name="HUD" type="CanvasLayer" parent="GameManager"]
 
-[node name="PlayerLabel" type="Label" parent="GameManager/HUD"]
+[node name="TimerLabel" type="Label" parent="GameManager/HUD"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 14.0
+offset_right = 200.0
+offset_bottom = 104.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 72
+text = "5:00"
+horizontal_alignment = 1
+
+[node name="KeysLabel" type="Label" parent="GameManager/HUD"]
 unique_name_in_owner = true
 offset_left = 30.0
 offset_top = 20.0
-offset_right = 800.0
+offset_right = 600.0
 offset_bottom = 80.0
-theme_override_colors/font_color = Color(0.6, 1, 0.65, 1)
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 44
-text = "JOUEUR — Vies : 3"
+theme_override_font_sizes/font_size = 48
+text = "Clés : 0/2"
 
-[node name="AdminLabel" type="Label" parent="GameManager/HUD"]
+[node name="TrapperLabel" type="Label" parent="GameManager/HUD"]
 unique_name_in_owner = true
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1100.0
+offset_left = -700.0
 offset_top = 20.0
 offset_right = -30.0
-offset_bottom = 80.0
+offset_bottom = 200.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(1, 0.75, 0.45, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 44
-text = "ADMIN"
+theme_override_font_sizes/font_size = 40
+text = "PIÉGEUR"
 horizontal_alignment = 2
+
+[node name="Message" type="Label" parent="GameManager/HUD"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -700.0
+offset_top = 130.0
+offset_right = 700.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 52
+horizontal_alignment = 1
 
 [node name="EndScreen" type="ColorRect" parent="GameManager/HUD"]
 unique_name_in_owner = true
@@ -143,9 +178,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -700.0
+offset_left = -800.0
 offset_top = -150.0
-offset_right = 700.0
+offset_right = 800.0
 offset_bottom = 150.0
 alignment = 1
 theme_override_constants/separation = 40
@@ -154,7 +189,7 @@ theme_override_constants/separation = 40
 unique_name_in_owner = true
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 16
-theme_override_font_sizes/font_size = 120
+theme_override_font_sizes/font_size = 100
 text = "Fin"
 horizontal_alignment = 1
 

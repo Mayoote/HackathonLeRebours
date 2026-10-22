@@ -149,10 +149,11 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/line_spacing = 12
 text = "JOUEUR : ZQSD pour bouger, Espace pour sauter (ou manette n°2)
-Atteindre la sortie verte sans perdre ses 3 vies.
+Trouve les morceaux de clé grâce au bip, puis rejoins la porte.
 
-ADMIN : manette n°1, croix gauche/droite pour choisir un piège, A pour le déclencher
-(au clavier : flèches gauche/droite et Entrée)"
+PIÉGEUR : vent = K / L (encodeur, LB / RB)
+fientes de pigeons = Entrée (bouton, A)
+meule de foin = flèches (joystick)"
 
 [node name="BackButton" type="Button" parent="CommandsPanel/Panel/VBox"]
 unique_name_in_owner = true
