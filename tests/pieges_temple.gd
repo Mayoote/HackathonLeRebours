@@ -16,16 +16,15 @@ func _init() -> void:
 	player = current_scene.get_node("Player")
 	traps = current_scene.get_node("Traps")
 	player.respawned.connect(func(): deaths += 1)
-	for n in traps.get_children():
-		if n.get_script() and n.get_script().resource_path.ends_with("spike_floor.gd"):
-			n.set_physics_process(false)
+	var pics := traps.get_node("Pics")
 
 	await test("lance-flammes RDC", Vector3(-18, 5, 13), func(): traps.get_node("LanceFlammes").trigger(), 2.5, "flammes")
 	await test("lance-flammes étage 2", Vector3(-2, 21, -14), func(): traps.get_node("LanceFlammes").trigger(), 2.5)
 	await test("stalactite", Vector3(-15, 5, 13), func(): traps.get_node("Stalactites").trigger(), 2.0)
-	var pics: Node = traps.get_node("PicsRDC1")
-	await test("pics en rythme", Vector3(-24, 5, 14.5), func(): pics.set_physics_process(true), 3.5)
-	pics.set_physics_process(false)
+	# touche 2 du piégeur : la bande de pics la plus proche du joueur
+	await test("pics RDC (2)", Vector3(-24, 5, 14.5), func(): pics.trigger(), 2.0)
+	await test("pics étage 1 (2)", Vector3(-12, 13, 6.5), func(): pics.trigger(), 2.0)
+	await test("pics étage 2 (2)", Vector3(-9, 21, -11.5), func(): pics.trigger(), 2.0)
 	quit()
 
 
@@ -38,6 +37,8 @@ func test(nom: String, pos: Vector3, action: Callable, delai: float, shot := "")
 	for n in traps.get_children():
 		if "cooldown_left" in n:
 			n.cooldown_left = 0.0
+	for n in traps.get_node("Pics").get_children():
+		n.cooldown_left = 0.0
 	var before := deaths
 	action.call()
 	var t := 0.0

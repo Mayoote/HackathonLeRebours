@@ -1,10 +1,13 @@
-# Pics qui sortent du sol à intervalle régulier, tout seuls (pas besoin du piégeur).
-# Juste avant, ils pointent le bout du nez avec un cliquetis : on passe entre deux sorties.
-# Plusieurs bandes avec des phases décalées font une vague.
+# Pics qui sortent du sol. Deux modes :
+#  - automatic : à intervalle régulier, tout seuls ; plusieurs bandes avec des phases décalées font une vague
+#  - sinon : quand le piégeur appelle trigger(), puis temps de recharge
+# Juste avant, ils pointent le bout du nez avec un cliquetis : on a le temps de s'écarter.
 
 extends Node3D
 
 @export var size := Vector2(4, 9)
+@export var automatic := true
+@export var cooldown := 3.0  # mode manuel
 @export var period := 3.0
 @export var up_time := 1.1
 @export var warning_time := 0.5
@@ -19,6 +22,7 @@ var spikes: Node3D
 var plate_mat: StandardMaterial3D
 var state := 0  # 0 rentrés, 1 alerte, 2 sortis
 var time := 0.0
+var cooldown_left := 0.0
 
 
 func _ready() -> void:
@@ -78,24 +82,47 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	time += delta
-	var t := fmod(time + phase * period, period)
-	var new_state := 1 if t < warning_time else (2 if t < warning_time + up_time else 0)
-	if new_state != state:
-		state = new_state
-		match state:
-			1:
-				create_tween().tween_property(spikes, "position:y", PEEK, 0.1)
-				plate_mat.emission_energy_multiplier = 0.8
-				sound("mecanisme", -8.0)
-			2:
-				create_tween().tween_property(spikes, "position:y", 0.0, 0.06)
-				plate_mat.emission_energy_multiplier = 0.0
-				sound("pics_sortent", 0.0)
-			0:
-				create_tween().tween_property(spikes, "position:y", HIDDEN, 0.3)
-				sound("pics_rentrent", -8.0)
+	cooldown_left = maxf(cooldown_left - delta, 0.0)
+	if automatic:
+		var t := fmod(time + phase * period, period)
+		set_state(1 if t < warning_time else (2 if t < warning_time + up_time else 0))
 	if state == 2:
 		hit()
+
+
+func is_ready() -> bool:
+	return state == 0 and cooldown_left <= 0.0
+
+
+# mode manuel : alerte, sortie, puis on rentre et on recharge
+func trigger() -> void:
+	if not is_ready():
+		Sfx.play("refus", -6.0)
+		return
+	set_state(1)
+	await get_tree().create_timer(warning_time, false, true).timeout
+	set_state(2)
+	await get_tree().create_timer(up_time, false, true).timeout
+	set_state(0)
+	cooldown_left = cooldown
+
+
+func set_state(new_state: int) -> void:
+	if new_state == state:
+		return
+	state = new_state
+	match state:
+		1:
+			create_tween().tween_property(spikes, "position:y", PEEK, 0.1)
+			plate_mat.emission_energy_multiplier = 0.8
+			sound("mecanisme", -8.0)
+		2:
+			create_tween().tween_property(spikes, "position:y", 0.0, 0.06)
+			plate_mat.emission_energy_multiplier = 0.0
+			sound("pics_sortent", 0.0)
+		0:
+			create_tween().tween_property(spikes, "position:y", HIDDEN, 0.3)
+			sound("pics_rentrent", -8.0)
 
 
 func sound(nom: String, volume: float) -> void:
