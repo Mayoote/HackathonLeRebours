@@ -2,6 +2,12 @@
 
 extends Node
 
+# compteurs de toute la partie : statiques car la scène est rechargée à chaque niveau
+static var traps_fired := 0
+static var player_falls := 0
+static var last_level := -1
+static var run_over := false
+
 @export var player: CharacterBody3D
 @export var goal: Area3D
 @export var trapper: Node
@@ -30,7 +36,12 @@ func _ready() -> void:
 	var index := Partie.LEVELS.find(owner.scene_file_path if owner else "")
 	if index >= 0:
 		Partie.level = index  # F6 sur un niveau : la suite est bien le niveau d'après
+	start_stats(index)
 	Partie.time_up.connect(_on_time_up)
+	if trapper and trapper.has_signal("trap_fired"):
+		trapper.trap_fired.connect(_on_trap_fired)
+	if player.has_signal("respawned"):
+		player.respawned.connect(_on_player_respawned)
 	goal.player_reached.connect(_on_goal_reached)
 	if gate:
 		gate.trapped.connect(_on_gate_trapped)
@@ -41,6 +52,25 @@ func _ready() -> void:
 		goal.unlock()
 		keys_label.visible = false
 	update_keys()
+
+
+# nouvelle partie (niveau 1, rejeu, menu des niveaux vers un niveau déjà passé) : compteurs à zéro
+func start_stats(index: int) -> void:
+	if run_over or last_level < 0 or index <= last_level:
+		traps_fired = 0
+		player_falls = 0
+		run_over = false
+	last_level = index
+
+
+func _on_trap_fired() -> void:
+	if not finished:
+		traps_fired += 1
+
+
+func _on_player_respawned() -> void:
+	if not finished:
+		player_falls += 1
 
 
 func _process(delta: float) -> void:
@@ -140,7 +170,22 @@ func end_game(text: String, color: Color) -> void:
 	Partie.running = false
 	end_title.text = text
 	end_title.add_theme_color_override("font_color", color)
+	show_summary()
+	run_over = true
 	end_screen.visible = true
+
+
+# résumé de la partie sous le titre de fin
+func show_summary() -> void:
+	var summary := Label.new()
+	summary.text = "Le piégeur a déclenché %d piège%s  ·  Le joueur est tombé %d fois  ·  Niveau atteint : %d/%d" % [
+		traps_fired, "s" if traps_fired > 1 else "", player_falls, Partie.level + 1, Partie.LEVELS.size()]
+	summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	summary.add_theme_font_size_override("font_size", 40)
+	summary.add_theme_color_override("font_color", Color(1, 0.85, 0.6))
+	summary.add_theme_color_override("font_outline_color", Color.BLACK)
+	summary.add_theme_constant_override("outline_size", 10)
+	end_title.add_sibling(summary)
 
 
 func _unhandled_input(event: InputEvent) -> void:
