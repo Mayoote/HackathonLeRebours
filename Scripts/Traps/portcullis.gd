@@ -8,8 +8,8 @@ signal trapped  # fermée avec le joueur encore du mauvais côté
 
 @export var width := 10.0
 @export var open_height := 9.5
-@export var ticks_to_close := 600       # crans d'encodeur pour la fermer complètement
-@export var key_close_time := 25.0      # secondes de K/L maintenu pour la fermer
+@export var ticks_to_close := 1800      # crans d'encodeur pour la fermer complètement
+@export var key_close_time := 75.0      # secondes de K/L maintenu pour la fermer
 @export var lift_back := 0.01           # remontée par seconde quand personne ne mouline
 @export var lift_delay := 0.6
 
