@@ -42,7 +42,7 @@ Les règles de contribution et les suggestions de répartition du travail sont d
 
 ## Les manettes : ce que le script série sait faire
 Autoload `ArduinoManager` (`Scripts/arduino_manager.gd`). Signaux : `arduino_connected`, `arduino_disconnected`, `pairing_success(port)`, `pairing_failed`, `button_changed(bool)`, `sensor_changed(int 0..1023)`, `encoder_changed(position, delta)`, `message_received(cle, valeur)` pour toute trame `cle:valeur` (un nouveau capteur : l'Arduino écrit `moncapteur:123`, Godot écoute `message_received`). Commandes : `send_led(bool)`, `send_blink(n)`, `send_ping()`.
-* Forcer un port : variable d'environnement `ARDUINO_PORT=COM7` (Windows) ou `ARDUINO_PORT=/dev/ttyACM0` (Linux), définie dans le terminal qui lance Godot.
+* Forcer un port : variable d'environnement `ARDUINO_PORT=COM7` (Windows) ou `ARDUINO_PORT=/dev/ttyACM0` (Linux), définie dans le terminal qui lance Godot. ce port change sur chaque ordinateur donc il faut le modifier via le script manette.gd
 * Détail de l'appairage : `ARDUINO_DEBUG=1`.
 * Protocole complet (115200 bauds, `DISCOVER` puis `GDSERIAL_ACK`, trames) : `docs/PROTOCOLE-ARDUINO-GODOT.md`.
 * Fermer le moniteur série de l'IDE Arduino et débrancher les téléphones en USB (ils apparaissent comme des ports série).
