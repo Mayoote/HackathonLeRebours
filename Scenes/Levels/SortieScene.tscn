@@ -1,0 +1,138 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="2_cam"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/Sortie.tscn" id="3_sortie"]
+[ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="4_goal"]
+[ext_resource type="PackedScene" path="res://Scenes/LevelRules.tscn" id="5_rules"]
+[ext_resource type="Script" path="res://Scripts/Traps/stalactites.gd" id="6_stal"]
+[ext_resource type="Script" path="res://Scripts/Traps/trapdoor.gd" id="7_trapdoor"]
+[ext_resource type="Script" path="res://Scripts/Traps/spike_floor.gd" id="8_spikes"]
+[ext_resource type="Script" path="res://Scripts/Traps/rolling_boulder.gd" id="9_boulder"]
+[ext_resource type="Script" path="res://Scripts/Traps/portcullis.gd" id="10_gate"]
+[ext_resource type="Script" path="res://Scripts/trapper.gd" id="11_trapper"]
+[ext_resource type="Script" path="res://Scripts/Traps/nearest_trap.gd" id="12_nearest"]
+
+[sub_resource type="Environment" id="Env_sortie"]
+background_mode = 1
+background_color = Color(0.02, 0.02, 0.025, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.5, 0.58, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.1
+
+[node name="SortieScene" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 6, 0)
+SPEED = 9.5
+
+[node name="LevelCamera" type="Camera3D" parent="."]
+script = ExtResource("2_cam")
+target = Vector3(11, 4, 0)
+yaw_degrees = 22.0
+pitch_degrees = 34.0
+view_size = 30.0
+follow_x = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_sortie")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8660254, -0.25, 0.4330127, 0, 0.8660254, 0.5, -0.5, -0.4330127, 0.75, 0, 40, 0)
+light_color = Color(0.75, 0.78, 0.95, 1)
+light_energy = 0.4
+shadow_enabled = true
+
+[node name="Sortie" parent="." instance=ExtResource("3_sortie")]
+
+[node name="Goal" parent="." instance=ExtResource("4_goal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220, 0.97, 0)
+
+[node name="Traps" type="Node3D" parent="."]
+
+[node name="Stalactites" type="Node3D" parent="Traps"]
+script = ExtResource("6_stal")
+spots = PackedVector2Array(28, 0, 55, -2, 84, 2, 100, 0, 114, -2, 130, 1, 152, 0, 180, -2, 192, 2, 205, 0)
+ceiling_y = 13.0
+
+[node name="Trappes" type="Node3D" parent="Traps"]
+script = ExtResource("12_nearest")
+
+[node name="Trapdoor1" type="Node3D" parent="Traps/Trappes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.97, 0)
+script = ExtResource("7_trapdoor")
+size = Vector2(5, 10)
+
+[node name="Trapdoor2" type="Node3D" parent="Traps/Trappes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92, 0.97, 0)
+script = ExtResource("7_trapdoor")
+size = Vector2(5, 10)
+
+[node name="Trapdoor3" type="Node3D" parent="Traps/Trappes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158, 0.97, 0)
+script = ExtResource("7_trapdoor")
+size = Vector2(5, 10)
+
+[node name="Pics" type="Node3D" parent="Traps"]
+script = ExtResource("12_nearest")
+
+[node name="Pics1" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Pics2" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Pics3" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Pics4" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Pics5" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 186, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Pics6" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198, 0.97, 0)
+script = ExtResource("8_spikes")
+automatic = false
+size = Vector2(4, 10)
+
+[node name="Boule" type="Node3D" parent="Traps"]
+script = ExtResource("9_boulder")
+
+[node name="Grille" type="Node3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 212, 0.97, 0)
+script = ExtResource("10_gate")
+
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps", "crank")]
+script = ExtResource("11_trapper")
+button_trap = NodePath("../Traps/Stalactites")
+button_trap_name = "Stalactites"
+numbered_traps = [NodePath("../Traps/Trappes"), NodePath("../Traps/Pics")]
+numbered_names = Array[String](["Trappes", "Pics"])
+crank = NodePath("../Traps/Grille")
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper", "gate") instance=ExtResource("5_rules")]
+player = NodePath("../Player")
+goal = NodePath("../Goal")
+trapper = NodePath("../Trapper")
+gate = NodePath("../Traps/Grille")

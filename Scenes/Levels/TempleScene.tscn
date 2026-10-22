@@ -1,0 +1,131 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://2d8wff4kfmc7" path="res://Scenes/Player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://de3ke8u7qk5wf" path="res://Scripts/level_camera.gd" id="2_cam"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/Temple.tscn" id="3_temple"]
+[ext_resource type="PackedScene" path="res://Scenes/KeyPiece.tscn" id="4_key"]
+[ext_resource type="PackedScene" path="res://Scenes/Goal.tscn" id="5_goal"]
+[ext_resource type="PackedScene" path="res://Scenes/LevelRules.tscn" id="6_rules"]
+[ext_resource type="Script" path="res://Scripts/Traps/stalactites.gd" id="7_stal"]
+[ext_resource type="Script" path="res://Scripts/Traps/flamethrower.gd" id="8_flames"]
+[ext_resource type="Script" path="res://Scripts/Traps/spike_floor.gd" id="9_spikes"]
+[ext_resource type="Script" path="res://Scripts/elevator.gd" id="12_elevator"]
+[ext_resource type="Script" path="res://Scripts/treasure_room.gd" id="13_treasure"]
+[ext_resource type="Script" path="res://Scripts/trapper.gd" id="14_trapper"]
+[ext_resource type="Script" path="res://Scripts/Traps/nearest_trap.gd" id="15_nearest"]
+
+[sub_resource type="Environment" id="Env_temple"]
+background_mode = 1
+background_color = Color(0.03, 0.04, 0.03, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.55, 0.45, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.1
+
+[node name="TempleScene" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 6, 14.5)
+SPEED = 9.5
+
+[node name="LevelCamera" type="Camera3D" parent="."]
+script = ExtResource("2_cam")
+target = Vector3(-10, 1, 0)
+view_size = 48.0
+follow_height = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_temple")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.7071068, -0.7071068, -0.5, 0.5, 0, 40, 0)
+light_color = Color(1, 0.9, 0.75, 1)
+light_energy = 0.6
+shadow_enabled = true
+
+[node name="Temple" parent="." instance=ExtResource("3_temple")]
+
+[node name="TreasureRoom" type="Node3D" parent="."]
+script = ExtResource("13_treasure")
+
+[node name="Goal" parent="." instance=ExtResource("5_goal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 16.97, -12)
+
+[node name="Keys" type="Node3D" parent="."]
+
+[node name="KeyPiece1" parent="Keys" instance=ExtResource("4_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.97, 16.5)
+
+[node name="KeyPiece2" parent="Keys" instance=ExtResource("4_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 8.97, -2)
+
+[node name="KeyPiece3" parent="Keys" instance=ExtResource("4_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 20.97, -13)
+
+[node name="Traps" type="Node3D" parent="."]
+
+[node name="Stalactites" type="Node3D" parent="Traps"]
+script = ExtResource("7_stal")
+spots = PackedVector2Array(-35, 13, -27, 16.5, -15, 13, -3, 16.5, 9, 13.5, -37, -1, -28, 6.5, -19, -2, -8, -1.5, -3, 6.5, 7, 6.5, -24, -11, -15, -14, -2, -10, 10, -12, 17, -1)
+ceilings = PackedFloat32Array(15, 15, 15, 15, 15, 23, 23, 23, 23, 23, 23, 31, 31, 31, 31, 31)
+upper_height = 100.0
+
+[node name="LanceFlammes" type="Node3D" parent="Traps"]
+script = ExtResource("8_flames")
+spots = PackedVector3Array(-30, 0.97, 10, -18, 0.97, 10, -6, 0.97, 10, 6, 0.97, 10, -30, 8.97, -5, -17, 8.97, -5, -6, 8.97, -5, -20, 16.97, -18, -2, 16.97, -18, 8, 16.97, -18)
+decoys = PackedVector3Array(-33, 0.97, 10, -21, 0.97, 10, -15, 0.97, 10, -2.5, 0.97, 10, 3, 0.97, 10, -33, 8.97, -5, -26.5, 8.97, -5, -20.5, 8.97, -5, -14.5, 8.97, -5, -2.5, 8.97, -5, 5, 8.97, -5, -23.5, 16.97, -18, -16, 16.97, -18, -7, 16.97, -18, 0.5, 16.97, -18, 10.5, 16.97, -18, 16, 16.97, -18)
+
+[node name="Pics" type="Node3D" parent="Traps"]
+script = ExtResource("15_nearest")
+
+[node name="PicsRDC1" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, 14.5)
+script = ExtResource("9_spikes")
+automatic = false
+
+[node name="PicsRDC2" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.97, 14.5)
+script = ExtResource("9_spikes")
+automatic = false
+
+[node name="PicsRDC3" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97, 14.5)
+script = ExtResource("9_spikes")
+automatic = false
+
+[node name="PicsEtage1" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 8.97, -1.4)
+script = ExtResource("9_spikes")
+automatic = false
+size = Vector2(4, 7.2)
+
+[node name="PicsEtage2" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 16.97, -11.5)
+script = ExtResource("9_spikes")
+automatic = false
+size = Vector2(4, 13)
+
+[node name="PicsEtage1Sud" type="Node3D" parent="Traps/Pics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 8.97, 6.55)
+script = ExtResource("9_spikes")
+automatic = false
+size = Vector2(5, 5)
+
+[node name="Ascenseur" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 0.97, 6.5)
+script = ExtResource("12_elevator")
+
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "numbered_traps")]
+script = ExtResource("14_trapper")
+button_trap = NodePath("../Traps/Stalactites")
+button_trap_name = "Stalactites"
+numbered_traps = [NodePath("../Traps/LanceFlammes"), NodePath("../Traps/Pics")]
+numbered_names = Array[String](["Lance-flammes", "Pics"])
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("6_rules")]
+player = NodePath("../Player")
+goal = NodePath("../Goal")
+trapper = NodePath("../Trapper")

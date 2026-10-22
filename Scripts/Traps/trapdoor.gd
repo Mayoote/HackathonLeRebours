@@ -60,6 +60,10 @@ func _process(delta: float) -> void:
 	cooldown_left = maxf(cooldown_left - delta, 0.0)
 
 
+func is_ready() -> bool:
+	return not busy and cooldown_left <= 0.0
+
+
 func trigger() -> void:
 	if busy or cooldown_left > 0.0:
 		Sfx.play("refus", -6.0)

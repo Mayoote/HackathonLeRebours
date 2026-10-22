@@ -5,6 +5,7 @@ extends Node
 @export var player: CharacterBody3D
 @export var goal: Area3D
 @export var trapper: Node
+@export var gate: Node  # grille du run final : fermée avant le passage du joueur = le piégeur gagne
 
 @onready var timer_label: Label = %TimerLabel
 @onready var keys_label: Label = %KeysLabel
@@ -21,17 +22,24 @@ var locked_msg_cooldown := 0.0
 
 
 func _ready() -> void:
+	add_to_group("level_rules")
 	end_screen.visible = false
 	message.modulate.a = 0.0
 	if not Partie.running and Partie.time_left > 0.0:
 		Partie.running = true  # lancé directement depuis l'éditeur (F6)
+	var index := Partie.LEVELS.find(owner.scene_file_path if owner else "")
+	if index >= 0:
+		Partie.level = index  # F6 sur un niveau : la suite est bien le niveau d'après
 	Partie.time_up.connect(_on_time_up)
 	goal.player_reached.connect(_on_goal_reached)
+	if gate:
+		gate.trapped.connect(_on_gate_trapped)
 	for key in get_tree().get_nodes_in_group("keys"):
 		key.collected.connect(_on_key_collected)
 		keys_total += 1
 	if keys_total == 0:
 		goal.unlock()
+		keys_label.visible = false
 	update_keys()
 
 
@@ -107,6 +115,16 @@ func _on_time_up() -> void:
 		trapper.enabled = false
 	Sfx.play("temps_ecoule")
 	end_game("Temps écoulé : le piégeur gagne !", Color(1, 0.45, 0.35))
+
+
+func _on_gate_trapped() -> void:
+	if finished:
+		return
+	player.set_physics_process(false)
+	if trapper:
+		trapper.enabled = false
+	Sfx.play("temps_ecoule")
+	end_game("La grille est fermée : le piégeur gagne !", Color(1, 0.45, 0.35))
 
 
 func show_message(text: String) -> void:
