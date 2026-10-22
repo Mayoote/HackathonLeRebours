@@ -5,6 +5,9 @@ extends Node3D
 
 @export var spots := PackedVector2Array()
 @export var ceiling_y := 11.0
+@export var ceilings := PackedFloat32Array()  # hauteur du plafond par stalactite (sinon ceiling_y)
+@export var anchors := true                  # bloc de roche au-dessus : elle ne flotte pas
+@export var upper_height := 10.0   # au-dessus : stalactites de l'étage (cachées quand le joueur est en bas)
 @export var reach := 12.0          # distance max au joueur pour pouvoir tomber
 @export var warning_time := 0.8
 @export var hit_radius := 2.3
@@ -14,6 +17,9 @@ extends Node3D
 var cooldown_left := 0.0
 var stalactites: Array[Node3D] = []
 var ready_flags: Array[bool] = []
+var grounds: Array[float] = []  # hauteur du sol sous chaque stalactite
+var parts := []  # par stalactite : les nœuds à cacher avec l'étage
+var upper_shown := false
 var rock: StandardMaterial3D
 var ring_mat: StandardMaterial3D
 
@@ -34,19 +40,30 @@ func _ready() -> void:
 	ring_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	ring_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	ring_mat.albedo_texture = tex
-	for s in spots:
+	for i in spots.size():
+		var s := spots[i]
+		var y: float = ceilings[i] if i < ceilings.size() else ceiling_y
 		var st := make_stalactite()
-		st.position = Vector3(s.x, ceiling_y, s.y)
+		parts.append([st])
+		st.position = Vector3(s.x, y, s.y)
 		add_child(st)
 		stalactites.append(st)
 		ready_flags.append(true)
 	# une flaque sous chaque stalactite montre la zone dangereuse
 	await get_tree().physics_frame
 	for st in stalactites:
-		puddle(Vector3(st.global_position.x, ground_below(st.global_position), st.global_position.z))
+		var g := ground_below(st.global_position)
+		grounds.append(g)
+		parts[grounds.size() - 1].append(puddle(Vector3(st.global_position.x, g, st.global_position.z)))
+		# sous un plafond : quelques roches qui la relient au plafond
+		if anchors:
+			var i := grounds.size() - 1
+			if covered(st.global_position):
+				parts[i].append_array(anchor(st.global_position))
+	set_upper_visible(upper_shown)
 
 
-func puddle(pos: Vector3) -> void:
+func puddle(pos: Vector3) -> Node3D:
 	var grad := Gradient.new()
 	grad.colors = PackedColorArray([Color(0.05, 0.07, 0.1, 0.75), Color(0.05, 0.07, 0.1, 0.5), Color(0.05, 0.07, 0.1, 0)])
 	grad.offsets = PackedFloat32Array([0.0, 0.6, 1.0])
@@ -68,6 +85,43 @@ func puddle(pos: Vector3) -> void:
 	m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(m)
 	m.global_position = pos + Vector3.UP * 0.04
+	return m
+
+
+func anchor(pos: Vector3) -> Array:
+	var nodes := []
+	var dark := StandardMaterial3D.new()
+	dark.albedo_color = Color(0.3, 0.27, 0.25)
+	dark.roughness = 1.0
+	for k in 3:
+		var m := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = randf_range(0.9, 1.3)
+		s.height = s.radius * 1.2
+		s.radial_segments = 7
+		s.rings = 4
+		s.material = dark
+		m.mesh = s
+		add_child(m)
+		m.position = pos + Vector3(randf_range(-0.6, 0.6), 0.5 + k * 0.4, randf_range(-0.6, 0.6))
+		nodes.append(m)
+	return nodes
+
+
+func ray(from: Vector3, to: Vector3) -> Dictionary:
+	var q := PhysicsRayQueryParameters3D.create(from, to)
+	var ignore: Array[RID] = []
+	var space := get_world_3d().direct_space_state
+	var hit := space.intersect_ray(q)
+	while hit and hit.collider is CharacterBody3D:
+		ignore.append(hit.rid)
+		q.exclude = ignore
+		hit = space.intersect_ray(q)
+	return hit
+
+
+func covered(pos: Vector3) -> bool:
+	return not ray(pos, pos + Vector3.UP * 3.0).is_empty()
 
 
 func make_stalactite() -> Node3D:
@@ -98,7 +152,9 @@ func trigger() -> void:
 	var best_d := reach
 	for i in stalactites.size():
 		var d := Vector2(stalactites[i].global_position.x - player.global_position.x, stalactites[i].global_position.z - player.global_position.z).length()
-		if ready_flags[i] and d < best_d:
+		# seulement celles du même étage que le joueur
+		var same_floor := i < grounds.size() and absf(grounds[i] - (player.global_position.y - 3.75)) < 4.0
+		if ready_flags[i] and same_floor and d < best_d:
 			best = i
 			best_d = d
 	if best < 0:
@@ -164,3 +220,12 @@ func fall(i: int) -> void:
 	st.visible = true
 	await create_tween().tween_property(st, "scale", Vector3.ONE, 0.6).finished
 	ready_flags[i] = true
+
+
+# appelé par floor_visibility.gd : les stalactites de l'étage disparaissent avec lui
+func set_upper_visible(up: bool) -> void:
+	upper_shown = up
+	for i in grounds.size():
+		if grounds[i] > upper_height:
+			for n in parts[i]:
+				n.visible = up

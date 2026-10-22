@@ -59,6 +59,8 @@ func _init() -> void:
 	save("grille_fermee", mix([sweep(160, 50, 0.5, 1.0, "square"), noise_burst(0.3, 0.7, 3000, 200)]))
 
 	# eau
+	save("pas_eau", mix([noise_burst(0.12, 0.4, 2200, 500), sweep(700, 300, 0.1, 0.15, "sine")]))
+	save("eclaboussure", mix([noise_burst(0.35, 0.55, 3000, 400), sweep(600, 180, 0.2, 0.3, "sine")]))
 	save("plouf", mix([sweep(500, 140, 0.25, 0.5, "sine"), noise_burst(0.45, 0.6, 2500, 300)]))
 	quit()
 

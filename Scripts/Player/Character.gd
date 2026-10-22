@@ -10,6 +10,7 @@ extends CharacterBody3D
 @export var run_speed := 6.0
 @export var fall_limit_y := -20.0
 @export var slow_factor := 0.45
+@export var water_factor := 0.6
 
 signal respawned
 
@@ -23,6 +24,7 @@ var push := Vector3.ZERO  # poussée extérieure (vent), remise à zéro chaque 
 var slow_left := 0.0
 var invincible := 0.0
 var step_timer := 0.0
+var in_water := 0  # nombre de zones d'eau peu profonde où se trouve le joueur
 var was_on_floor := true
 
 
@@ -47,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	var cam := get_viewport().get_camera_3d()
 	var yaw := cam.global_rotation.y if cam else 0.0
 	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, yaw)
-	var speed_now: float = SPEED * (slow_factor if slow_left > 0.0 else 1.0)
+	var speed_now: float = SPEED * (slow_factor if slow_left > 0.0 else 1.0) * (water_factor if in_water > 0 else 1.0)
 	slow_left -= delta
 	sprite.modulate = Color(0.8, 0.78, 0.6) if slow_left > 0.0 else Color.WHITE
 	var target := direction * speed_now + push
@@ -76,7 +78,10 @@ func _physics_process(delta: float) -> void:
 	step_timer -= delta
 	if is_on_floor() and direction.length() > 0.1 and step_timer <= 0.0:
 		step_timer = 0.28 if speed > run_speed else 0.4
-		Sfx.play("pas_herbe_%d" % randi_range(1, 2), -16.0, randf_range(0.9, 1.1))
+		if in_water > 0:
+			Sfx.play("pas_eau", -10.0, randf_range(0.85, 1.15))
+		else:
+			Sfx.play("pas_herbe_%d" % randi_range(1, 2), -16.0, randf_range(0.9, 1.1))
 
 	update_shadow()
 

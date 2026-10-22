@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 		return
 	# il faut avoir les pieds au niveau de la clé : une clé en hauteur ne se prend pas d'en bas
 	var feet: float = player.global_position.y - 3.75
-	if overlaps_body(player) and absf(feet - global_position.y) < 1.2:
+	if overlaps_body(player) and absf(feet - global_position.y) < 0.8:
 		taken = true
 		collected.emit()
 		queue_free()
