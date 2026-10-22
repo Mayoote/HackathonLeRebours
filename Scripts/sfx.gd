@@ -1,6 +1,12 @@
 # Autoload "Sfx" : Sfx.play("saut") joue Sons/saut.wav
+# Les volumes généraux se règlent dans l'onglet Audio (default_bus_layout.tres) :
+# bus "Effets" pour les bruitages, "Cles" pour le bip qui guide vers les clés, "Musique".
 
 extends Node
+
+const BUS := "Effets"
+const BUS_CLES := "Cles"
+const SONS_CLES := ["cle_bip"]
 
 var players: Array[AudioStreamPlayer] = []
 var cache := {}
@@ -26,5 +32,6 @@ func play(nom: String, volume_db := 0.0, pitch := 1.0) -> void:
 			p.stream = stream(nom)
 			p.volume_db = volume_db
 			p.pitch_scale = pitch
+			p.bus = BUS_CLES if nom in SONS_CLES else BUS
 			p.play()
 			return

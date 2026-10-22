@@ -16,6 +16,7 @@ var was_blocked := false
 func _ready() -> void:
 	sound = AudioStreamPlayer.new()
 	sound.stream = Sfx.stream("meule_glisse")
+	sound.bus = Sfx.BUS
 	sound.volume_db = -40
 	add_child(sound)
 	sound.play()

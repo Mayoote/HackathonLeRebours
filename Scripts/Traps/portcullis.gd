@@ -77,6 +77,7 @@ func _ready() -> void:
 
 	grind = AudioStreamPlayer.new()
 	grind.stream = Sfx.stream("grille_descend")
+	grind.bus = Sfx.BUS
 	grind.volume_db = -8.0
 	grind.finished.connect(func(): if idle < 0.2 and not closed: grind.play())
 	add_child(grind)

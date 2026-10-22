@@ -20,6 +20,7 @@ func _ready() -> void:
 	start = global_position
 	roll_sound = AudioStreamPlayer.new()
 	roll_sound.stream = Sfx.stream("rocher_roule")
+	roll_sound.bus = Sfx.BUS
 	roll_sound.volume_db = -40
 	add_child(roll_sound)
 	roll_sound.play()

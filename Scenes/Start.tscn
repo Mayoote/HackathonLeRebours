@@ -189,6 +189,7 @@ color = Color(0, 0, 0, 0)
 unique_name_in_owner = true
 stream = ExtResource("2_music")
 autoplay = true
+bus = &"Musique"
 
 [connection signal="pressed" from="MainMenu/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenu/CommandsButton" to="." method="_on_commands_button_pressed"]

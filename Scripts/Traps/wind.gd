@@ -35,6 +35,7 @@ func _ready() -> void:
 
 	sound = AudioStreamPlayer.new()
 	sound.stream = Sfx.stream("vent")
+	sound.bus = Sfx.BUS
 	sound.volume_db = -40
 	add_child(sound)
 	sound.play()

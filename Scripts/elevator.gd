@@ -76,6 +76,7 @@ func _ready() -> void:
 
 	hum = AudioStreamPlayer.new()
 	hum.stream = Sfx.stream("ascenseur")
+	hum.bus = Sfx.BUS
 	hum.volume_db = -8.0
 	hum.finished.connect(func(): if moving: hum.play())
 	add_child(hum)

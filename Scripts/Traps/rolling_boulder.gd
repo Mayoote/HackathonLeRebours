@@ -55,6 +55,7 @@ func _ready() -> void:
 		ball.add_child(band)
 	roll = AudioStreamPlayer.new()
 	roll.stream = Sfx.stream("rocher_roule")
+	roll.bus = Sfx.BUS
 	roll.volume_db = -40.0
 	roll.finished.connect(func(): if active: roll.play())
 	add_child(roll)

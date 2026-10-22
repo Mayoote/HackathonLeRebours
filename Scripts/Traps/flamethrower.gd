@@ -34,6 +34,7 @@ func _ready() -> void:
 	stem_mat.albedo_color = Color(0.22, 0.3, 0.12)
 	roar = AudioStreamPlayer.new()
 	roar.stream = Sfx.stream("lance_flammes")
+	roar.bus = Sfx.BUS
 	roar.volume_db = -3.0
 	roar.finished.connect(func(): if roaring > 0: roar.play())
 	add_child(roar)
