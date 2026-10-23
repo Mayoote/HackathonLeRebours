@@ -9,6 +9,8 @@
 
 extends Node
 
+signal trap_fired  # un piège est vraiment parti (pas un refus), compté par GameManager
+
 @export var wind: Node3D
 @export var button_trap: Node
 @export var button_trap_name := "Pigeons"
@@ -64,10 +66,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not enabled:
 		return
 	if button_trap and event.is_action_pressed("admin_trigger"):
-		button_trap.trigger()
+		fire(button_trap)
 	for i in numbered_traps.size():
 		if event.is_action_pressed("trap_%d" % (i + 1)):
-			numbered_traps[i].trigger()
+			fire(numbered_traps[i])
 
 
 func _on_encoder_changed(delta: int) -> void:
@@ -79,12 +81,12 @@ func _on_encoder_changed(delta: int) -> void:
 
 func _on_piezo(_force: float) -> void:
 	if enabled and button_trap:
-		button_trap.trigger()
+		fire(button_trap)
 
 
 func _on_encoder_button() -> void:
 	if enabled and encoder_button_trap:
-		encoder_button_trap.trigger()
+		fire(encoder_button_trap)
 
 
 func _on_joy2_button() -> void:
@@ -92,10 +94,19 @@ func _on_joy2_button() -> void:
 		trigger_nearest(joy2_button_traps)
 
 
+# trigger() ne renvoie rien : le piège est parti si son cooldown ou son état a changé
+func fire(trap: Node) -> void:
+	var cooldown_before: Variant = trap.get("cooldown_left")
+	var state_before: Variant = trap.get("state")
+	trap.trigger()
+	if trap.get("cooldown_left") != cooldown_before or trap.get("state") != state_before:
+		trap_fired.emit()
+
+
 # plusieurs pièges sur un seul bouton : celui qui est prêt et le plus près du joueur
 func trigger_nearest(traps: Array[Node]) -> void:
 	if traps.size() == 1:
-		traps[0].trigger()
+		fire(traps[0])
 		return
 	var player := get_tree().get_first_node_in_group("player") as Node3D
 	var best: Node = null
@@ -109,7 +120,7 @@ func trigger_nearest(traps: Array[Node]) -> void:
 			best = trap
 			best_d = d
 	if best:
-		best.trigger()
+		fire(best)
 	else:
 		Sfx.play("refus", -6.0)
 

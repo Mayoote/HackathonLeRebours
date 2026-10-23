@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dd3m42c4741s4" path="res://Scripts/start_screen.gd" id="1_og4jd"]
 [ext_resource type="AudioStream" uid="uid://c1dp680qbm2xo" path="res://Musique/Intro_menue.mp3" id="2_music"]
+[ext_resource type="Texture2D" uid="uid://p4j3bo0h8b1b" path="res://Images and ressources/logo_escape_temple.webp" id="3_logo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_hover"]
 content_margin_left = 40.0
@@ -82,7 +83,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.1, 0.17, 0.12, 1)
+color = Color(0.155, 0.096, 0.06, 1)
+
+[node name="Logo" type="TextureRect" parent="."]
+modulate = Color(0.6, 0.6, 0.6, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_logo")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="MainMenu" type="VBoxContainer" parent="." unique_id=280550184]
 unique_name_in_owner = true
@@ -104,6 +118,8 @@ alignment = 1
 [node name="Title" type="Label" parent="MainMenu" unique_id=777294830]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.02, 1)
+theme_override_constants/outline_size = 24
 theme_override_font_sizes/font_size = 110
 text = "ESCAPE TEMPLE"
 horizontal_alignment = 1

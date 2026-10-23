@@ -25,6 +25,14 @@ func new_game() -> void:
 	get_tree().change_scene_to_file(LEVELS[0])
 
 
+# menu des niveaux (Tab) : on démarre directement au niveau choisi, chrono neuf
+func start_level(index: int) -> void:
+	time_left = TOTAL_TIME
+	level = index
+	running = true
+	get_tree().change_scene_to_file(LEVELS[index])
+
+
 func next_level() -> bool:
 	if level + 1 >= LEVELS.size():
 		running = false

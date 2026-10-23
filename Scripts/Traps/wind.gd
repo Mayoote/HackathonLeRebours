@@ -56,5 +56,5 @@ func _physics_process(_delta: float) -> void:
 	particles.direction = Vector3(signf(strength), 0, 0)
 	particles.initial_velocity_min = 18.0 + force * 18.0
 	particles.initial_velocity_max = 24.0 + force * 22.0
-	sound.volume_db = lerpf(-40.0, -3.0, force)
+	sound.volume_db = lerpf(-40.0, -14.0, force)
 	sound.pitch_scale = 0.8 + force * 0.4
