@@ -12,6 +12,7 @@ const JOY_CENTRE := 512.0
 const ZONE_MORTE := 0.15
 const PIEZO_SEUIL := 150
 const PIEZO_COOLDOWN := 0.15
+const SEUIL_MENU := 0.6  # inclinaison du joystick 1 qui compte comme un cran dans les menus
 const CLES := ["JoyX", "JoyY", "JoyBtn", "Joy2X", "Joy2Y", "Joy2Btn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
 
 var serial: GdSerial
@@ -24,6 +25,7 @@ var _joy_btn_prec := false
 var _joy2_btn_prec := false
 var _enc_btn_prec := false
 var _piezo_pret_a := 0.0
+var _direction_prec := Vector2i.ZERO
 
 func _ready() -> void:
 	serial = GdSerial.new()
@@ -58,6 +60,7 @@ func _traiter(ligne: String) -> void:
 
 	joy = _joystick(v["JoyX"], v["JoyY"])
 	joy2 = _joystick(v["Joy2X"], v["Joy2Y"])
+	_naviguer(joy)
 
 	var jb: bool = v["JoyBtn"] == 1.0
 	if jb and not _joy_btn_prec:
@@ -92,6 +95,18 @@ func _envoyer_action(action: String) -> void:
 		ev.action = action
 		ev.pressed = appui
 		Input.parse_input_event(ev)
+
+
+# un seul cran par inclinaison : il faut revenir au centre pour passer au bouton suivant
+func _naviguer(j: Vector2) -> void:
+	var direction := Vector2i(
+		int(signf(j.x)) if absf(j.x) > SEUIL_MENU else 0,
+		int(signf(j.y)) if absf(j.y) > SEUIL_MENU else 0)
+	if direction.x != 0 and direction.x != _direction_prec.x:
+		_envoyer_action("ui_right" if direction.x > 0 else "ui_left")
+	if direction.y != 0 and direction.y != _direction_prec.y:
+		_envoyer_action("ui_down" if direction.y > 0 else "ui_up")
+	_direction_prec = direction
 
 
 # valeurs 0..1023 de l'Arduino -> -1..1, avec une zone morte au centre
