@@ -87,6 +87,7 @@ decoys = PackedVector3Array(-33, 0.97, 10, -21, 0.97, 10, -15, 0.97, 10, -2.5, 0
 
 [node name="Pics" type="Node3D" parent="Traps"]
 script = ExtResource("15_nearest")
+auto_random = true
 
 [node name="PicsRDC1" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.97, 14.5)

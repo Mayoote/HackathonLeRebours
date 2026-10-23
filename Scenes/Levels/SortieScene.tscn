@@ -86,6 +86,7 @@ size = Vector2(5, 10)
 
 [node name="Pics" type="Node3D" parent="Traps"]
 script = ExtResource("12_nearest")
+auto_random = true
 
 [node name="Pics1" type="Node3D" parent="Traps/Pics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0.97, 0)
