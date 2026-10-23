@@ -421,7 +421,6 @@ func rochers() -> void:
 	# un gros, un moyen, un petit : ça fait plus naturel qu'un rocher seul
 	var formations := [
 		[Vector2(-39, -16), Vector2(1.6, 0.3)],
-		[Vector2(19, 17), Vector2(-1.4, -0.4)],
 		[Vector2(-3, 9), Vector2(1.5, 1.2)],
 	]
 	for f in formations:
