@@ -1,13 +1,22 @@
+# Autoload "Manette" : lit la manette Arduino (programme_arduino_de_test.ino).
+# Le port est trouvé tout seul : on essaie chaque port série USB et on garde celui qui envoie
+# des lignes "JoyX:...". Si plus rien n'arrive (débranchée), on recherche.
+# Les ports Bluetooth de Windows sont ignorés : les ouvrir bloque le jeu plusieurs secondes.
+
 extends Node
 
+signal connected(port: String)
+signal disconnected
 signal piezo_hit(force: float)
 signal joy_btn_pressed
 signal joy2_btn_pressed
 signal enc_btn_pressed
 signal enc_tourne(delta: int)
 
-const PORT_SERIE := "COM5"        # <-- ton port, trouvé à l'étape 2
 const BAUDS := 115200
+const ATTENTE_PORT := 2.5      # s : l'Arduino redémarre à l'ouverture du port avant d'envoyer
+const SILENCE_MAX := 1.5       # s sans ligne valide : manette considérée débranchée
+const PAUSE_RECHERCHE := 2.0   # s entre deux tours de recherche
 const JOY_CENTRE := 512.0
 const ZONE_MORTE := 0.15
 const PIEZO_SEUIL := 150
@@ -15,6 +24,10 @@ const PIEZO_COOLDOWN := 0.15
 const CLES := ["JoyX", "JoyY", "JoyBtn", "Joy2X", "Joy2Y", "Joy2Btn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
 
 var serial: GdSerial
+var port := ""             # port de la manette, vide tant qu'elle n'est pas trouvée
+var connecte := false
+var _ouvert := false
+var _derniere_trame := 0.0
 var joy := Vector2.ZERO    # joystick 1 : le joueur
 var joy2 := Vector2.ZERO   # joystick 2 : le piégeur (meule, rocher)
 var enc_pos := 0
@@ -27,25 +40,66 @@ var _piezo_pret_a := 0.0
 
 func _ready() -> void:
 	serial = GdSerial.new()
-	serial.set_port(PORT_SERIE)
 	serial.set_baud_rate(BAUDS)
-	if serial.open():
-		print("Manette connectée sur ", PORT_SERIE)
-	else:
-		push_error("Impossible d'ouvrir ", PORT_SERIE, " (moniteur série fermé ? bon port ?)")
+	serial.set_timeout(10)
+	_chercher()
 
 func _exit_tree() -> void:
-	if serial:
+	if serial and _ouvert:
 		serial.close()
 
 func _process(_dt: float) -> void:
-	if serial == null:
+	if serial == null or not _ouvert:
 		return
 	# On vide tout ce qui est arrivé depuis la dernière frame
 	while serial.bytes_available() > 0:
-		_traiter(str(serial.readline()).strip_edges())
+		if _traiter(str(serial.readline()).strip_edges()):
+			_derniere_trame = _maintenant()
+			if not connecte:
+				connecte = true
+				print("Manette connectée sur ", port)
+				connected.emit(port)
+	if connecte and _maintenant() - _derniere_trame > SILENCE_MAX:
+		_perdue()
 
-func _traiter(ligne: String) -> void:
+# essaie les ports un par un jusqu'à trouver celui qui envoie des lignes de la manette
+func _chercher() -> void:
+	while not connecte:
+		for info in serial.list_ports().values():
+			var nom: String = info["port_name"]
+			if not str(info.get("port_type", "")).begins_with("USB"):
+				continue
+			serial.set_port(nom)
+			if not serial.open():
+				continue  # pris par un autre programme (moniteur série ?) ou absent
+			port = nom
+			_ouvert = true
+			serial.clear_buffer()
+			var fin := _maintenant() + ATTENTE_PORT
+			while not connecte and _maintenant() < fin:
+				await get_tree().create_timer(0.1).timeout
+			if connecte:
+				return
+			serial.close()
+			_ouvert = false
+			port = ""
+		await get_tree().create_timer(PAUSE_RECHERCHE).timeout
+
+func _perdue() -> void:
+	serial.close()
+	_ouvert = false
+	connecte = false
+	port = ""
+	joy = Vector2.ZERO
+	joy2 = Vector2.ZERO
+	disconnected.emit()
+	_chercher()
+
+func _maintenant() -> float:
+	return Time.get_ticks_msec() / 1000.0
+
+# true si la ligne est une trame complète de la manette
+func _traiter(ligne: String) -> bool:
 	var v := {}
 	for champ in ligne.split("\t"):
 		var kv := champ.split(":")
@@ -54,7 +108,7 @@ func _traiter(ligne: String) -> void:
 	# Ligne incomplète ou message de démarrage : on ignore
 	for c in CLES:
 		if not v.has(c):
-			return
+			return false
 
 	joy = _joystick(v["JoyX"], v["JoyY"])
 	joy2 = _joystick(v["Joy2X"], v["Joy2Y"])
@@ -75,10 +129,11 @@ func _traiter(ligne: String) -> void:
 	_enc_pos_prec = enc_pos
 	enc_rpm = v["EncRPM"]
 
-	var maintenant := Time.get_ticks_msec() / 1000.0
+	var maintenant := _maintenant()
 	if v["PiezoA"] > PIEZO_SEUIL and maintenant >= _piezo_pret_a:
 		piezo_hit.emit(v["PiezoA"] / 1023.0)
 		_piezo_pret_a = maintenant + PIEZO_COOLDOWN
+	return true
 
 
 # valeurs 0..1023 de l'Arduino -> -1..1, avec une zone morte au centre

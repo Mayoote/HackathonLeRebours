@@ -18,9 +18,12 @@ var sfx_slider: HSlider
 
 
 func _ready() -> void:
-	ArduinoManager.arduino_connected.connect(_on_arduino_connected)
-	ArduinoManager.arduino_disconnected.connect(_on_arduino_disconnected)
-	_on_arduino_disconnected()
+	Manette.connected.connect(_on_manette_connected)
+	Manette.disconnected.connect(_on_manette_disconnected)
+	if Manette.connecte:
+		_on_manette_connected(Manette.port)
+	else:
+		_on_manette_disconnected()
 
 	fade_overlay.color.a = 0.0
 	fade_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -134,11 +137,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		show_main_menu()
 
 
-func _on_arduino_connected() -> void:
+func _on_manette_connected(_port: String) -> void:
 	status_label.text = "● Manette connectée"
 	status_label.modulate = Color.GREEN
 
 
-func _on_arduino_disconnected() -> void:
+func _on_manette_disconnected() -> void:
 	status_label.text = "● Manette non connectée"
 	status_label.modulate = Color(1, 0.4, 0.4)
