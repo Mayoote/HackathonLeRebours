@@ -60,13 +60,17 @@ func _traiter(ligne: String) -> void:
 	joy2 = _joystick(v["Joy2X"], v["Joy2Y"])
 
 	var jb: bool = v["JoyBtn"] == 1.0
-	if jb and not _joy_btn_prec: joy_btn_pressed.emit()
+	if jb and not _joy_btn_prec:
+		joy_btn_pressed.emit()
+		_envoyer_action("ui_accept")  # valider dans les menus, rejouer en fin de partie
 	_joy_btn_prec = jb
 	var jb2: bool = v["Joy2Btn"] == 1.0
 	if jb2 and not _joy2_btn_prec: joy2_btn_pressed.emit()
 	_joy2_btn_prec = jb2
 	var eb: bool = v["EncBtn"] == 1.0
-	if eb and not _enc_btn_prec: enc_btn_pressed.emit()
+	if eb and not _enc_btn_prec:
+		enc_btn_pressed.emit()
+		_envoyer_action("ui_cancel")  # retour, ou menu en fin de partie
 	_enc_btn_prec = eb
 
 	enc_pos = int(v["EncPos"])
@@ -79,6 +83,15 @@ func _traiter(ligne: String) -> void:
 	if v["PiezoA"] > PIEZO_SEUIL and maintenant >= _piezo_pret_a:
 		piezo_hit.emit(v["PiezoA"] / 1023.0)
 		_piezo_pret_a = maintenant + PIEZO_COOLDOWN
+
+
+# les menus et l'écran de fin écoutent des actions Godot, pas les signaux de la manette
+func _envoyer_action(action: String) -> void:
+	for appui in [true, false]:
+		var ev := InputEventAction.new()
+		ev.action = action
+		ev.pressed = appui
+		Input.parse_input_event(ev)
 
 
 # valeurs 0..1023 de l'Arduino -> -1..1, avec une zone morte au centre

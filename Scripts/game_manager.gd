@@ -12,6 +12,7 @@ static var run_over := false
 @export var goal: Area3D
 @export var trapper: Node
 @export var gate: Node  # grille du run final : fermée avant le passage du joueur = le piégeur gagne
+@export var end_input_delay := 1.0  # un saut de dernière seconde ne doit pas relancer la partie
 
 @onready var timer_label: Label = %TimerLabel
 @onready var keys_label: Label = %KeysLabel
@@ -25,6 +26,7 @@ var finished := false
 var beep_timer := 0.0
 var last_second := -1
 var locked_msg_cooldown := 0.0
+var end_shown_at := 0
 
 
 func _ready() -> void:
@@ -173,6 +175,7 @@ func end_game(text: String, color: Color) -> void:
 	show_summary()
 	run_over = true
 	end_screen.visible = true
+	end_shown_at = Time.get_ticks_msec()
 
 
 # résumé de la partie sous le titre de fin
@@ -189,7 +192,7 @@ func show_summary() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not end_screen.visible:
+	if not end_screen.visible or Time.get_ticks_msec() - end_shown_at < end_input_delay * 1000.0:
 		return
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("admin_trigger") or event.is_action_pressed("p1_jump"):
 		Partie.new_game()
