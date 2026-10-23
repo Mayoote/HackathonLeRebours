@@ -19,7 +19,7 @@ const SILENCE_MAX := 1.5       # s sans ligne valide : manette considérée déb
 const PAUSE_RECHERCHE := 2.0   # s entre deux tours de recherche
 const JOY_CENTRE := 512.0
 const ZONE_MORTE := 0.15
-const PIEZO_SEUIL := 150
+const PIEZO_SEUIL := 25
 const PIEZO_COOLDOWN := 0.15
 const CLES := ["JoyX", "JoyY", "JoyBtn", "Joy2X", "Joy2Y", "Joy2Btn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
 
