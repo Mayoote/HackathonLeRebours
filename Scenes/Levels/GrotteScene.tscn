@@ -90,14 +90,14 @@ script = ExtResource("8_trapdoor")
 [node name="Boulder" parent="Traps" instance=ExtResource("9_boulder")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 11.8, -16.5)
 
-[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "mover", "numbered_traps", "joy2_button_traps")]
+[node name="Trapper" type="Node" parent="." node_paths=PackedStringArray("button_trap", "mover", "numbered_traps", "encoder_button_traps")]
 script = ExtResource("10_trapper")
 button_trap = NodePath("../Traps/Stalactites")
 button_trap_name = "Stalactites"
 mover = NodePath("../Traps/Boulder")
 mover_name = "Rocher"
 numbered_traps = [NodePath("../Traps/Trapdoor1"), NodePath("../Traps/Trapdoor2"), NodePath("../Traps/Trapdoor3")]
-joy2_button_traps = [NodePath("../Traps/Trapdoor1"), NodePath("../Traps/Trapdoor2"), NodePath("../Traps/Trapdoor3")]
+encoder_button_traps = [NodePath("../Traps/Trapdoor1"), NodePath("../Traps/Trapdoor2"), NodePath("../Traps/Trapdoor3")]
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player", "goal", "trapper") instance=ExtResource("6_rules")]
 player = NodePath("../Player")
