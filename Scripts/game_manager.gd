@@ -18,6 +18,7 @@ static var run_over := false
 @onready var message: Label = %Message
 @onready var end_screen: Control = %EndScreen
 @onready var end_title: Label = %EndTitle
+@onready var credits: Credits = %Credits
 
 var keys_total := 0
 var keys_got := 0
@@ -133,7 +134,7 @@ func _on_goal_reached() -> void:
 	await get_tree().create_timer(1.2).timeout
 	if not Partie.next_level():
 		Sfx.play("victoire")
-		end_game("Le joueur s'est échappé !", Color(0.5, 1, 0.55))
+		end_game("Le joueur s'est échappé !", Color(0.5, 1, 0.55), true)
 
 
 func _on_time_up() -> void:
@@ -144,7 +145,7 @@ func _on_time_up() -> void:
 	if trapper:
 		trapper.enabled = false
 	Sfx.play("temps_ecoule")
-	end_game("Temps écoulé : le piégeur gagne !", Color(1, 0.45, 0.35))
+	end_game("Temps écoulé : le piégeur gagne !", Color(1, 0.45, 0.35), true)
 
 
 func _on_gate_trapped() -> void:
@@ -165,7 +166,8 @@ func show_message(text: String) -> void:
 	tween.tween_property(message, "modulate:a", 0.0, 0.4)
 
 
-func end_game(text: String, color: Color) -> void:
+# générique seulement pour l'évasion et le temps écoulé, pas pour la grille fermée
+func end_game(text: String, color: Color, with_credits := false) -> void:
 	finished = true
 	Partie.running = false
 	end_title.text = text
@@ -173,6 +175,8 @@ func end_game(text: String, color: Color) -> void:
 	show_summary()
 	run_over = true
 	end_screen.visible = true
+	if with_credits:
+		credits.start()
 
 
 # résumé de la partie sous le titre de fin
