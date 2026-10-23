@@ -19,7 +19,7 @@ const SILENCE_MAX := 1.5       # s sans ligne valide : manette considérée déb
 const PAUSE_RECHERCHE := 2.0   # s entre deux tours de recherche
 const JOY_CENTRE := 512.0
 const ZONE_MORTE := 0.15
-const PIEZO_SEUIL := 150
+const PIEZO_SEUIL := 25
 const PIEZO_COOLDOWN := 0.15
 const CLES := ["JoyX", "JoyY", "JoyBtn", "Joy2X", "Joy2Y", "Joy2Btn", "EncPos", "EncRPM", "EncBtn", "PiezoA"]
 
@@ -32,6 +32,7 @@ var joy := Vector2.ZERO    # joystick 1 : le joueur
 var joy2 := Vector2.ZERO   # joystick 2 : le piégeur (meule, rocher)
 var enc_pos := 0
 var enc_rpm := 0.0
+var brut := {}             # dernière trame complète, lue par le débogueur F3
 var _enc_pos_prec := 0
 var _joy_btn_prec := false
 var _joy2_btn_prec := false
@@ -42,6 +43,7 @@ func _ready() -> void:
 	serial = GdSerial.new()
 	serial.set_baud_rate(BAUDS)
 	serial.set_timeout(10)
+	add_child(preload("res://Scripts/manette_debug.gd").new())
 	_chercher()
 
 func _exit_tree() -> void:
@@ -109,8 +111,9 @@ func _traiter(ligne: String) -> bool:
 	for c in CLES:
 		if not v.has(c):
 			return false
+	brut = v
 
-	joy = _joystick(v["JoyX"], v["JoyY"])
+	joy =_joystick(v["JoyX"], v["JoyY"])
 	joy2 = _joystick(v["Joy2X"], v["Joy2Y"])
 
 	var jb: bool = v["JoyBtn"] == 1.0

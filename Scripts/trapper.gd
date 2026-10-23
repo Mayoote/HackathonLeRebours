@@ -5,6 +5,7 @@
 #  - numbered_traps : pièges sur les boutons 1, 2, 3 (touches 1/2/3, B/X/Y)
 #  - crank : grille de sortie qu'on ferme en tournant le codeur (ou K/L maintenu)
 #  - encoder_button_trap : piège du bouton du codeur : lance-flammes
+#  - encoder_button_traps : bouton du codeur, le plus proche du joueur : trappes de la grotte
 #  - joy2_button_traps : bouton du joystick 2, le plus proche du joueur : trappes, pics
 
 extends Node
@@ -20,6 +21,7 @@ signal trap_fired  # un piège est vraiment parti (pas un refus), compté par Ga
 @export var numbered_names: Array[String] = []  # vide : "Trappe 1", "Trappe 2"...
 @export var crank: Node3D
 @export var encoder_button_trap: Node
+@export var encoder_button_traps: Array[Node] = []
 @export var joy2_button_traps: Array[Node] = []
 @export var inverser_joy2_x := false
 @export var inverser_joy2_y := false
@@ -87,6 +89,8 @@ func _on_piezo(_force: float) -> void:
 func _on_encoder_button() -> void:
 	if enabled and encoder_button_trap:
 		fire(encoder_button_trap)
+	if enabled and not encoder_button_traps.is_empty():
+		trigger_nearest(encoder_button_traps)
 
 
 func _on_joy2_button() -> void:
